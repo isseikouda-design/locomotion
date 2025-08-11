@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 上部ナビ（既存の nav でも OK） -->
+  <nav class="topnav">
+  <a href="#" class="logo">HELLO WORLD</a>
+  <div class="center-link">
+    <a href="index.html">HOMEPAGE</a>
+  </div>
+  <div class="right-link">
+    <a href="mailto:issei.kouda@icloud.com">ABOUT / CONTACT</a>
+  </div>
+ </nav>
+
+
+  <!-- 中央の3D（今の main-fixed.js が描画する canvas のままでOK） -->
+  <canvas id="canvas-home"></canvas>
+
+  <!-- ★ 下部の散らばりリンク置き場 -->
+  <div class="scatter-area" id="scatter"></div>
+
+  <script type="module" src="main-fixed.js"></script>
+  <script src="./scatter.js" defer></script>
+
+</body>
+</html>

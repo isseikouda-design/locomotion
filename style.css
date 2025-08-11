@@ -1,0 +1,145 @@
+/* ========== Base ========== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  font-family: sans-serif;
+  background: white;
+}
+
+/* ========== Nav (= 既存) と見出し用 .topnav どちらでもOK ========== */
+/* 上部ナビゲーション */
+/* 上部ナビゲーション */
+.topnav {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  box-sizing: border-box;     /* これ大事：幅計算の安定化 */
+  padding: 1rem 1.25rem;      /* 余白を少しだけタイトに */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* 左, 中央, 右 */
+  align-items: center;
+  font-size: 1.2rem;
+  font-family: "Arial Black", Arial, sans-serif;
+  z-index: 2;
+}
+
+
+/* 左側ロゴ */
+.topnav .logo {
+  justify-self: start;
+  color: #555;
+  text-decoration: none;
+  white-space: nowrap;       /* ← 追加：折り返し防止 */
+}
+
+/* 中央 */
+.topnav .center-link {
+  justify-self: center;
+}
+.topnav .center-link a {
+  color: #555;
+  text-decoration: none;
+  white-space: nowrap;       /* ← 追加：中央も固定幅で安定させる */
+}
+
+/* 右側 */
+.topnav .right-link {
+  justify-self: end;
+}
+.topnav .right-link a {
+  color: #555;
+  text-decoration: none;
+  white-space: nowrap;       /* ← 追加：これが一番効きます */
+}
+
+/* ホバー */
+.topnav a:hover { text-decoration: underline; }
+
+@media (max-width: 768px) {
+  .topnav { font-size: 1rem; padding: 0.8rem 1rem; }
+}
+
+/* ========== Aside (= 既存) ========== */
+aside {
+  position: absolute;
+  top: 5rem;
+  left: 1rem;
+  z-index: 2; /* canvasや散らばりより前に */
+}
+
+#object-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ========== Main (= 既存) ========== */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== 3D canvas（ホーム中央モデル） ========== */
+#canvas-home {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 0;          /* 一番背面 */
+  pointer-events: auto;/* 3D操作できるように */
+}
+
+/* ========== 下部の“散らばりリンク” ========== */
+.scatter-area {
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 32vh;       /* 画面下の帯 */
+  z-index: 1;         /* canvas の前、nav の後ろ */
+  pointer-events: none; /* 子要素で個別に復活させる */
+}
+
+.scatter-item {
+  position: absolute;
+  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+  font-size: 18px;
+  text-decoration: none;
+  color: #0055ff; /* 青に変更 */
+  pointer-events: auto; /* クリック可能に戻す */
+}
+
+.scatter-item .label {
+  position: relative;
+  display: inline-block;
+}
+
+.scatter-item .label::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -4px;
+  height: 2px;
+  background: #0055ff; /* 青に変更 */
+  transform: rotate(-6deg);
+  opacity: .25;
+}
+
+/* ========== 説明テキスト (= 既存) ========== */
+.description {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1rem;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  .scatter-area { height: 36vh; }
+  .scatter-item { font-size: 15px; }
+}

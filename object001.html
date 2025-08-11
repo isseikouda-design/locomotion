@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>object001</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: white;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 30px;
+      font-size: 14px;
+    }
+
+    header a {
+      color: black;
+      text-decoration: none;
+    }
+
+    .content {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    .left-list {
+      width: 120px;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .left-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .viewer {
+      flex: 1;
+      position: relative;
+    }
+
+    canvas#canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .info {
+      width: 250px;
+      padding: 20px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .info p {
+      margin: 0 0 10px;
+    }
+
+    .buy-button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border: 1px solid black;
+      text-decoration: none;
+      color: black;
+      width: fit-content;
+      background: white;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        flex-direction: column;
+      }
+
+      .left-list {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .info {
+        width: 100%;
+        padding: 10px;
+        font-size: 13px;
+        align-items: center;
+      }
+    }
+     .viewer { position: relative; }
+
+  .viewer canvas#canvas {
+    position: absolute !important; /* ← fixed を打ち消す */
+    inset: 0 !important;           /* top/left も打ち消す */
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+    pointer-events: auto !important; /* 3D操作可 */
+  }
+
+  .info { position: relative; z-index: 1; }
+  header { position: relative; z-index: 2; }
+
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">HOMEPAGE</a>
+    <a href="mailto:issei.kouda@icloud.com">ABOUT / CONTACT</a>
+  </header>
+
+  <div class="content">
+    <aside class="left-list">
+      <ul>
+        <li>001</li>
+        <li>002</li>
+        <li>003</li>
+        <li>004</li>
+        <li>005</li>
+        <li>006</li>
+        <li>007</li>
+        <li>008</li>
+      </ul>
+    </aside>
+
+    <section class="viewer">
+      <canvas id="canvas"></canvas>
+    </section>
+
+    <section class="info">
+      <p><strong>object001</strong></p>
+      <p>material concrete block /code /cloth /resin</p>
+      <p>weight 150g</p>
+      <p>Store away from direct sunlight and moisture.</p>
+      <a href="mailto:issei.kouda@icloud.com" class="buy-button">ask/buy</a>
+    </section>
+  </div>
+
+ <script type="module" src="object001.js"></script>
+
+</body>
+</html>
