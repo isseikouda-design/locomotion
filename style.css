@@ -1,73 +1,250 @@
-/* ========== Base ========== */
-html, body {
+/* =========================================================
+   Base
+   ========================================================= */
+/* style.css の先頭あたり */
+@font-face {
+  font-family: "Bitcount Grid Single Ink";
+  src: url("./fonts/BitcountGridSingleInk.ttf") format("truetype");
+  font-weight: 100 900; /* ← レンジを宣言（可変フォント） */
+  font-style: normal;
+  font-display: swap; /* チラつき防止・読み込み待ちの挙動改善 */
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/assets/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Americana";
+  src: url("/assets/fonts/Americana-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "LibreBaskervilleVar";
+  src: url("LibreBaskerville-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "OutfitVar";
+  src: url("Outfit-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "PlayfairVar";
+  src: url("PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+  font-style: normal;
+}
+
+#object-info-box {
+  position: fixed;
+  right: 3vw;
+  top: 14vh;
+  width: min(380px, 40vw);
+  max-height: 60vh;
+  overflow: auto;
+  background: rgba(255,255,255,.92);
+  color: #000;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
+  padding: 16px;
+  z-index: 5;
+  font-family: "Homemade Apple", system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 400;
+  font-variation-settings: "wght" 400;
+}
+
+/* ================================
+   Object Info Box Styling
+   ================================ */
+/* 一色をまとめて変えたいときはここだけ入れ替え */
+:root {
+  --info-color: #222;
+}
+
+/* 例: #111 / #333 / #4b3e2e / #3b465c / #0a42ff など */
+
+/* タイトル */
+#object-info-box .info-title {
+  margin: 0 0 8px;
+  font: 700 16px/1.4 var(--nav-font-family, "Arial Black", Arial, sans-serif);
+  color: var(--info-color);
+}
+
+/* 本文（共通） */
+#object-info-box p {
+  margin: .3em 0;
+  color: var(--info-color);
+  font-family: "Bitcount Grid Single Ink", system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* 一文目だけ別フォント */
+#object-info-box .info-first {
+  font-family: "Pinyon Script", cursive; /* ← ここを Tangerine / Doto などに差し替えて試せます */
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* 「Buy/Ask」リンク */
+#object-info-box a.info-link {
+  color: var(--info-color);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: opacity .2s ease;
+}
+
+#object-info-box a.info-link:hover {
+  opacity: .6;
+}
+
+:root {
+  --design-w: 1440;
+  --design-h: 900;
+
+  /* === Top Navigation Vars === */
+  --nav-font-family: "Arial Black", Arial, sans-serif;
+  --nav-font-size: clamp(20px, 2.5vw, 32px);
+  --nav-color: #000;
+  --nav-height: 56px;
+  --nav-side-padding: 16px;
+
+  /* Pill button vars */
+  --pill-font-size: clamp(12px, 1.3vw, 14px);
+  --pill-padding-y: 6px;
+  --pill-padding-x: 12px;
+  --pill-radius: 6px;
+  --pill-border: 1.5px solid #bdbdbd;
+  --pill-bg: #f6f6f6;
+  --pill-color: #000;
+}
+
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
   overflow: hidden;
   position: relative;
   font-family: sans-serif;
-  background: white;
+  background: #ffffff;
+  color: #111;
 }
 
-/* ========== Nav (= 既存) と見出し用 .topnav どちらでもOK ========== */
-/* 上部ナビゲーション */
-/* 上部ナビゲーション */
+/* =========================================================
+   Top Navigation
+   ========================================================= */
 .topnav {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  box-sizing: border-box;     /* これ大事：幅計算の安定化 */
-  padding: 1rem 1.25rem;      /* 余白を少しだけタイトに */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 50;
+  border-bottom: 1px solid #e9e9e9;
+
+  /* display: flex; ← 削除 */
+  /* align-items: center; justify-content: space-between; padding: 0 24px; ← 削除 */
+
+  background: none; /* 背景なしのままでOK */
+}
+
+.topnav__inner {
+  height: 100%;
+  width: 100%; /* ★ これで全幅を取る */
   display: grid;
-  grid-template-columns: 1fr auto 1fr; /* 左, 中央, 右 */
+  grid-template-columns: 1fr auto 1fr; /* 左右を伸ばして中央を本当に中央へ */
   align-items: center;
-  font-size: 1.2rem;
-  font-family: "Arial Black", Arial, sans-serif;
-  z-index: 2;
+  padding: 0 24px; /* こちらに左右余白を移動 */
 }
 
-
-/* 左側ロゴ */
-.topnav .logo {
+.nav-left {
   justify-self: start;
-  color: #555;
-  text-decoration: none;
-  white-space: nowrap;       /* ← 追加：折り返し防止 */
 }
 
-/* 中央 */
-.topnav .center-link {
+.nav-center {
   justify-self: center;
-}
-.topnav .center-link a {
-  color: #555;
-  text-decoration: none;
-  white-space: nowrap;       /* ← 追加：中央も固定幅で安定させる */
+  display: flex;
+  align-items: center;
 }
 
-/* 右側 */
-.topnav .right-link {
+.nav-right {
   justify-self: end;
 }
-.topnav .right-link a {
-  color: #555;
-  text-decoration: none;
-  white-space: nowrap;       /* ← 追加：これが一番効きます */
+
+.brand {
+  font-family: var(--nav-font-family);
+  font-size: clamp(28px, 3vw, 36px); /* 文字を大きめに */
+  font-weight: 900;
+  color: #111;
+  letter-spacing: .02em;
+  line-height: 1;
+  user-select: none;
+  white-space: nowrap;
 }
 
-/* ホバー */
-.topnav a:hover { text-decoration: underline; }
+.pill {
+  display: inline-block;
+  font-family: var(--nav-font-family);
+  font-weight: 900;
+  letter-spacing: .02em;
+  font-size: clamp(14px, 1.5vw, 16px); /* 少し大きめ */
+  color: #000;
+  text-decoration: none;
+  background: #fff; /* pill内は白 */
+  border: 2px solid #111; /* 枠を強調 */
+  border-radius: 4px; /* 角丸を弱めて四角寄りに */
+  padding: 8px 16px; /* ボタンっぽいサイズ感 */
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: #f5f5f5;
+}
 
 @media (max-width: 768px) {
-  .topnav { font-size: 1rem; padding: 0.8rem 1rem; }
+  :root {
+    --nav-height: 52px;
+    --pill-padding-y: 5px;
+    --pill-padding-x: 10px;
+  }
 }
 
-/* ========== Aside (= 既存) ========== */
+
+
+/* =========================================================
+   3D Canvas
+   ========================================================= */
+#canvas-home {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 0;
+  pointer-events: auto;
+}
+
+/* =========================================================
+   Misc
+   ========================================================= */
 aside {
   position: absolute;
   top: 5rem;
   left: 1rem;
-  z-index: 2; /* canvasや散らばりより前に */
+  z-index: 2;
 }
 
 #object-list ul {
@@ -76,7 +253,6 @@ aside {
   margin: 0;
 }
 
-/* ========== Main (= 既存) ========== */
 main {
   display: flex;
   flex-direction: column;
@@ -86,25 +262,14 @@ main {
   z-index: 1;
 }
 
-/* ========== 3D canvas（ホーム中央モデル） ========== */
-#canvas-home {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: block;
-  z-index: 0;          /* 一番背面 */
-  pointer-events: auto;/* 3D操作できるように */
-}
-
-/* ========== 下部の“散らばりリンク” ========== */
 .scatter-area {
   position: fixed;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   bottom: 0;
-  height: 32vh;       /* 画面下の帯 */
-  z-index: 1;         /* canvas の前、nav の後ろ */
-  pointer-events: none; /* 子要素で個別に復活させる */
+  height: 32vh;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .scatter-item {
@@ -112,8 +277,8 @@ main {
   transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
   font-size: 18px;
   text-decoration: none;
-  color: #0055ff; /* 青に変更 */
-  pointer-events: auto; /* クリック可能に戻す */
+  color: #0055ff;
+  pointer-events: auto;
 }
 
 .scatter-item .label {
@@ -124,22 +289,1467 @@ main {
 .scatter-item .label::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: -4px;
+  left: 0;
+  right: 0;
+  bottom: -4px;
   height: 2px;
-  background: #0055ff; /* 青に変更 */
+  background: #0055ff;
   transform: rotate(-6deg);
   opacity: .25;
 }
 
-/* ========== 説明テキスト (= 既存) ========== */
 .description {
   text-align: center;
   margin-top: 2rem;
   font-size: 1rem;
 }
 
-/* ========== Responsive ========== */
 @media (max-width: 768px) {
-  .scatter-area { height: 36vh; }
-  .scatter-item { font-size: 15px; }
+  .scatter-area {
+    height: 36vh;
+  }
+  .scatter-item {
+    font-size: 15px;
+  }
+}
+
+/* =========================================================
+   Overlay (共通)
+   ========================================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: none;
+}
+
+.overlay.is-open {
+  display: block;
+}
+
+.overlay__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.08);
+  backdrop-filter: blur(2px);
+}
+
+.overlay__window {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background:#fff;
+  color:#111;
+  border-radius: 12px;
+  box-shadow:0 20px 60px rgba(0,0,0,.25), 0 4px 14px rgba(0,0,0,.15);
+  display:flex;
+  flex-direction:column;
+  max-width: 1100px;
+  max-height: 120vh;
+  width: 80vw;
+  height: auto;
+  overflow: hidden;
+}
+
+.overlay__head {
+  padding: 14px 18px;
+  border-bottom:1px solid #eee;
+}
+
+.overlay__title {
+  margin:0;
+  font: 900 16px/1 var(--nav-font-family, "Arial Black", Arial, sans-serif);
+  letter-spacing:.02em;
+}
+
+.overlay__close {
+  position:absolute;
+  top:10px;
+  right:12px;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:none;
+  background:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,.12);
+  font:700 20px/1 system-ui;
+  cursor:pointer;
+}
+
+body.modal-open {
+  overflow:hidden;
+}
+
+/* ===== About ===== */
+.overlay.is-about .overlay__window{
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%,-50%);
+  width: min(1200px, 95vw);
+  height: 70vh;
+  max-width: none;
+  max-height: none;
+}
+
+.about-grid{
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: start;
+  height:100%;
+}
+
+.about-hero{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-text{
+  color: #0a42ff;
+  font-family: "Arial Black","Arial",sans-serif;
+  letter-spacing: .01em;
+}
+
+.about-text h3{
+  margin: .2em 0 12px;
+  font-size: 22px;
+}
+
+.about-text p{
+  margin: .3em 0;
+}
+
+.about-text a{
+  color: #0a42ff;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+@media (max-width: 860px){
+  .about-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== List (SCENE/OBJECT) ===== */
+.overlay.is-list .overlay__window{
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(680px, 92vw);
+  height: 60vh;
+  max-width: none;
+  max-height: none;
+}
+
+.list-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.list-col h4{
+  margin: 0 0 10px;
+  font: 900 14px/1 var(--nav-font-family, "Arial Black", Arial, sans-serif);
+  letter-spacing: .02em;
+}
+
+.list-col ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: calc(60vh - 90px);
+  overflow: auto;
+}
+
+.list-col li{
+  margin: 0 0 8px;
+}
+
+.list-col a{
+  text-decoration: none;
+  color: #000;
+  font: 700 13px/1.5 var(--nav-font-family, "Arial Black", Arial, sans-serif);
+}
+
+.list-col a:hover{
+  text-decoration: underline;
+}
+
+/* ===== Movie (横長16:9・動画が枠いっぱい・✕は1つ) ===== */
+/* デフォルトのヘッダ（タイトル＋✕）は隠す → ✕は独自で右上に1つだけ */
+.overlay.is-movie .overlay__head{
+  display:none;
+}
+
+.overlay.is-movie .overlay__window{
+  /* 中央固定・横長比率 */
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translate(-50%,-50%);
+  width: min(86vw, 900px);
+  aspect-ratio: 16 / 9;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.28);
+  background: #000;
+}
+
+/* 右上の✕（1つだけ表示） */
+.overlay.is-movie .overlay__close{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 0;
+  background: rgba(0,0,0,.35);
+  color: #fff;
+  font: 700 18px/1 system-ui;
+  box-shadow: none;
+}
+
+.overlay.is-movie .overlay__close:hover{
+  background: rgba(0,0,0,.5);
+}
+
+/* コンテンツ領域は余白ゼロで全面動画 */
+.overlay.is-movie #overlayContent{
+  position: absolute;
+  inset: 0; /* ← 余白ゼロ。黒い帯が出ない */
+  padding: 0;
+}
+
+/* 枠いっぱいに動画を敷く（トリミング許容で黒帯なし） */
+.overlay.is-movie .movie-frame{
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.overlay.is-movie .movie-frame video{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover; /* 黒帯なし。全体表示にしたいなら contain へ */
+}
+
+/* =========================================================
+   Guide Window
+   ========================================================= */
+#guide-window {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%) scale(0.98);
+  width: min(460px, 92vw);
+  background: #fff;
+  color: #000;
+  border-radius: 14px;
+  box-shadow: 0 22px 80px rgba(0,0,0,.28), 0 8px 24px rgba(0,0,0,.18);
+  z-index: 20; /* overlay(999) より下、info-box(5) より上 */
+  opacity: 0;
+  transition: opacity .18s ease, transform .18s ease;
+  overflow: hidden;
+}
+
+#guide-window.show {
+  opacity: 1;
+  transform: translate(-50%,-50%) scale(1);
+}
+
+#guide-window .gw-titlebar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: #f2f2f2;
+  border-bottom: 1px solid #e8e8e8;
+  font: 600 12px/1.2 system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  color: #555;
+}
+
+#guide-window .gw-dots i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+#guide-window .gw-dots i:nth-child(1){
+  background:#ff5f57;
+}
+
+#guide-window .gw-dots i:nth-child(2){
+  background:#ffbd2e;
+}
+
+#guide-window .gw-dots i:nth-child(3){
+  background:#28c840;
+}
+
+#guide-window .gw-url {
+  display: inline-block;
+  padding: 6px 10px;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#guide-window .gw-close {
+  border: 0;
+  background: #fff;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.12);
+  cursor: pointer;
+  font: 700 16px/1 system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+  color: #333;
+}
+
+#guide-window .gw-close:hover {
+  background: #f7f7f7;
+}
+
+#guide-window .gw-body {
+  padding: 16px 16px 18px;
+  font: 14px/1.6 system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+}
+
+#guide-window .gw-lead {
+  margin: 0 0 8px;
+  color: #0a42ff;
+  font-weight: 800;
+}
+
+#guide-window .gw-sub {
+  margin: 0;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  #guide-window {
+    width: min(380px, 94vw);
+  }
+  #guide-window .gw-body {
+    font-size: 13px;
+  }
+}
+
+#guide-window .gw-head {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 900;
+  font-family: "Arial Black", Arial, sans-serif; /* ← フォント指定 */
+  color: #0a42ff;
+  text-align: left;
+}
+
+#guide-window .gw-text {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 900;
+  font-family: "Arial Black", Arial, sans-serif;
+  color: #0a42ff;
+  text-align: left;
+  line-height: 0.8; /* ← 行間を詰める */
+}
+
+#guide-window .gw-emoji {
+  margin: 6px 0 0;
+  font-size: 18px;
+  text-align: left;
+  color: #0a42ff; /* ← emoji も青で統一 */
+}
+
+/* ===== Topnav: 正確な中央揃え & 端からの余白確保 ===== */
+.topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-height);
+  z-index: 50;
+  border-bottom: none; /* 下線は不要 */
+  background: none; /* 背景あり */
+  background: rgba(255, 255, 255); /* 半透明の白 */
+  border-bottom: 0.5px solid #515151; /* 少し薄いグレーで上品に */
+}
+
+.topnav__inner {
+  position: relative; /* 中央タイトルを絶対配置するための基準 */
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* 左/余白/右 */
+  align-items: center; /* 高さ方向中央 */
+  box-sizing: border-box;
+
+  /* 端からの余白（ウィンドウ幅に応じて調整） */
+  padding: 10px clamp(24px, 4vw, 56px);
+}
+
+/* 左右ボックスは通常フローのまま */
+.nav-left {
+  justify-self: start;
+  z-index: 1;
+}
+
+.nav-right {
+  justify-self: end;
+  z-index: 1;
+}
+
+/* 中央タイトルを厳密に中央へ（左右幅に影響されない） */
+.nav-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* 中央はクリック対象でなければ無効化してOK */
+}
+
+.nav-center .brand {
+  pointer-events: auto;
+}
+
+/* もしクリックさせたい場合に備えて */
+.brand {
+  font-family: var(--nav-font-family);
+  font-size: clamp(45px, 4.5vw, 56px); /* 目指す大きさに寄せてUP */
+  font-weight: 900;
+  color: #ababab; /* グレー寄り */
+  letter-spacing: .02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* pillの見た目（枠細・角立て・色をグレーに） */
+.pill {
+  display: inline-block;
+  font-family: var(--nav-font-family);
+  font-weight: 900;
+  letter-spacing: .02em;
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: #707070;
+  text-decoration: none;
+  background: transparent;
+  border: 1.5px solid #bdbdbd; /* 細く・グレー */
+  border-radius: 2px; /* 角を立てる */
+  padding: 8px 14px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  background: rgba(0,0,0,.03);
+}
+
+/* ナビ全体の高さ（上下の空き感） */
+:root {
+  --nav-height: 72px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-height: 60px;
+  }
+  .topnav__inner {
+    padding: 8px clamp(16px, 4vw, 32px);
+  }
+  .brand {
+    font-size: clamp(26px, 7vw, 32px);
+  }
+  .pill {
+    font-size: 14px;
+    padding: 7px 12px;
+  }
+}
+
+/* =========================
+   Bottom Ticker
+   ========================= */
+:root{
+  --ticker-height: 35px; /* 高さ */
+  --ticker-bg: #f4d5ff; /* 背景色 */
+  --ticker-fg: #9e9e9e; /* 文字色 */
+  --ticker-sep: rgba(255,255,255,.35); /* 区切りの色 */
+  --ticker-gap: 32px; /* アイテム間の隙間 */
+  --ticker-font: var(--nav-font-family, "Arial Black", Arial, sans-serif);
+  --ticker-font-size: 14px; /* 文字サイズ */
+}
+
+.ticker{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45; /* topnav(50)より下、3Dより上なら適宜調整 */
+  background: var(--ticker-bg);
+  color: var(--ticker-fg);
+  height: var(--ticker-height);
+
+  /* 上に線を追加 */
+  border-top: 0.5px solid #000; /* 薄いグレーのライン */
+}
+
+.ticker__mask{
+  position: relative;
+  height: 100%;
+  overflow: hidden; /* はみ出しを隠す */
+}
+
+.ticker__track{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ticker-gap);
+  white-space: nowrap;
+  will-change: transform;
+  animation: tickerScroll var(--ticker-duration, 25s) linear infinite;
+  padding-left: var(--ticker-gap);
+  padding-right: var(--ticker-gap);
+  font-family: var(--ticker-font);
+  font-weight: 900;
+  font-size: var(--ticker-font-size);
+  line-height: 1;
+  font-style: italic;
+}
+
+.ticker__track--clone{
+  left: 100%; /* クローンは本体の後ろから開始 */
+}
+
+.ticker__item{
+  display: inline-block;
+}
+
+.ticker__sep{
+  display:inline-block;
+  color: var(--ticker-sep);
+  opacity:.8;
+}
+
+.ticker__mask:hover .ticker__track{
+  animation-play-state: paused; /* ホバーで一時停止 */
+}
+
+/* モーション軽減ユーザーには静止表示 */
+@media (prefers-reduced-motion: reduce){
+  .ticker__track{
+    animation: none;
+  }
+}
+
+@keyframes tickerScroll{
+  from { transform: translateX(0); }
+  to { transform: translateX(var(--ticker-translate, -100%)); }
+}
+
+/* 3Dのリンク等が下に隠れないよう、下部のscatter領域などに余白が必要な場合は補助パディング */
+body {
+  padding-bottom: var(--ticker-height);
+}
+
+[data-ticker] {
+  cursor: pointer;
+}
+
+/* ===== Star symbols (click target) ===== */
+.locus{
+  position: fixed;
+  z-index: 60; /* トップナビより前にしたいなら 60+ に */
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: auto;
+  opacity: .95;
+  filter: contrast(1.05);
+}
+
+.locus--rt{
+  top: 96px;
+  right: 24px;
+  transform: rotate(-2deg);
+}
+
+.locus--lb{
+  bottom: 120px;
+  left: 24px;
+  transform: rotate(1deg);
+}
+
+.locus:hover{
+  opacity: 1;
+}
+
+/* ===== Fullscreen trail canvas ===== */
+.trail-canvas{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 59; /* シンボルの一歩下。3Dよりは上 */
+  display: none; /* クリックされるまで非表示 */
+  pointer-events: none; /* 3D操作やUIのクリックを邪魔しない */
+}
+
+/* 有効化中は body に印を付ける（必要ならスタイル分岐に） */
+body.trail-on .trail-canvas{
+  display:block;
+}
+
+/* === Symbols === */
+.locus{
+  position: fixed;
+  z-index: 6;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.12));
+  opacity: .95;
+}
+
+.locus--rt{
+  top: 76px;
+  right: 18px;
+}
+
+.locus--lb{
+  bottom: 25px;
+  left: 18px;
+}
+
+/* === Star trail canvas === */
+.trail-canvas{
+  position: fixed;
+  inset: 0;
+  z-index: 5; /* 画像より下、3Dより上にしたいなら 1〜4 を調整 */
+  pointer-events: none; /* クリックを邪魔しない */
+  display: none; /* 初期は隠す */
+}
+
+/* モード中 or 何か描いた後は表示させる */
+body.is-trail .trail-canvas,
+body.has-trails .trail-canvas{
+  display: block;
+}
+
+/* style.css に追加（見やすさ用） */
+.trail-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 10; /* 3Dより上にしたいなら大きめに */
+  pointer-events: none; /* クリック系を邪魔しない */
+}
+
+#trailCanvas.on-top {
+  z-index: 9999 !important;
+}
+
+#trailCanvas.force-visible {
+  display: block !important;
+}
+
+/* =========================================================
+   SP CANONICAL (≤768px)
+   ※ここだけがSP正本
+   - :root(変数)は1回だけ
+   - SP Top UI / SP Bottom UI / 3D canvas逃げ / object-info / back
+   ========================================================= */
+@media (max-width: 768px){
+  /* iOSの文字サイズ勝手変更を抑制 */
+  html{
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* -------------------------
+     SP Variables（1回だけ）
+     ------------------------- */
+  :root{
+    /* 上部UI */
+    --sp-top-h: 25px; /* Locomotion | info */
+    --sp-strip-h: 19px; /* scene/object 横スクロール */
+    --sp-brand-fs: 14px;
+    --sp-info-fs: 14px;
+    --sp-chip-fs: 12px;
+
+        /* ===== SP info art free transform ===== */
+    --sp-info-art-w: 110vw;       /* 横幅：100vw超OK */
+    --sp-info-art-h: 80vh;        /* 縦幅：autoじゃなく“固定で伸びる” */
+    --sp-info-art-x: 50%;         /* 位置X（% / px） */
+    --sp-info-art-y: 35vh;        /* 位置Y（% / px / vh） */
+    --sp-info-art-rot: 0deg;      /* 回転したければ */
+    --sp-info-art-scale: 1;       /* 拡大縮小 */
+    --sp-info-art-fit: fill;      /* fill / contain / cover */
+    --sp-info-art-z: 3;           /* 文字より上なら大きく */
+    --sp-info-art-opacity: 1;     /* 透け */
+    --sp-info-art-pe: none;       /* 触れない（スクロール邪魔しない） */
+      --sp-info-bg: rgba(255,255,255,.75); /* ← 白を薄くして後ろを見せる */
+  --sp-info-blur: 2px;                 /* 0px にするとblur無し */
+
+    /* 下部UI */
+    --sp-status-fs: 24px; /* scene001 表示 */
+    --sp-status-h: 35px; /* ★JSが更新する前提。とりあえず初期値 */
+    --sp-gap-actions-status: 1px; /* ★上下ノブ（actionsとstatusの隙間） */
+    --sp-object-desc-py: 5px; /* 2段目の上下余白：ここで調整 */
+
+    /* star/goto 共通 */
+    --sp-stroke: 1px; /* star線 & goto枠 */
+    --sp-action-fs: 14px; /* star文字 & goto文字 */
+    --sp-accent: #0b45ff; /* 青 */
+    --sp-goto-py: 4px;
+    --sp-goto-px: 10px;
+    --sp-star-fs: 14px; /* starの中の文字（今の見た目維持） */
+    --sp-goto-fs: 12px; /* gotoの文字（小さくしたい） */
+
+    /* 色・線 */
+    --sp-bg: #dedede;
+    --sp-text: #111;
+    --sp-top-left-bg: #d0d0d0;
+    --sp-top-right-bg: #ffffff;
+    --ui-line-color:#111;
+    --ui-line-width:1px;
+    --ui-line-style:solid;
+    --ui-border: var(--ui-line-width) var(--ui-line-style) var(--ui-line-color);
+  }
+
+  /* -------------------------
+     PC用UIはSPで殺す（干渉防止）
+     ------------------------- */
+  .topnav,
+  .ticker,
+  .locus{
+    display: none !important;
+  }
+
+  /* ★ 下部イラスト（bottom_art_sp.png）は表示しない */
+  .sp-bottom-art{
+    display: none !important;
+  }
+
+  /* =========================================================
+     SP Top UI
+     ========================================================= */
+  .sp-ui{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    color: var(--sp-text);
+    background: transparent; /* ← ここを透明に */
+    margin: 0;
+    padding: 0;
+    border-top: var(--ui-border);
+  }
+
+  .sp-top{
+    display: grid;
+    grid-template-columns: 1fr 76px; /* ← info側幅：60〜90pxで調整 */
+    align-items: center;
+    height: var(--sp-top-h);
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border-bottom: var(--ui-border);
+  }
+
+  .sp-top__left{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    background: var(--sp-top-left-bg);
+  }
+
+  .sp-top__right{
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    margin: 0;
+    background: #fff;
+    border-left: var(--ui-border);
+    box-shadow: inset 1px 0 0 #111; /* ← 念のため確実に線が出る保険 */
+    text-align: center;
+  }
+
+  .sp-brand{
+    font-size: var(--sp-brand-fs);
+    font-weight: 800;
+    letter-spacing: .02em;
+    line-height: 1;
+    color: var(--sp-text);
+  }
+
+  .sp-info-btn{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-size: var(--sp-info-fs);
+    font-weight: 800;
+    line-height: 1;
+    color: #111;
+    -webkit-text-fill-color: #111;
+    text-decoration: none;
+  }
+
+  /* 下段（横スクロール） */
+  .sp-strip{
+    height: var(--sp-strip-h);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 12px;
+    overflow-x: auto;
+    overflow-y: hidden; /* ★ 縦を完全に殺す */
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x; /* ★ 横操作を最優先 */
+    overscroll-behavior-x: contain;
+    overscroll-behavior-y: none;
+    white-space: nowrap; /* ★ 折り返し防止 */
+    box-sizing: border-box;
+    border-bottom: var(--ui-border);
+    background: #fff;
+  }
+
+  .sp-strip::-webkit-scrollbar{
+    display:none;
+  }
+
+  .sp-strip,
+  .sp-strip *{
+    color: var(--sp-text) !important;
+    -webkit-text-fill-color: var(--sp-text) !important;
+  }
+
+  .sp-strip a,
+  .sp-strip a:visited,
+  .sp-strip a:hover,
+  .sp-strip a:active{
+    color: #111;
+    -webkit-text-fill-color: #111;
+    text-decoration: none;
+  }
+
+  .sp-chip{
+    font-size: var(--sp-chip-fs);
+    white-space: nowrap;
+    background: transparent;
+    border: 0;
+    padding: 6px 1.5px;
+    cursor: pointer;
+    color: #111;
+    -webkit-text-fill-color: #111;
+    flex: 0 0 auto; /* ★ 横に縮まない */
+    white-space: nowrap;
+    
+
+
+
+  }
+
+  .sp-chip--xxx{
+    font-weight: 700;
+  }
+
+  /* =========================================================
+     3D Canvas の“逃げ”（上部UIと下部status分だけ避ける）
+     ========================================================= */
+  #canvas-home{
+    position: fixed;
+    top: var(--sp-ui-h, calc(var(--sp-top-h) + var(--sp-strip-h)));
+    left: 0;
+    right: 0;
+    height: calc(100vh - (var(--sp-ui-h, 0px) + var(--sp-bottom-h, 0px)));
+  }
+
+  /* =========================
+     SP: Star trail overlay
+     ========================= */
+  /* trailCanvas を画面全面の“重ね”にする */
+  #trailCanvas.trail-canvas{
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none; /* 初期は隠す */
+    pointer-events: none; /* 操作を邪魔しない */
+    z-index: 58; /* 3Dより上、sp-bottom(60)より下 */
+  }
+
+  /* JSが付けるクラスで表示 */
+  body.is-trail #trailCanvas.trail-canvas,
+  body.trail-on #trailCanvas.trail-canvas,
+  body.has-trails #trailCanvas.trail-canvas{
+    display: block;
+  }
+
+  /* =========================================================
+     SP Bottom UI（正本）
+     ========================================================= */
+  .sp-bottom{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column; /* ★ ここが肝：間隔をgapで統一 */
+    gap: var(--sp-gap-actions-status); /* ★上下ノブ（actionsとstatusの隙間） */
+    height: var(--sp-bottom-h, 0px); /* ★ 高さはJSが --sp-bottom-h を作る前提で固定運用 */
+    pointer-events: none;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* ★境界線を復活 */
+    border-top: none; /* ← これを追加 or 置き換え */
+    border-bottom: var(--ui-border);
+  }
+
+  /* actions：flexの上段（bottom計算は不要） */
+  .sp-bottom__actions{
+    position: relative;
+    left: 0;
+    right: 0;
+    /* ★これを削除：bottom: calc(...) */
+    bottom: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: transparent;
+    border: none;
+    pointer-events: auto;
+    margin-bottom: 0 !important;
+  }
+
+  /* status：flexの下段（safe-areaはpaddingで吸収が安定） */
+  .sp-bottom__status{
+    position: relative;
+    left: 0;
+    right: 0;
+    /* ★これもやめる：bottom: env(...) */
+    bottom: auto;
+    min-height: var(--sp-status-h);
+    display: flex;
+    align-items: center;
+    padding: 0 16px; /* ← 0 16px 0 10px をやめる */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: var(--sp-bg);
+    border-top: var(--ui-border);
+    pointer-events: auto;
+  }
+
+  /* scene id 表示 */
+  .sp-scene-id{
+    font-size: var(--sp-status-fs);
+    font-family: "Americana", serif;
+    font-weight: 400; /* ← まずは400に戻す */
+    letter-spacing: 0; /* ← いったん0に */
+    font-kerning: normal;
+    font-variant-numeric: proportional-nums;
+    line-height: 1;
+  }
+
+  /* -------- star -------- */
+  .sp-star{
+    position: relative;
+    width: 80px;
+    height: 80px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: auto;
+  }
+ .sp-star__label{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+  .sp-star__svg{
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .sp-star__svg polygon{
+    fill: #fff;
+    stroke: #000;
+    stroke-width: var(--sp-stroke);
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+  }
+
+  .sp-star__label{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--sp-accent);
+    font-size: var(--sp-star-fs);
+    line-height: 1;
+    font-weight: 600;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* -------- goto / back（共通） -------- */
+  #spGotoBtn,
+  .sp-bottom__actions .sp-action-goto{
+    background: #fff;
+    border: var(--sp-stroke) solid #000;
+    border-radius: 9999px;
+    padding: var(--sp-goto-py) var(--sp-goto-px);
+    font-size: var(--sp-goto-fs);
+    line-height: 1;
+    color: var(--sp-accent);
+    font-family: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: none;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: auto;
+    transform: none !important;
+  }
+
+  /* =========================================================
+     object-info（SPでは“文字だけ”）
+     ========================================================= */
+  #object-info-box{
+    position: fixed;
+    left: 50%;
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + var(--sp-status-h) + 16px);
+    transform: translateX(-50%);
+    width: min(92vw, 420px);
+    max-width: 420px;
+    max-height: 45vh;
+    overflow-y: auto;
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0 4px;
+    z-index: 55;
+    color: #000;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  #object-info-box,
+  #object-info-box *{
+    color: #000 !important;
+  }
+
+  /* Backボタン：SPのときだけ左上に固定 */
+  #backToSceneBtn{
+    position: fixed !important;
+    left: 16px !important;
+    top: calc(var(--sp-top-h) + var(--sp-strip-h) + 8px) !important;
+    z-index: 56 !important;
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+    background: none !important;
+    border: 1px solid #000 !important;
+    border-radius: 999px !important;
+    font-family: var(--nav-font-family, Arial, sans-serif) !important;
+  }
+
+  body.is-sp-object .sp-bottom__status{
+    display: none !important;
+  }
+
+  body.is-sp-object .sp-bottom__actions{
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important; /* ← translateY殺す */
+    margin-bottom: 0 !important;
+  }
+
+  /* objectモード時は高さ固定を解除 */
+  body.is-sp-object .sp-bottom{
+    display: flex;
+    flex-direction: column;
+    height: var(--sp-bottom-h, 0px) !important;
+    min-height: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  body.is-sp-object .sp-object-panel{
+    position: relative;
+    pointer-events: auto;
+  }
+
+  /* =========================
+     OBJECT 3段ボックス整形（FIX / 安定版）
+     ========================= */
+  /* 3段全体の外枠 */
+  .sp-object-panel{
+    width: 100%;
+    box-sizing: border-box;
+    border-top: var(--ui-border);
+  }
+
+  /* 共通段スタイル（境界線） */
+  .sp-object-row{
+    width: 100%;
+    box-sizing: border-box;
+    border-bottom: var(--ui-border);
+  }
+
+  /* 1段目（object番号）＆3段目（buy/ask）
+     → sceneのstatus行と同じ“高さ/上下余白”に揃える */
+  .sp-object-head,
+  .sp-object-buy{
+    background: var(--sp-bg);
+    min-height: var(--sp-status-h);
+    padding: 0 10px; /* sceneと同じ */
+    display: flex;
+    align-items: center; /* 縦センター */
+  }
+
+  /* 1段目の文字 */
+  .sp-object-head{
+    font-weight: 600;
+    font-size: 18px;
+    font-family: "Americana", serif;
+  }
+
+  /* 2段目（概要） */
+  .sp-object-desc{
+    background: #fff;
+    font-size: 15px;
+    line-height: 1.6;
+
+    /* ★高さ（上下余白）は変数で調整 */
+    padding: var(--sp-object-desc-py, 10px) var(--sp-object-desc-px, 16px);
+
+    /* ★横スワイプで1列 */
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+
+  /* スクロールバーを消す（必ず“外”に書く） */
+  .sp-object-desc::-webkit-scrollbar{
+    display: none;
+  }
+
+  /* 2段目の中身を全部「1列」に寄せる（pが複数でもOK） */
+  .sp-object-desc p{
+    margin: 0 !important;
+    display: inline !important;
+    white-space: nowrap !important;
+  }
+
+  .sp-object-desc br{
+    display: none;
+  }
+
+  /* 3段目（buy/ask）の見た目 */
+  .sp-object-buy{
+    justify-content: center; /* 中央寄せ */
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  /* buyリンク */
+  .sp-object-buy a{
+    color: var(--sp-accent);
+    text-decoration: none;
+  }
+
+  .sp-object-buy a:active{
+    opacity: .6;
+  }
+
+
+/* =========================
+   SP inline info panel（iOS安定版）
+   ========================= */
+.sp-info-panel{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--sp-ui-h, calc(var(--sp-top-h) + var(--sp-strip-h)));
+  height: calc(100dvh - var(--sp-ui-h, calc(var(--sp-top-h) + var(--sp-strip-h))));
+  z-index: 70;
+  display: none;
+
+  overflow: hidden; /* ← ここが重要。パネル自体はスクロールさせない */
+  pointer-events: auto;
+
+  background: var(--sp-info-bg, rgba(255,255,255,0.72));
+  backdrop-filter: blur(var(--sp-info-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--sp-info-blur, 0px));
+}
+.sp-info-panel__inner{
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+
+  box-sizing: border-box;
+  padding: 18px 18px 28px;
+}
+
+body.sp-info-open .sp-info-panel{
+  display: block;
+}
+
+/* 下部UIはinfo中は隠す */
+body.sp-info-open .sp-bottom{
+  display: none !important;
+}
+
+/* 背面の3D操作を無効化 */
+body.sp-info-open #canvas-home,
+body.sp-info-open .trail-canvas,
+body.sp-info-open .locus{
+  pointer-events: none;
+}
+
+/* ===== テキスト ===== */
+
+.sp-info-panel__inner{
+  padding: 18px 18px 28px;
+}
+
+.sp-info-title{
+  margin: 6px 0 12px;
+  font-family: var(--nav-font-family, "Arial Black", Arial, sans-serif);
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1.05;
+}
+
+.sp-info-panel p{
+  margin: 0 0 14px;
+  font-family: var(--nav-font-family, "Arial Black", Arial, sans-serif);
+  font-weight: 900;
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.sp-info-mail a{
+  color: #111;
+  text-decoration: underline;
+}
+
+/* ===== 画像（自由レイヤー）===== */
+@media (max-width: 768px){
+
+  /* 画像の“置き場”をちゃんと確保する（＝Closeが押し下げられる） */
+  .sp-info-panel__art{
+    position: relative;
+    height: calc(var(--sp-info-art-h, 55vh) + -120px); /* ← 画像ぶん + 余白 */
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+
+  /* 画像は“置き場”の中で動かす（fixed禁止） */
+  .sp-info-panel__art img{
+    position: absolute !important;
+    left: 50%;
+    top: 50%;
+    width: var(--sp-info-art-w, 120vw);
+    height: var(--sp-info-art-h, 55vh);
+
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--sp-info-art-rot, 0deg))
+      scale(var(--sp-info-art-scale, 1));
+
+    object-fit: var(--sp-info-art-fit, fill);
+    opacity: var(--sp-info-art-opacity, 1);
+    pointer-events: none;
+  }
+
+  /* Closeが画像と重なる場合の保険：下に余白を追加 */
+  .sp-info-close{
+    margin-top: 24px; /* ← ここ増やすとさらに下へ */
+  }
+}
+
+/* =========================================================
+   SP INFO SCROLL FIX (iOS Safari)
+   - html/bodyの overflow:hidden を強制解除
+   - infoパネル内スクロールを確実に有効化
+========================================================= */
+@media (max-width: 768px){
+
+  html, body{
+    height: 100%;
+  }
+
+  body.sp-info-open{
+    overflow: hidden !important;
+  }
+
+  html:has(body.sp-info-open){
+    overflow: visible !important;
+  }
+
+  body.sp-info-open #spInfoPanel{
+    display: block !important;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: var(--sp-ui-h, calc(var(--sp-top-h) + var(--sp-strip-h))) !important;
+    bottom: 0 !important;
+    overflow: hidden !important; /* ← auto ではなく hidden */
+    background: var(--sp-info-bg, rgba(255,255,255,.92)) !important;
+    z-index: 9999 !important;
+  }
+
+  body.sp-info-open #spInfoPanel .sp-info-panel__inner{
+    height: 100%;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+  }
+
+  body.sp-info-open #spInfoPanel .sp-info-panel__art img{
+    position: absolute !important;
+    left: 50% !important;
+    top: var(--sp-info-art-y, 65vh) !important;
+    transform: translate(-50%, -50%) rotate(var(--sp-info-art-rot, 0deg)) scale(var(--sp-info-art-scale, 1)) !important;
+  }
+}
+:root{
+  /* 端末依存の Arial Black から、Webフォントに寄せる */
+  --nav-font-family: "Doto", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* info内テキストも確実に同じにしたい場合 */
+@media (max-width: 768px){
+  .sp-info-title,
+  .sp-info-panel p{
+    font-family: var(--nav-font-family) !important;
+  }
+}
+}
+
+@media (max-width: 768px){
+  body.is-sp-object .sp-bottom{
+    height: var(--sp-bottom-h, 0px) !important;
+  }
+}
+/* =========================================================
+   FONT: 本来の“太め”を勝たせる（Doto/ドットを無効化）
+   ※style.css の一番下に追加
+   ========================================================= */
+
+/* PCは Arial Black があればそれを使う。無い端末（iPhone等）はWebフォントで寄せる */
+:root{
+  --nav-font-family: "Arial Black", "Archivo Black", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* info パネル内を“太め”で固定（ここがドット化してる原因の中心なので強制） */
+@media (max-width: 768px){
+  .sp-info-title,
+  .sp-info-panel p,
+  .sp-info-panel{
+    font-family: var(--nav-font-family) !important;
+    font-weight: 900 !important;
+    font-variation-settings: normal !important;
+    letter-spacing: 0 !important;
+  }
+}
+
+/* =========================================================
+   SP INFO: close buttons
+   ========================================================= */
+@media (max-width: 768px){
+
+  /* 右上 ×（スクロールしても固定） */
+  .sp-info-x{
+    position: fixed;
+    top: calc(var(--sp-ui-h, calc(var(--sp-top-h) + var(--sp-strip-h))) + 40px);
+    right: 6px;
+    z-index: 10000;
+
+    display: none;
+
+    background: transparent;
+    border: none;
+    padding: 6px 10px;
+
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    color: #111;
+
+    cursor: pointer;
+  }
+
+  /* 下中央 Close（下線＝押せる感） */
+.sp-info-close{
+  display: block;
+  margin: 40px auto 10px;   /* 上下余白 */
+  width: fit-content;
+
+  background: transparent;
+  border: none;
+
+  font: 900 16px/1 var(--nav-font-family, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif);
+  color: #111;
+
+  text-decoration: underline;
+  text-underline-offset: 6px;
+
+  cursor: pointer;
+
+  display: none !important;
+}
+
+  /* info open のときだけ表示 */
+  body.sp-info-open .sp-info-x,
+  body.sp-info-open .sp-info-close{
+    display: block;
+  }
 }

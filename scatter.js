@@ -1,51 +1,57 @@
-// /js/scatter.js
-(() => {
-  // 下部に並べる候補（完成したページは href を実URLに）
-  const items = [
-    { id: 'object001', label: 'object001', href: 'object001.html' },
-    { id: 'object002', label: 'object002', href: '#' },
-    { id: 'object003', label: 'object003', href: '#' },
-    { id: 'object004', label: 'object004', href: '#' },
-    { id: 'object005', label: 'object005', href: '#' },
-    { id: 'object006', label: 'object006', href: '#' },
-    { id: 'object007', label: 'object007', href: '#' },
-    { id: 'object008', label: 'object008', href: '#' },
-  ];
+// scatter.js（置き換え）
+const items = [
+  // href は “ホームのハッシュ”、detail は “詳細ページ”
+  { id: 'object001', label: 'object001', href: '#object001', detail: 'index.html' },
+  { id: 'object002', label: 'object002', href: '#object002', detail: 'object002.html' },
+  { id: 'object003', label: 'object003', href: '#object003', detail: 'object002.html' },
+  { id: 'object004', label: 'object004', href: '#object004', detail: 'object002.html' },
+];
 
-  const area = document.getElementById('scatter');
+const area = document.getElementById('scatter');
 
-  function layout() {
-    if (!area) return;
-    area.innerHTML = '';
-    const rect = area.getBoundingClientRect();
-    const w = rect.width;
-    const h = rect.height;
+function layout() {
+  if (!area) return;
+  area.innerHTML = '';
 
-    items.forEach((item) => {
-      const a = document.createElement('a');
-      a.className = 'scatter-item';
-      a.href = item.href;
-      a.setAttribute('data-id', item.id);
-      a.innerHTML = `<span class="label">${item.label}</span>`;
+  const rect = area.getBoundingClientRect();
+  const w = rect.width, h = rect.height;
 
-      // 位置をランダムに（左右広め・上下はやや下寄せ）
-      const x = (0.08 + Math.random() * 0.84) * w; // 8%〜92%
-      const y = (0.30 + Math.random() * 0.60) * h; // 下寄せ
-      const rot = Math.random() * 8 - 4;           // -4〜+4度
+  items.forEach((item) => {
+    const a = document.createElement('a');
+    a.className = 'scatter-item';
+    a.href = item.href; // 右クリックや新規タブ用に残す（#のみなので同一ページ）
+    a.dataset.id = item.id;
+    a.innerHTML = `<span class="label">${item.label}</span>`;
 
-      a.style.left = `${Math.round(x)}px`;
-      a.style.top  = `${Math.round(y)}px`;
-      a.style.setProperty('--rot', `${rot}deg`);
+    // ランダム配置
+    const x = (0.08 + Math.random() * 0.84) * w;
+    const y = (0.30 + Math.random() * 0.60) * h;
+    const rot = Math.random() * 8 - 4;
+    a.style.left = `${Math.round(x)}px`;
+    a.style.top  = `${Math.round(y)}px`;
+    a.style.setProperty('--rot', `${rot}deg`);
 
-      // 触ったとき少し整う
-      a.addEventListener('mouseenter', () => a.style.setProperty('--rot', '0deg'));
-      a.addEventListener('mouseleave', () => a.style.setProperty('--rot', `${rot}deg`));
+    // クリック：ホーム内のモデルだけ切替（遷移しない）
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.querySelectorAll('.scatter-item').forEach(el => el.classList.remove('is-active'));
+      a.classList.add('is-active');
 
-      area.appendChild(a);
+      // URL ハッシュも同期（リロード/共有しても再現できる）
+      history.replaceState(null, '', item.href);
+
+      if (window.selectModel) window.selectModel(item.id);
     });
-  }
 
-  // 初期＆リサイズで再配置
-  window.addEventListener('resize', layout);
-  layout();
-})();
+    // ダブルクリック：詳細ページへ遷移
+    a.addEventListener('dblclick', (e) => {
+      e.preventDefault();
+      window.location.href = item.detail;
+    });
+
+    area.appendChild(a);
+  });
+}
+
+layout();
+window.addEventListener('resize', layout);

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About</title>
+<meta name="description" content="About page" />
+<style>
+  :root{
+    --blue: #0a42ff;     /* 濃い青（スクショ寄せ） */
+    --max-w: 1280px;     /* 全体の最大幅 */
+    --gutter: 28px;      /* 余白 */
+  }
+
+  html,body{margin:0;padding:0;background:#fff;color:#000}
+  body{font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+
+/* ===== 上部ナビ（両端ベタ寄せ＋4等分の等間隔） ===== */
+.topbar{
+  position: sticky; top:0; z-index:10;
+  background:#fff;
+  /* 行の上下だけ余白。左右はノッチぶんだけにする */
+  padding: 10px 0;
+}
+.topbar-inner{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4等分 */
+  align-items: center;
+  /* 画面幅いっぱいを使う（中央コンテナ幅の制限を外す） */
+  width: 100vw;
+  /* 端まで寄せたいが、ノッチ時は安全域を確保 */
+  padding-left: max(0px, env(safe-area-inset-left));
+  padding-right: max(0px, env(safe-area-inset-right));
+  box-sizing: border-box;
+  margin: 0; /* 中央寄せの max-width を使わない */
+  font-family:"Arial Black","Arial-Black","Arial",sans-serif;
+  color: var(--blue, #3a3a3a);
+}
+
+.topbar a{
+  color: var(--blue, #383838);
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: .01em;
+  font-size: clamp(10px, 2.4vw, 20px);
+  /* 中のテキストは通常中央揃え */
+  justify-self: center;
+  text-align: center;
+}
+
+/* 左端・右端だけベタ寄せにする */
+.topbar a:first-child { justify-self: start; text-align: left; }
+.topbar a:last-child  { justify-self: end;   text-align: right; }
+
+.topbar a:hover{ text-decoration: underline; }
+
+
+  /* ===== 本文2カラム（左：大きい写真 / 右：青い太字テキスト） ===== */
+  /* ページ全体 */
+.wrap{
+  max-width: 1500px;
+  margin: 0 auto; /* ページ中央寄せ */
+  padding: 0 24px; /* ページ左右の余白 */
+}
+
+/* グリッドレイアウト */
+.grid{
+  display: grid;
+  grid-template-columns: 1.0fr 1.0fr; /* 左右を均等基準に */
+  gap: 40px;
+  align-items: start;
+}
+
+/* ===== 左：写真用コンテナ ===== */
+.about-photo{
+  /* 写真全体の位置をここで調整 */
+  margin-top: 10px;   /* ← 写真だけの縦位置 */
+  text-align: center; /* 中央寄せ */
+}
+.about-photo img.hero{
+  width: 100%;
+  max-height: 100vh;   /* 高さ制御 */
+  object-fit: cover;
+}
+
+/* ===== 右：本文用コンテナ ===== */
+/* 右カラム本体 */
+.about-text{
+  margin-top: 200px;      /* ← 右カラム全体の縦位置 */
+  padding-left: 20px;    /* ← 左カラムからの距離 */
+  color: var(--blue);
+  font-family: "Arial Black","Arial",sans-serif;
+}
+
+/* タイトル */
+.about-title{
+  font-size: clamp(28px, 3vw, 40px); /* ← タイトルの大きさ */
+  margin: 0 0 24px;
+  font-weight: 900;
+}
+
+/* サイト概要文 */
+.about-desc{
+  font-size: clamp(8px, 1.8vw, 16px); /* ← 説明文の大きさ */
+  line-height: 1.6;
+  margin: 0 0 32px;
+  font-weight: 500;
+}
+
+/* 連絡先ブロック */
+.about-contact{
+  display: flex;
+  flex-direction: column;   /* 縦並び */
+  gap: 6px;
+  font-size: clamp(8px, 1.6vw, 16px);
+}
+.about-contact .label{
+  font-weight: 900;
+}
+.about-contact .email{
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 22px); /* メールだけ大きく調整可 */
+}
+.about-contact .email:hover{
+  text-decoration: underline;
+}
+
+
+  /* ===== モバイル ===== */
+  @media (max-width: 860px){
+    .grid{ grid-template-columns: 1fr; }
+    .hero{ max-height:none; }
+    .topbar a:nth-child(2),
+    .topbar a:nth-child(3){ transform:none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 上部ナビ（スクショの“位置感”を再現） -->
+  <nav class="topbar" aria-label="global">
+    <div class="topbar-inner">
+      <a href="index.html">Locomotion™</a>
+      <a href="object.html">Object</a>
+      <a href="press.html">Press</a>
+      <a href="about.html" aria-current="page">About</a>
+    </div>
+  </nav>
+
+  <!-- 本文 -->
+ <main class="wrap">
+  <section class="grid">
+
+    <!-- 左：写真 -->
+    <div class="about-photo">
+      <img class="hero" src="about_image_1.jpeg" alt="About hero image" />
+    </div>
+
+    <!-- 右：本文 -->
+   <!-- 右：本文 -->
+<div class="about-text">
+  <h1 class="about-title">Locomotion™</h1>
+
+  <p class="about-desc">
+    This site items that contribute to everyday life. Everything is handmade.<br>
+    💫💫💫💫💫💫💫
+  </p>
+
+  <div class="about-contact">
+    <span class="label">General Requires / Sales.</span>
+    <a href="mailto:info@locomotion.com" class="email">info@locomotion.com</a>
+  </div>
+</div>
+
+  </section>
+</main>
+
+
+</body>
+</html>

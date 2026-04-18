@@ -5,28 +5,313 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Homepage</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Doto:wght@400;700&family=Italiana&family=Pinyon+Script&family=Tangerine:wght@400;700&family=Homemade+Apple&family=Italianno&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 </head>
 <body>
   <!-- 上部ナビ（既存の nav でも OK） -->
-  <nav class="topnav">
-  <a href="#" class="logo">HELLO WORLD</a>
-  <div class="center-link">
-    <a href="index.html">HOMEPAGE</a>
+<!-- === Top Navigation (fixed) === -->
+<nav class="topnav" aria-label="global navigation">
+  <div class="topnav__inner">
+    <div class="nav-left">
+      <a href="#" class="pill" data-panel="list">SCENE/OBJECT</a>
+    </div>
+
+    <div class="nav-center" aria-label="site title">
+      <span class="brand">Locomotion™</span>
+    </div>
+
+    <div class="nav-right">
+      <a href="#" class="pill" data-panel="about">ABOUT/CONTACT</a>
+    </div>
   </div>
-  <div class="right-link">
-    <a href="mailto:issei.kouda@icloud.com">ABOUT / CONTACT</a>
+</nav>
+
+<!-- =========================
+     SP UI (Scene) - NEW
+========================= -->
+<header class="sp-ui" aria-label="mobile ui">
+  <!-- 上段：Locomotion / info -->
+  <div class="sp-top">
+    <div class="sp-top__left">
+      <span class="sp-brand">Locomotion™</span>
+    </div>
+    <button class="sp-top__right sp-info-btn" type="button" id="spInfoBtn">
+      info
+    </button>
   </div>
- </nav>
+
+  <!-- 下段：横スクロール（scene/object/XXX） -->
+<nav id="spStrip" class="sp-strip"></nav>
+
+</header>
+
+
 
 
   <!-- 中央の3D（今の main-fixed.js が描画する canvas のままでOK） -->
   <canvas id="canvas-home"></canvas>
 
+  <!-- =========================
+     SP Info Panel (inline)
+     ========================= -->
+<section id="spInfoPanel" class="sp-info-panel" aria-hidden="true">
+
+  <!-- ✅ 右上 × ボタン（試せるように常備） -->
+  <button class="sp-info-x" type="button" id="spInfoCloseX" aria-label="Close info">
+    ×
+  </button>
+
+  <div class="sp-info-panel__inner">
+    <div class="sp-info-panel__text">
+      <h1 class="sp-info-title">Locomotion™</h1>
+
+      <p class="sp-info-lead">
+        <strong>Locomotion™</strong> is a digital media space for selling new items. It has been operating on a trial basis since 2025. We plan to sell items created by artists and designers in separate periods.
+      </p>
+
+      <p class="sp-info-body">
+        To navigate pages, zoom in on the model and tap the rotating object to move to the next page. If you wish to make a purchase, please send a message via the email link.
+      </p>
+
+      <p class="sp-info-meta">
+        <strong>Location:</strong> Japan / America<br>
+        <strong>Year:</strong> 2025
+      </p>
+
+      <p class="sp-info-mail">
+        <a href="mailto:info@locomotion.com">info@locomotion.com</a>
+      </p>
+
+    </div>
+
+    <div class="sp-info-panel__art">
+      <img src="bottom_art_sp.png" alt="">
+    </div>
+
+    <!-- ✅ 下中央 Close ボタン（試せるように常備） -->
+      <button class="sp-info-close" type="button" id="spInfoCloseBottom">
+        Close
+      </button>
+  </div>
+</section>
+
+  <div class="sp-stage-bg" aria-hidden="true"></div>
+
+
   <!-- ★ 下部の散らばりリンク置き場 -->
-  <div class="scatter-area" id="scatter"></div>
+  
 
   <script type="module" src="main-fixed.js"></script>
-  <script src="./scatter.js" defer></script>
+ 
+ <script>
+  const tag = document.createElement('div');
+  tag.textContent = 'DEV (tweak-1)';
+  Object.assign(tag.style, {
+    position: 'fixed', right: '8px', top: '8px',
+    background: 'rgba(0,0,0,.6)', color: '#fff',
+    padding: '6px 10px', font: '12px/1.2 system-ui, sans-serif',
+    borderRadius: '6px', zIndex: 99999
+  });
+  document.body.appendChild(tag);
+  </script>
+  <!-- === Overlay (共通) === -->
+  <div class="overlay" id="overlay" aria-hidden="true">
+    <div class="overlay__backdrop" data-overlay-close></div>
+    <section class="overlay__window" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
+      <button class="overlay__close" type="button" data-overlay-close aria-label="Close">×</button>
+      <header class="overlay__head">
+        <h2 id="overlayTitle" class="overlay__title"></h2>
+      </header>
+      <div class="overlay__content" id="overlayContent"></div>
+    </section>
+  </div>
+<!-- === Bottom Ticker === -->
+ <!-- 例：あなたの既存ティッカー最外divに追加 -->
+
+<div class="ticker" aria-label="site ticker" data-ticker>
+  <div class="ticker__mask">
+    <!-- 本体（テキストはここを編集） -->
+    <div class="ticker__track" id="tickerTrack" data-speed="65">
+      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
+      <span class="ticker__sep">•</span>
+      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
+      <span class="ticker__sep">•</span>
+      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
+      <span class="ticker__sep">•</span>
+      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
+      <span class="ticker__sep">•</span>
+      
+    </div>
+    <!-- 無限ループ用のクローン（JSが複製します） -->
+    <div class="ticker__track ticker__track--clone" id="tickerClone"></div>
+  </div>
+</div>
+
+
+<script>
+/* ===== Ticker init（幅に合わせた完全ループ） =====
+   - data-speed: px/秒（数値が大きいほど速い）
+   - テキストは #tickerTrack 内の .ticker__item を編集
+*/
+(function () {
+  const track = document.getElementById('tickerTrack');
+  const clone = document.getElementById('tickerClone');
+  if (!track || !clone) return;
+
+  // クローンを生成（中身をコピー）
+  clone.innerHTML = track.innerHTML;
+
+  // スクロール速度（px/秒）
+  const speed = Number(track.dataset.speed || 60);
+
+  // 一度描画後に幅取得
+  requestAnimationFrame(() => {
+    const w = track.scrollWidth;      // コンテンツ全体の幅(px)
+    if (!w) return;
+
+    // 1周にかかる時間（秒）
+    const duration = w / speed;
+
+    // CSS変数にセット（時間）
+    track.style.setProperty('--ticker-duration', `${duration}s`);
+    clone.style.setProperty('--ticker-duration', `${duration}s`);
+
+    // CSS変数にセット（移動距離：コンテンツ幅ぶん左へ）
+    const translate = `-${w}px`;
+    track.style.setProperty('--ticker-translate', translate);
+    clone.style.setProperty('--ticker-translate', translate);
+
+    // クローンの開始位置：本体の右端ぴったり
+    clone.style.left = `${w}px`;
+  });
+
+  // ホバーで一時停止（保険）
+  const mask = document.querySelector('.ticker__mask');
+  mask?.addEventListener('mouseenter', () => {
+    track.style.animationPlayState = 'paused';
+    clone.style.animationPlayState = 'paused';
+  });
+  mask?.addEventListener('mouseleave', () => {
+    track.style.animationPlayState = 'running';
+    clone.style.animationPlayState = 'running';
+  });
+})();
+</script>
+
+
+<!-- === Symbols (click target for star trail) === -->
+<!-- === Symbols (click target for star trail) === -->
+<img
+  src="locus_01.png"
+  data-open-src="locus_01.png"
+  data-close-src="close_01.png"
+  alt="" id="locusTopRight"  class="locus locus--rt"  width="200" height="200" />
+
+<img
+  src="locus_02.png"
+  data-open-src="locus_02.png"
+  data-close-src="close_02.png"
+  alt="" id="locusBottomLeft" class="locus locus--lb"  width="200" height="200" />
+
+<!-- === Fullscreen star trail canvas === -->
+<canvas id="trailCanvas" class="trail-canvas" aria-hidden="true"></canvas>
+
+<!-- 星トレイル本体 -->
+<script src="trail.js" defer></script>
+
+
+<!-- ★ 下部イラスト（まずは強制表示テスト版） -->
+<img
+  src="bottom_art_sp.png"  
+  alt=""
+  class="sp-bottom-art"
+/>
+<!-- =========================
+     SP Bottom UI (Scene / Object 共通)
+     ※ 構造は固定。中身だけ差し替える
+========================= -->
+<div class="sp-bottom">
+
+  <!-- =====================
+       Actions row
+       （star / goto）
+       位置制御はCSSの
+       --sp-gap-actions-status のみ
+  ====================== -->
+  <div class="sp-bottom__actions">
+
+    <!-- star -->
+    <button
+      id="spStarBtn"
+      class="sp-star"
+      type="button"
+      aria-label="star"
+    >
+      <svg
+        class="sp-star__svg"
+        viewBox="0 0 100 100"
+        aria-hidden="true"
+      >
+        <polygon points="
+          50,9
+          64,36
+          94,41
+          70,60
+          78,91
+          50,75
+          22,91
+          30,60
+          6,41
+          36,36
+        "/>
+      </svg>
+      <span class="sp-star__label">star</span>
+    </button>
+
+    <!-- goto -->
+    <button
+      id="spGotoBtn"
+      class="sp-action-goto"
+      type="button"
+    >
+      → Go to object002
+    </button>
+
+  </div>
+
+  <!-- =====================
+       Status row
+       ・scene: 1〜2段
+       ・object: 3段以上
+       JSが高さを測るのは
+       この .sp-bottom__status
+  ====================== -->
+  <div class="sp-bottom__status">
+
+    <!-- ▼ この中身だけが変わる -->
+    <div id="spStatus">
+
+      <!-- scene時（例：1段） -->
+      <div class="sp-scene-id">scene001</div>
+
+      <!--
+      ===== 将来 object のとき =====
+      <div class="sp-object-id">object002</div>
+      <div class="sp-meta">material: clay</div>
+      <div class="sp-meta">weight: 1.2kg</div>
+      -->
+    </div>
+
+  </div>
+
+</div>
+<!-- /SP Bottom UI -->
+
+
+
 
 </body>
 </html>

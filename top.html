@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
+  <title>Top</title>
+  <meta name="description" content="Welcome" />
+  <link rel="preload" as="video" href="video_2.mov" />
+  <style>
+    /* Reset / base */
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    /* 背景動画を全面にフィット（上下左右で切れてもOKなカバー） */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .video-bg video {
+      position: absolute;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      object-fit: cover; /* 全面カバー */
+      filter: brightness(0.9); /* お好みで（暗すぎ/明るすぎ調整） */
+    }
+
+    /* ★ 追加：軌跡用キャンバス（動画の上・リンクの下） */
+    #trail {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none; /* クリックは通す */
+    }
+
+    /* 中央リンク */
+    .center {
+      position: fixed;
+      inset: 0;
+      z-index: 2; /* ← trail より前面に */
+      display: grid;
+      place-items: center;
+      pointer-events: none; /* 背景操作を邪魔しない */
+    }
+    .center a {
+      pointer-events: auto; /* クリック可に戻す */
+      text-decoration: none;
+      color: #fff;
+      font-weight: 1000;
+      letter-spacing: .03em;
+      text-shadow: 0 4px 28px rgba(0,0,0,.45);
+      transition: opacity .2s ease, transform .2s ease;
+      font-size: clamp(10px, 3.5vw, 38px); /* ← 好きに調整 */
+    }
+    .center a:hover { opacity: .85; transform: translateY(-2px); }
+
+    /* 右下のミュート表示（任意） */
+    .muted-hint {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 2;
+      font-size: 12px;
+      color: rgba(255,255,255,.75);
+      user-select: none;
+    }
+
+    /* モバイルでアドレスバーと被るのを軽減 */
+    @supports (height: 100svh) {
+      .video-bg, .center { height: 100svh; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景動画 -->
+  <div class="video-bg" aria-hidden="true">
+    <video
+      id="heroVideo"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster=""
+    >
+      <!-- .mov は Safari なら確実、Chrome でも多くは再生可。将来は mp4/h264 も用意推奨 -->
+      <source src="video_2.mp4" type="video/mp4" />
+      <!-- 予備：同名で mp4 を用意したら↓を活かす
+      <source src="video_2.mp4" type="video/mp4" />
+      -->
+    </video>
+  </div>
+
+  <!-- ★ 追加：軌跡キャンバス -->
+  <canvas id="trail"></canvas>
+
+  <!-- 中央リンク -->
+  <div class="center">
+    <a href="index.html" id="enterLink" aria-label="Enter homepage">HOMEPAGE</a>
+  </div>
+
+  <div class="muted-hint">video is muted / looped</div>
+
+  <script>
+    // ===== 動画の自動再生フォールバック =====
+    (function () {
+      const video = document.getElementById('heroVideo');
+      const tryPlay = () => { video && video.play?.().catch(()=>{}); };
+      tryPlay();
+      const unlock = () => { tryPlay(); window.removeEventListener('pointerdown', unlock); };
+      window.addEventListener('pointerdown', unlock, { once: true });
+
+      // キーボード Enter でもホームへ
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') window.location.href = 'index.html';
+      });
+    })();
+
+    // ===== 星形の軌跡（即時・永続・ランダム間隔） =====
+    (function () {
+      const canvas = document.getElementById('trail');
+      const ctx = canvas.getContext('2d');
+
+      // 調整用
+      const DPR = Math.min(window.devicePixelRatio || 1, 2);
+      const DOT_RADIUS = 3;                // 基本半径（星の外半径の基準）
+      const R_MIN = DOT_RADIUS * 0.85;     // 半径のランダム幅
+      const R_MAX = DOT_RADIUS * 1.25;
+      const STEP_MIN = 50;                 // 連続マークの最小間隔(px)
+      const STEP_MAX = 300;                // 連続マークの最大間隔(px)
+      const GLOW = 18;                     // ぼかし量（発光感）
+      const COLOR = '255,255,255';         // RGB
+
+      let w = 0, h = 0;
+      function resize() {
+        w = canvas.clientWidth = window.innerWidth;
+        h = canvas.clientHeight = window.innerHeight;
+        canvas.width = Math.floor(w * DPR);
+        canvas.height = Math.floor(h * DPR);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        // リサイズ時は一旦クリア（それまでの軌跡は消える）
+        ctx.clearRect(0, 0, w, h);
+        setupPaint();
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      // 発光っぽい設定
+      function setupPaint() {
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.shadowColor = `rgba(${COLOR},0.9)`;
+        ctx.shadowBlur = GLOW;
+        ctx.fillStyle = `rgba(${COLOR},1)`;
+      }
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      // ==== ★ 星形描画（Path2D + キャッシュ） ====
+      const STAR_POINTS = 5;      // とがり数（5=★）
+      const INNER_RATIO = 0.48;   // 内半径 比率（外半径に対して）
+      const ROT_STEPS = 12;       // 回転パターンをキャッシュ（12方位）
+      const starCache = new Map();// key: `${r.toFixed(1)}|${rotIdx}` -> Path2D
+
+      function getStarPath(radius, rotIdx = 0) {
+        const key = `${radius.toFixed(1)}|${rotIdx}`;
+        const cached = starCache.get(key);
+        if (cached) return cached;
+
+        const path = new Path2D();
+        const outerR = radius;
+        const innerR = radius * INNER_RATIO;
+        // 1周の角度を回転オフセット込みで（上向き始まり）
+        const rot = (Math.PI * 2 / ROT_STEPS) * rotIdx - Math.PI / 2;
+
+        for (let i = 0; i < STAR_POINTS * 2; i++) {
+          const isOuter = (i % 2 === 0);
+          const r = isOuter ? outerR : innerR;
+          const t = rot + (i * Math.PI) / STAR_POINTS; // 外内交互に等配
+          const x = Math.cos(t) * r;
+          const y = Math.sin(t) * r;
+          if (i === 0) path.moveTo(x, y);
+          else path.lineTo(x, y);
+        }
+        path.closePath();
+        starCache.set(key, path);
+        return path;
+      }
+
+      // 丸の代わりに星を描く
+      function drawMark(x, y) {
+        const r = rand(R_MIN, R_MAX);               // サイズはランダム
+        const rotIdx = (Math.random() * ROT_STEPS) | 0; // 回転もランダム
+        const star = getStarPath(r, rotIdx);
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.fill(star);
+        ctx.restore();
+      }
+
+      let last = null;
+
+      function handlePointer(x, y) {
+        const rect = canvas.getBoundingClientRect();
+        x -= rect.left; y -= rect.top;
+
+        // 1) 現在位置に“即”マーク
+        drawMark(x, y);
+
+        // 2) 直前点から現在点までを、ランダム間隔で埋める
+        if (last) {
+          const dx = x - last.x, dy = y - last.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist > STEP_MIN) {
+            const ux = dx / dist, uy = dy / dist;
+            let walked = 0;
+            while (walked + STEP_MIN < dist) {
+              walked += rand(STEP_MIN, STEP_MAX);
+              if (walked >= dist) break;
+              drawMark(last.x + ux * walked, last.y + uy * walked);
+            }
+          }
+        }
+        last = { x, y };
+      }
+
+      window.addEventListener('pointermove', (e) => handlePointer(e.clientX, e.clientY), { passive: true });
+      window.addEventListener('pointerdown', (e) => { last = null; handlePointer(e.clientX, e.clientY); }, { passive: true });
+      window.addEventListener('pointerup', () => { last = null; }, { passive: true });
+
+      // ページ離脱時に特別な処理は不要（マークはずっと残す）
+    })();
+  </script>
+</body>
+</html>
