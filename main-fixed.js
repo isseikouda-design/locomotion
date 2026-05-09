@@ -1887,7 +1887,7 @@ function updatePcPlusText() {
 text.innerHTML = isObject
   ? `<p>(Good job finding this page! Congratulations!)</p>`
   : isSP
-    ? `<p>(Click on the rotating object)</p>`
+    ? `<p>(Click on the rotating object to proceed)</p>`
     : `<p>(Click on a rotating object to go to the product page.)</p>`;
 }
 function updatePcBottomLabels() {
