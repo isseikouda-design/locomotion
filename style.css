@@ -2182,15 +2182,15 @@ body.sp-info-open .locus{
     padding-bottom: 6px;
   }
 
-  .pc-flat-top {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
+.pc-flat-top {
+  display: flex;
+  flex-direction: column;
 
-    padding: 0 8px;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+  align-items: flex-start;
+  gap: 2px;
+
+  padding: 0 8px;
+}
 
   .pc-scene-row {
     display: flex;
@@ -2341,5 +2341,6 @@ body.sp-info-open .locus{
     line-height: 1.08;
     margin: 0 0 4px;
   }
+  
 
 }
