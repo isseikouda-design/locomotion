@@ -2285,13 +2285,45 @@ body.sp-info-open .locus{
     height: 100vh;
   }
 
-    .pc-plus-text {
-    display: none !important;
-  }
+ .pc-plus-text {
+  position: fixed;
 
-  .pc-plus-text.is-open {
-    display: block !important;
-  }
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 120;
+
+  display: none !important;
+
+  width: min(100vw, 420px);
+
+  padding: 0;
+
+  background: transparent;
+
+  color: #111;
+  text-align: center;
+
+  pointer-events: none;
+}
+
+.pc-plus-text.is-open {
+  display: block !important;
+}
+
+.pc-plus-text p {
+  margin: 0;
+
+  font-size: 12px;
+  line-height: 1.05;
+
+  
+    font-family: Arial, Helvetica, sans-serif;
+  font-weight: 800;
+
+  letter-spacing: 0.01em;
+}
 
 
   .pc-info-panel {
