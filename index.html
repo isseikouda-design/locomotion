@@ -9,6 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Doto:wght@400;700&family=Italiana&family=Pinyon+Script&family=Tangerine:wght@400;700&family=Homemade+Apple&family=Italianno&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap"
+  rel="stylesheet"
+/>
 </head>
 <body>
   <!-- 上部ナビ（既存の nav でも OK） -->
@@ -20,7 +24,7 @@
     </div>
 
     <div class="nav-center" aria-label="site title">
-      <span class="brand">OFFSITE PRODUCT</span>
+      <span class="brand">Locomotion™</span>
     </div>
 
     <div class="nav-right">
@@ -48,11 +52,58 @@
 
 </header>
 
+<header class="pc-flat-ui">
+  <div class="pc-flat-top">
+    <button class="pc-brand-btn" type="button" data-pc-panel="about">
+      Locomotion™ 💫💫💫
+    </button>
 
+    <a class="pc-mail-link" href="mailto:info@locomotion_service.com">
+      info@locomotion_service.com
+    </a>
 
+    <button class="pc-cart-btn" type="button">
+  (open the cart)
+</button>
+
+  </div>
+
+<div class="pc-scene-row">
+  <button id="pcPlusBtn" class="pc-plus-btn" type="button">{🏃🏃🏃}</button>
+  <nav id="pcSceneStrip" class="pc-scene-strip" aria-label="scene navigation"></nav>
+</div>
+
+<div id="pcPlusText" class="pc-plus-text" aria-hidden="true">
+  <p>
+    (Click on a rotating object to go to the product page.)
+  </p>
+</div>
+</header>
 
   <!-- 中央の3D（今の main-fixed.js が描画する canvas のままでOK） -->
   <canvas id="canvas-home"></canvas>
+
+<nav class="pc-bottom-links" aria-label="pc bottom actions">
+  <button id="pcInfoTrigger" class="pc-bottom-link" type="button">
+    what is this scene?
+  </button>
+
+  <button id="pcStarsTrigger" class="pc-bottom-link" type="button">
+    let the stars shine!
+  </button>
+
+  <button id="pcExplainTrigger" class="pc-bottom-link" type="button">
+    explain locomotion™ 🪦
+  </button>
+
+  <button id="pcPrivacyTrigger" class="pc-bottom-link" type="button">
+    privacy is important
+  </button>
+</nav>
+<section id="pcInfoPanel" class="pc-info-panel" aria-hidden="true">
+ <button id="pcInfoClose" class="pc-info-close" type="button">×</button>
+  <div id="pcInfoContent" class="pc-info-content"></div>
+</section>
 
   <!-- =========================
      SP Info Panel (inline)

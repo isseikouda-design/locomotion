@@ -180,3 +180,180 @@
 
 </body>
 </html>
+
+
+
+@media (min-width: 769px) {
+
+  /* 旧PC UIを消す */
+  .topnav,
+  .ticker,
+  .locus {
+    display: none !important;
+  }
+
+  /* SP UIもPCでは消す */
+  .sp-ui,
+  .sp-info-panel,
+  .sp-stage-bg,
+  .sp-bottom,
+  .sp-bottom-art {
+    display: none !important;
+  }
+
+
+  .pc-flat-ui {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;              /* ← 全幅に戻す */
+    z-index: 50;
+    background: #ffffff;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+  }
+
+  .pc-flat-top {
+    height: 26px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;           /* ← 左詰め */
+    border-bottom: 1px solid #111;
+    justify-content: flex-start; /* ← 左寄せ */
+  }
+
+  .pc-scene-strip {
+    height: 18px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;           /* ← 左詰め */
+    gap: 6px;                 /* ← 詰める */
+    justify-content: flex-start;
+  }
+
+  .pc-brand-btn {
+    
+    font-size: 30px;
+    letter-spacing: 0.02em;
+  }
+
+  .pc-scene-chip {
+   
+    font-size: 18px;
+
+    letter-spacing: 0.02em;
+    padding: 0;
+  }
+
+  /* hoverは控えめ */
+  .pc-scene-chip:hover {
+    opacity: 0.6;
+  }
+
+  .pc-brand-btn,
+  .pc-scene-chip {
+    background: transparent !important;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .pc-brand-btn:focus,
+  .pc-scene-chip:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+
+  .pc-scene-chip {
+    opacity: 1;
+    transition: opacity 0.2s;
+  }
+
+  .pc-scene-chip.is-active {
+    opacity: 0.6;
+  }
+
+  .pc-info-panel {
+    position: fixed;
+    right: 8px;
+    top: 52px;
+    width: min(360px, 32vw);
+    max-height: calc(100vh - 70px);
+    z-index: 55;
+
+    display: none;
+    overflow: auto;
+
+    background: rgba(255,255,255,0.92);
+    border: 1px solid #111;
+    padding: 10px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111;
+  }
+
+  .pc-info-panel.is-open {
+    display: block;
+  }
+
+  .pc-info-close {
+    display: block;
+    margin: 0 0 12px auto;
+    padding: 0;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    font-size: 12px;
+    line-height: 1;
+    color: #111;
+    text-decoration: underline;
+  }
+
+  .pc-info-content h2 {
+    margin: 0 0 12px;
+    font-size: 30px;
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  .pc-info-content p {
+    margin: 0 0 10px;
+    font-size: 24px;
+    line-height: 1.45;
+  }
+
+  .pc-info-content a {
+    color: #111;
+    text-decoration: underline;
+  }
+
+  .pc-info-trigger {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  z-index: 40;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  font-size: 30px;
+  letter-spacing: 0.02em;
+  color: #111111;
+
+  cursor: pointer;
+}
+
+.pc-info-trigger:hover {
+  opacity: 0.5;
+}
+
+
+
+}

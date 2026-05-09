@@ -265,6 +265,21 @@ const MODELS = [
       pivotOffset: { x: 0, y: 0.2, z: 0 },
       cam: { pos: { x: 3, y: 5, z: 6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene001',
+
+  description: `A fragment of space, extracted and repositioned.
+The object rotates without origin, detached from its initial context.
+What remains is a surface — carrying traces of time, light, and contact.`,
+
+  location: `Kyoto, Japan
+35.0116° N / 135.7681° E`,
+
+  credit: `3D scan and reconstruction by Locomotion™.
+Derived from physical environments and processed into digital form.
+Licensed materials follow CC BY 4.0 where applicable.`
+}
+    
   },
   {
     id: 'scene002',
@@ -1092,6 +1107,10 @@ function loadModelById(id) {
 
       currentModel = model;
       currentItem = item;
+      updatePcSceneActive(item.id);
+      renderPcInfo(item);
+      updatePcPlusText();
+      updatePcBottomLabels();
 
       updateSpGotoButton();
 
@@ -1232,6 +1251,7 @@ if (isMobile) {
       console.error('[GLTFLoader] failed:', item.glb, err);
     }
   );
+  
 }
 
 // 外部からも呼べるAPI
@@ -1433,6 +1453,68 @@ function buildSpStrip() {
   strip.appendChild(sep);
 
   objects.forEach((m) => strip.appendChild(makeBtn(m.id)));
+}
+
+function buildPcSceneStrip() {
+  const strip = document.getElementById('pcSceneStrip');
+  if (!strip) return;
+
+  const scenes = MODELS.filter(m => m.id.startsWith('scene'));
+
+  scenes.forEach((m) => {
+    const btn = document.createElement('button');
+    btn.className = 'pc-scene-chip';
+   btn.textContent = `${m.id}/`;
+    btn.dataset.pcJump = m.id;
+    strip.appendChild(btn);
+  });
+}
+function updatePcSceneActive(id) {
+  const chips = document.querySelectorAll('.pc-scene-chip');
+  chips.forEach((c) => {
+    c.classList.toggle('is-active', c.dataset.pcJump === id);
+  });
+}
+function renderPcInfo(item) {
+  const panel = document.getElementById('pcInfoPanel');
+  const content = document.getElementById('pcInfoContent');
+  if (!panel || !content || !item) return;
+
+  const info = item.info || {};
+
+  const title = info.title || item.id;
+  const description =
+    info.description ||
+    info.lines?.[0] ||
+    'Information coming soon.';
+
+  const location = info.location || '';
+  const credit = info.credit || '';
+  const material = info.material || info.lines?.[2] || '';
+  const size = info.size || info.lines?.[1] || '';
+  const price = info.price || '';
+  const email = info.email || 'info@locomotion.com';
+
+  const isObject = isObjectId(item.id);
+
+  content.innerHTML = `
+    <h2>${title}</h2>
+
+    <p>${description}</p>
+
+    ${location ? `<p><strong>Location:</strong><br>${location}</p>` : ''}
+    ${credit ? `<p><strong>Credit:</strong><br>${credit}</p>` : ''}
+
+    ${isObject && material ? `<p><strong>Material:</strong><br>${material}</p>` : ''}
+    ${isObject && size ? `<p><strong>Size:</strong><br>${size}</p>` : ''}
+    ${isObject && price ? `<p><strong>Price:</strong><br>${price}</p>` : ''}
+
+    ${
+      isObject
+        ? `<p><a href="mailto:${email}">Buy / Ask</a></p>`
+        : ''
+    }
+  `;
 }
 
 function ensureSpObjectPanel() {
@@ -1640,6 +1722,181 @@ if (starBtn) {
 
   };
 })();
+buildPcSceneStrip();
+
+(function wirePcInfoPanel() {
+  const sceneBtn = document.getElementById('pcInfoTrigger');
+  const starsBtn = document.getElementById('pcStarsTrigger');
+  const explainBtn = document.getElementById('pcExplainTrigger');
+  const privacyBtn = document.getElementById('pcPrivacyTrigger');
+
+  const panel = document.getElementById('pcInfoPanel');
+  const content = document.getElementById('pcInfoContent');
+  const close = document.getElementById('pcInfoClose');
+
+  if (!panel || !content) return;
+
+  function clearBottomActive() {
+    document.querySelectorAll('.pc-bottom-link').forEach((btn) => {
+      btn.classList.remove('is-active');
+    });
+  }
+
+function openPanel(activeBtn, html, type = '') {
+  clearBottomActive();
+
+  panel.className = 'pc-info-panel is-open';
+  if (type) panel.classList.add(`is-${type}`);
+
+  panel.setAttribute('aria-hidden', 'false');
+
+  activeBtn?.classList.add('is-active');
+  content.innerHTML = html;
+}
+
+  function closePanel() {
+    panel.classList.remove('is-open');
+    panel.setAttribute('aria-hidden', 'true');
+    clearBottomActive();
+  }
+
+sceneBtn?.addEventListener('click', (e) => {
+  e.preventDefault();
+
+  const isOpen =
+    panel.classList.contains('is-open') &&
+    panel.classList.contains('is-scene');
+
+  if (isOpen) {
+    closePanel();
+    return;
+  }
+
+  clearBottomActive();
+
+ const isObject = currentItem && currentItem.id.startsWith('object');
+panel.className = isObject
+  ? 'pc-info-panel is-open is-object-info'
+  : 'pc-info-panel is-open is-scene';
+  panel.setAttribute('aria-hidden', 'false');
+
+  sceneBtn.classList.add('is-active');
+
+  if (currentItem) {
+    renderPcInfo(currentItem);
+  }
+});
+
+  starsBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const locus =
+      document.getElementById('locusTopRight') ||
+      document.getElementById('locusBottomLeft');
+
+    locus?.click();
+
+    requestAnimationFrame(() => {
+      const isOn =
+        document.body.classList.contains('trail-on') ||
+        document.body.classList.contains('is-trail');
+
+      starsBtn.classList.toggle('is-active', isOn);
+    });
+  });
+
+  explainBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+
+openPanel(explainBtn, `
+  <h2>Locomotion™</h2>
+  <p>
+    Locomotion™ is a digital field for scanned scenes, handmade objects,
+    public fragments, and temporary materials.
+  </p>
+  <p>
+    Each scene functions as an entrance. Each object works as a small physical
+    trace, detached from its original location and placed back into motion
+    through the screen.
+  </p>
+  <p>
+    The project treats navigation, product display, and spatial memory as one
+    continuous movement.
+  </p>
+  <img src="about_image_1.jpeg" alt="">
+`, 'explain');
+  });
+
+  privacyBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+
+  openPanel(privacyBtn, `
+      <h2>Privacy</h2>
+      <p>
+        This website may collect basic access information such as browser type,
+        device type, and anonymous usage data in order to improve the viewing
+        experience.
+      </p>
+      <p>
+        We do not sell personal information. If you contact us by email, your
+        address and message will only be used to respond to your inquiry.
+      </p>
+      <p>
+        For questions about privacy, please contact
+        <a href="mailto:info@locomotion_service.com">info@locomotion_service.com</a>.
+      </p>
+    `, 'privacy');
+  });
+
+  close?.addEventListener('click', (e) => {
+    e.preventDefault();
+    closePanel();
+  });
+})();
+(function wirePcPlusText() {
+  const btn = document.getElementById('pcPlusBtn');
+  const text = document.getElementById('pcPlusText');
+
+  if (!btn || !text) {
+    console.warn('[pcPlus] button or text not found');
+    return;
+  }
+
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    updatePcPlusText();
+
+    const isOpen = text.classList.toggle('is-open');
+
+    text.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+
+    btn.classList.toggle('is-active', isOpen);
+
+    console.log('[pcPlus] open:', isOpen);
+  });
+})();
+function updatePcPlusText() {
+  const text = document.getElementById('pcPlusText');
+  if (!text || !currentItem) return;
+
+  const isObject = currentItem.id.startsWith('object');
+
+  text.innerHTML = isObject
+    ? `<p>(Good job finding this page! Congratulations!)</p>`
+    : `<p>(Click on a rotating object to go to the product page.)</p>`;
+}
+function updatePcBottomLabels() {
+  const infoBtn = document.getElementById('pcInfoTrigger');
+  if (!infoBtn || !currentItem) return;
+
+  const isObject = currentItem.id.startsWith('object');
+
+  infoBtn.textContent = isObject
+    ? 'what is this object?'
+    : 'what is this scene?';
+}
+
 
 /* =========================================================
    初期表示：URLパラメータ対応
@@ -2204,3 +2461,10 @@ window.addEventListener('orientationchange', () => syncSpLayoutThenAlign());
     closeInfo();
   }, { passive: false });
 })();
+
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-pc-jump]');
+  if (!btn) return;
+
+  loadModelById(btn.dataset.pcJump);
+});
