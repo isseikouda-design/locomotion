@@ -2315,12 +2315,12 @@ body.sp-info-open .locus{
 .pc-plus-text p {
   margin: 0;
 
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.05;
 
   
     font-family: Arial, Helvetica, sans-serif;
-  font-weight: 800;
+  font-weight: 600;
 
   letter-spacing: 0.01em;
 }

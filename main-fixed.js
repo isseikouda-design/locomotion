@@ -1882,8 +1882,12 @@ function updatePcPlusText() {
 
   const isObject = currentItem.id.startsWith('object');
 
-  text.innerHTML = isObject
-    ? `<p>(Good job finding this page! Congratulations!)</p>`
+ const isSP = window.innerWidth <= 768;
+
+text.innerHTML = isObject
+  ? `<p>(Good job finding this page! Congratulations!)</p>`
+  : isSP
+    ? `<p>(Click on the rotating object)</p>`
     : `<p>(Click on a rotating object to go to the product page.)</p>`;
 }
 function updatePcBottomLabels() {
