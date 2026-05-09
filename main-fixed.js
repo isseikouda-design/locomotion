@@ -1227,9 +1227,9 @@ if (isMobile && isObjectId(item.id)) {
 window.__spUiUpdate?.(item);
 
 // ★ scene / object ともに同じレイアウト確定ルートに統一
-if (isMobile) {
-  syncSpLayoutThenAlign();
-}
+// if (isMobile) {
+//   syncSpLayoutThenAlign();
+// }
 
       // info-box / back（今はSP新UIへ移すので常に隠す）
       const infoBox = ensureInfoBox();
@@ -2354,9 +2354,9 @@ function syncSpLayoutThenAlign() {
   });
 }
 
-window.addEventListener('load', () => syncSpLayoutThenAlign());
-window.addEventListener('resize', () => syncSpLayoutThenAlign());
-window.addEventListener('orientationchange', () => syncSpLayoutThenAlign());
+// window.addEventListener('load', () => syncSpLayoutThenAlign());
+// window.addEventListener('resize', () => syncSpLayoutThenAlign());
+// window.addEventListener('orientationchange', () => syncSpLayoutThenAlign());
 
 /* =========================================================
    SP: touchmove → mousemove を trail が拾えるように代理発火
