@@ -43,69 +43,12 @@
   font-style: normal;
 }
 
-#object-info-box {
-  position: fixed;
-  right: 3vw;
-  top: 14vh;
-  width: min(380px, 40vw);
-  max-height: 60vh;
-  overflow: auto;
-  background: rgba(255,255,255,.92);
-  color: #000;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.18);
-  padding: 16px;
-  z-index: 5;
-  font-family: "Homemade Apple", system-ui, -apple-system, sans-serif;
-  font-size: 15px;
-  line-height: 1.6;
-  font-weight: 400;
-  font-variation-settings: "wght" 400;
-}
-
 /* ================================
    Object Info Box Styling
    ================================ */
 /* 一色をまとめて変えたいときはここだけ入れ替え */
 :root {
   --info-color: #222;
-}
-
-/* 例: #111 / #333 / #4b3e2e / #3b465c / #0a42ff など */
-
-/* タイトル */
-#object-info-box .info-title {
-  margin: 0 0 8px;
-  font: 700 16px/1.4 var(--nav-font-family, "Arial Black", Arial, sans-serif);
-  color: var(--info-color);
-}
-
-/* 本文（共通） */
-#object-info-box p {
-  margin: .3em 0;
-  color: var(--info-color);
-  font-family: "Bitcount Grid Single Ink", system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-/* 一文目だけ別フォント */
-#object-info-box .info-first {
-  font-family: "Pinyon Script", cursive; /* ← ここを Tangerine / Doto などに差し替えて試せます */
-  font-size: 18px;
-  font-weight: 400;
-}
-
-/* 「Buy/Ask」リンク */
-#object-info-box a.info-link {
-  color: var(--info-color);
-  text-decoration: none;
-  border-bottom: 1px solid currentColor;
-  transition: opacity .2s ease;
-}
-
-#object-info-box a.info-link:hover {
-  opacity: .6;
 }
 
 :root {
@@ -237,81 +180,6 @@ body {
   pointer-events: auto;
 }
 
-/* =========================================================
-   Misc
-   ========================================================= */
-aside {
-  position: absolute;
-  top: 5rem;
-  left: 1rem;
-  z-index: 2;
-}
-
-#object-list ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-}
-
-.scatter-area {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 32vh;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.scatter-item {
-  position: absolute;
-  transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
-  font-size: 18px;
-  text-decoration: none;
-  color: #0055ff;
-  pointer-events: auto;
-}
-
-.scatter-item .label {
-  position: relative;
-  display: inline-block;
-}
-
-.scatter-item .label::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -4px;
-  height: 2px;
-  background: #0055ff;
-  transform: rotate(-6deg);
-  opacity: .25;
-}
-
-.description {
-  text-align: center;
-  margin-top: 2rem;
-  font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  .scatter-area {
-    height: 36vh;
-  }
-  .scatter-item {
-    font-size: 15px;
-  }
-}
 
 /* =========================================================
    Overlay (共通)
@@ -998,58 +866,6 @@ body.has-trails .trail-canvas{
   }
 }
 
-/* =========================================================
-   SP INFO: close buttons
-   ========================================================= */
-@media (max-width: 768px){
-
-  /* 右上 ×（スクロールしても固定） */
-  .sp-info-x{
-    position: fixed;
-    top: calc(var(--sp-ui-h, calc(var(--sp-top-h) + var(--sp-strip-h))) + 40px);
-    right: 6px;
-    z-index: 10000;
-
-    display: none;
-
-    background: transparent;
-    border: none;
-    padding: 6px 10px;
-
-    font-size: 28px;
-    font-weight: 700;
-    line-height: 1;
-    color: #111;
-
-    cursor: pointer;
-  }
-
-  /* 下中央 Close（下線＝押せる感） */
-.sp-info-close{
-  display: block;
-  margin: 40px auto 10px;   /* 上下余白 */
-  width: fit-content;
-
-  background: transparent;
-  border: none;
-
-  font: 900 16px/1 var(--nav-font-family, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif);
-  color: #111;
-
-  text-decoration: underline;
-  text-underline-offset: 6px;
-
-  cursor: pointer;
-
-  display: none !important;
-}
-
-  /* info open のときだけ表示 */
-  body.sp-info-open .sp-info-x,
-  body.sp-info-open .sp-info-close{
-    display: block;
-  }
-}
 
 @media (min-width: 769px) {
 
