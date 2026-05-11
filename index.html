@@ -36,21 +36,6 @@
 <!-- =========================
      SP UI (Scene) - NEW
 ========================= -->
-<header class="sp-ui" aria-label="mobile ui">
-  <!-- 上段：Locomotion / info -->
-  <div class="sp-top">
-    <div class="sp-top__left">
-      <span class="sp-brand">Offside Product</span>
-    </div>
-    <button class="sp-top__right sp-info-btn" type="button" id="spInfoBtn">
-      info
-    </button>
-  </div>
-
-  <!-- 下段：横スクロール（scene/object/XXX） -->
-<nav id="spStrip" class="sp-strip"></nav>
-
-</header>
 
 <header class="pc-flat-ui">
   <div class="pc-flat-top">
@@ -105,52 +90,7 @@
   <div id="pcInfoContent" class="pc-info-content"></div>
 </section>
 
-  <!-- =========================
-     SP Info Panel (inline)
-     ========================= -->
-<section id="spInfoPanel" class="sp-info-panel" aria-hidden="true">
-
-  <!-- ✅ 右上 × ボタン（試せるように常備） -->
-  <button class="sp-info-x" type="button" id="spInfoCloseX" aria-label="Close info">
-    ×
-  </button>
-
-  <div class="sp-info-panel__inner">
-    <div class="sp-info-panel__text">
-      <h1 class="sp-info-title">Locomotion™</h1>
-
-      <p class="sp-info-lead">
-        <strong>Locomotion™</strong> is a digital media space for selling new items. It has been operating on a trial basis since 2025. We plan to sell items created by artists and designers in separate periods.
-      </p>
-
-      <p class="sp-info-body">
-        To navigate pages, zoom in on the model and tap the rotating object to move to the next page. If you wish to make a purchase, please send a message via the email link.
-      </p>
-
-      <p class="sp-info-meta">
-        <strong>Location:</strong> Japan / America<br>
-        <strong>Year:</strong> 2025
-      </p>
-
-      <p class="sp-info-mail">
-        <a href="mailto:info@locomotion.com">info@locomotion.com</a>
-      </p>
-
-    </div>
-
-    <div class="sp-info-panel__art">
-      <img src="bottom_art_sp.png" alt="">
-    </div>
-
-    <!-- ✅ 下中央 Close ボタン（試せるように常備） -->
-      <button class="sp-info-close" type="button" id="spInfoCloseBottom">
-        Close
-      </button>
-  </div>
-</section>
-
-  <div class="sp-stage-bg" aria-hidden="true"></div>
-
+ 
 
   <!-- ★ 下部の散らばりリンク置き場 -->
   
@@ -272,95 +212,6 @@
 
 <!-- 星トレイル本体 -->
 <script src="trail.js" defer></script>
-
-
-<!-- ★ 下部イラスト（まずは強制表示テスト版） -->
-<img
-  src="bottom_art_sp.png"  
-  alt=""
-  class="sp-bottom-art"
-/>
-<!-- =========================
-     SP Bottom UI (Scene / Object 共通)
-     ※ 構造は固定。中身だけ差し替える
-========================= -->
-<div class="sp-bottom">
-
-  <!-- =====================
-       Actions row
-       （star / goto）
-       位置制御はCSSの
-       --sp-gap-actions-status のみ
-  ====================== -->
-  <div class="sp-bottom__actions">
-
-    <!-- star -->
-    <button
-      id="spStarBtn"
-      class="sp-star"
-      type="button"
-      aria-label="star"
-    >
-      <svg
-        class="sp-star__svg"
-        viewBox="0 0 100 100"
-        aria-hidden="true"
-      >
-        <polygon points="
-          50,9
-          64,36
-          94,41
-          70,60
-          78,91
-          50,75
-          22,91
-          30,60
-          6,41
-          36,36
-        "/>
-      </svg>
-      <span class="sp-star__label">star</span>
-    </button>
-
-    <!-- goto -->
-    <button
-      id="spGotoBtn"
-      class="sp-action-goto"
-      type="button"
-    >
-      → Go to object002
-    </button>
-
-  </div>
-
-  <!-- =====================
-       Status row
-       ・scene: 1〜2段
-       ・object: 3段以上
-       JSが高さを測るのは
-       この .sp-bottom__status
-  ====================== -->
-  <div class="sp-bottom__status">
-
-    <!-- ▼ この中身だけが変わる -->
-    <div id="spStatus">
-
-      <!-- scene時（例：1段） -->
-      <div class="sp-scene-id">scene001</div>
-
-      <!--
-      ===== 将来 object のとき =====
-      <div class="sp-object-id">object002</div>
-      <div class="sp-meta">material: clay</div>
-      <div class="sp-meta">weight: 1.2kg</div>
-      -->
-    </div>
-
-  </div>
-
-</div>
-<!-- /SP Bottom UI -->
-
 
 
 
