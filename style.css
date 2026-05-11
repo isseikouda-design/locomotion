@@ -2373,6 +2373,86 @@ body.sp-info-open .locus{
     line-height: 1.08;
     margin: 0 0 4px;
   }
-  
 
+
+  
+  .pc-scene-chip.is-active {
+    color: #111 !important;
+    opacity: 1 !important;
+
+    text-decoration-line: line-through !important;
+    text-decoration-color: #111 !important;
+    text-decoration-thickness: 2px !important;
+    text-decoration-style: solid !important;
+  }
+
+ 
+  .pc-bottom-link.is-active,
+  .pc-plus-btn.is-active,
+  .pc-brand-btn.is-active,
+  .pc-cart-btn.is-active {
+    color: #111 !important;
+
+    text-decoration-line: line-through !important;
+    text-decoration-color: #111 !important;
+    text-decoration-thickness: 2px !important;
+    text-decoration-style: solid !important;
+  }
+
+   .pc-info-content img {
+    display: block;
+
+    width: 72vw !important;
+    max-width: 280px !important;
+    height: auto !important;
+
+    margin: 18px auto 0 !important;
+    object-fit: contain;
+  }
+
+}
+
+/* =========================================================
+   Star trail: always on top
+   ========================================================= */
+#trailCanvas.trail-canvas,
+.trail-canvas {
+  z-index: 99999 !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 768px) {
+
+  .pc-info-panel.is-explain .pc-info-content,
+  .pc-info-panel.is-privacy .pc-info-content {
+    position: fixed !important;
+
+    top: 118px !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 48px !important;
+
+    width: auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+
+    padding-bottom: 24px;
+  }
+
+  .pc-info-panel.is-scene .pc-info-content,
+  .pc-info-panel.is-object-info .pc-info-content {
+    position: fixed !important;
+
+    left: 8px !important;
+    right: 8px !important;
+    bottom: 48px !important;
+    top: auto !important;
+
+    width: auto !important;
+  }
+body:has(.pc-info-panel.is-open):not(:has(.pc-info-panel.is-object-info.is-open)) #canvas-home {
+  filter: blur(10px);
+  transition: filter 0s ease;
+}
+  
 }
