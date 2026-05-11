@@ -272,8 +272,10 @@ const MODELS = [
 The object rotates without origin, detached from its initial context.
 What remains is a surface — carrying traces of time, light, and contact.`,
 
-  location: `Kyoto, Japan
+  location: [`Statue: Kyoto, Japan
 35.0116° N / 135.7681° E`,
+`Statue: Kyoto, Japan
+35.0116° N / 135.7681° E`,],
 
   credit: `3D scan and reconstruction by Locomotion™.
 Derived from physical environments and processed into digital form.

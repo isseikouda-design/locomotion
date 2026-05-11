@@ -2338,7 +2338,7 @@ body.sp-info-open .locus{
   .pc-info-close {
     display: block !important;
     position: fixed;
-    top: 64px;
+    top: 124px;
     right: 10px;
     z-index: 9999;
 
@@ -2363,13 +2363,13 @@ body.sp-info-open .locus{
   }
 
   .pc-info-content h2 {
-    font-size: 24px;
+    font-size: 28px;
     line-height: 1;
     margin: 0 0 4px;
   }
 
   .pc-info-content p {
-    font-size: 16px;
+    font-size: 20px;
     line-height: 1.08;
     margin: 0 0 4px;
   }
@@ -2427,7 +2427,7 @@ body.sp-info-open .locus{
   .pc-info-panel.is-privacy .pc-info-content {
     position: fixed !important;
 
-    top: 118px !important;
+    top: 140px !important;
     left: 8px !important;
     right: 8px !important;
     bottom: 48px !important;
@@ -2451,7 +2451,7 @@ body.sp-info-open .locus{
     width: auto !important;
   }
 body:has(.pc-info-panel.is-open):not(:has(.pc-info-panel.is-object-info.is-open)) #canvas-home {
-  filter: blur(10px);
+  filter: blur(15px);
   transition: filter 0s ease;
 }
   
