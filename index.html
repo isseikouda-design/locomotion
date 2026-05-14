@@ -15,31 +15,14 @@
 />
 </head>
 <body>
-  <!-- 上部ナビ（既存の nav でも OK） -->
-<!-- === Top Navigation (fixed) === -->
-<nav class="topnav" aria-label="global navigation">
-  <div class="topnav__inner">
-    <div class="nav-left">
-      <a href="#" class="pill" data-panel="list">SCENE/OBJECT</a>
-    </div>
-
-    <div class="nav-center" aria-label="site title">
-      <span class="brand">Locomotion™</span>
-    </div>
-
-    <div class="nav-right">
-      <a href="#" class="pill" data-panel="about">ABOUT/CONTACT</a>
-    </div>
-  </div>
-</nav>
 
 <!-- =========================
-     SP UI (Scene) - NEW
+     PC / SP Flat UI
 ========================= -->
 
 <header class="pc-flat-ui">
   <div class="pc-flat-top">
-    <button class="pc-brand-btn" type="button" data-pc-panel="about">
+    <button class="pc-brand-btn" type="button" data-panel="about">
       Locomotion™ 💫💫💫
     </button>
 
@@ -56,6 +39,9 @@
 <div class="pc-scene-row">
   <button id="pcPlusBtn" class="pc-plus-btn" type="button">{🏃🏃🏃}</button>
   <nav id="pcSceneStrip" class="pc-scene-strip" aria-label="scene navigation"></nav>
+  <button class="pc-list-btn" type="button" data-panel="list">
+  [LIST]
+</button>
 </div>
 
 <div id="pcPlusText" class="pc-plus-text" aria-hidden="true">
@@ -65,7 +51,9 @@
 </div>
 </header>
 
-  <!-- 中央の3D（今の main-fixed.js が描画する canvas のままでOK） -->
+<!-- =========================
+     3D Canvas
+========================= -->
   <canvas id="canvas-home"></canvas>
 
 <nav class="pc-bottom-links" aria-label="pc bottom actions">
@@ -90,25 +78,13 @@
   <div id="pcInfoContent" class="pc-info-content"></div>
 </section>
 
- 
-
-  <!-- ★ 下部の散らばりリンク置き場 -->
   
-
   <script type="module" src="main-fixed.js"></script>
  
- <script>
-  const tag = document.createElement('div');
-  tag.textContent = 'DEV (tweak-1)';
-  Object.assign(tag.style, {
-    position: 'fixed', right: '8px', top: '8px',
-    background: 'rgba(0,0,0,.6)', color: '#fff',
-    padding: '6px 10px', font: '12px/1.2 system-ui, sans-serif',
-    borderRadius: '6px', zIndex: 99999
-  });
-  document.body.appendChild(tag);
-  </script>
-  <!-- === Overlay (共通) === -->
+
+<!-- =========================
+     Overlay / Modal System
+========================= -->
   <div class="overlay" id="overlay" aria-hidden="true">
     <div class="overlay__backdrop" data-overlay-close></div>
     <section class="overlay__window" role="dialog" aria-modal="true" aria-labelledby="overlayTitle">
@@ -119,98 +95,14 @@
       <div class="overlay__content" id="overlayContent"></div>
     </section>
   </div>
-<!-- === Bottom Ticker === -->
- <!-- 例：あなたの既存ティッカー最外divに追加 -->
-
-<div class="ticker" aria-label="site ticker" data-ticker>
-  <div class="ticker__mask">
-    <!-- 本体（テキストはここを編集） -->
-    <div class="ticker__track" id="tickerTrack" data-speed="65">
-      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
-      <span class="ticker__sep">•</span>
-      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
-      <span class="ticker__sep">•</span>
-      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
-      <span class="ticker__sep">•</span>
-      <span class="ticker__item">Everybody’s doin’ a brand-new dance, now. 💫💫💫</span>
-      <span class="ticker__sep">•</span>
-      
-    </div>
-    <!-- 無限ループ用のクローン（JSが複製します） -->
-    <div class="ticker__track ticker__track--clone" id="tickerClone"></div>
-  </div>
-</div>
 
 
-<script>
-/* ===== Ticker init（幅に合わせた完全ループ） =====
-   - data-speed: px/秒（数値が大きいほど速い）
-   - テキストは #tickerTrack 内の .ticker__item を編集
-*/
-(function () {
-  const track = document.getElementById('tickerTrack');
-  const clone = document.getElementById('tickerClone');
-  if (!track || !clone) return;
-
-  // クローンを生成（中身をコピー）
-  clone.innerHTML = track.innerHTML;
-
-  // スクロール速度（px/秒）
-  const speed = Number(track.dataset.speed || 60);
-
-  // 一度描画後に幅取得
-  requestAnimationFrame(() => {
-    const w = track.scrollWidth;      // コンテンツ全体の幅(px)
-    if (!w) return;
-
-    // 1周にかかる時間（秒）
-    const duration = w / speed;
-
-    // CSS変数にセット（時間）
-    track.style.setProperty('--ticker-duration', `${duration}s`);
-    clone.style.setProperty('--ticker-duration', `${duration}s`);
-
-    // CSS変数にセット（移動距離：コンテンツ幅ぶん左へ）
-    const translate = `-${w}px`;
-    track.style.setProperty('--ticker-translate', translate);
-    clone.style.setProperty('--ticker-translate', translate);
-
-    // クローンの開始位置：本体の右端ぴったり
-    clone.style.left = `${w}px`;
-  });
-
-  // ホバーで一時停止（保険）
-  const mask = document.querySelector('.ticker__mask');
-  mask?.addEventListener('mouseenter', () => {
-    track.style.animationPlayState = 'paused';
-    clone.style.animationPlayState = 'paused';
-  });
-  mask?.addEventListener('mouseleave', () => {
-    track.style.animationPlayState = 'running';
-    clone.style.animationPlayState = 'running';
-  });
-})();
-</script>
-
-
-<!-- === Symbols (click target for star trail) === -->
-<!-- === Symbols (click target for star trail) === -->
-<img
-  src="locus_01.png"
-  data-open-src="locus_01.png"
-  data-close-src="close_01.png"
-  alt="" id="locusTopRight"  class="locus locus--rt"  width="200" height="200" />
-
-<img
-  src="locus_02.png"
-  data-open-src="locus_02.png"
-  data-close-src="close_02.png"
-  alt="" id="locusBottomLeft" class="locus locus--lb"  width="200" height="200" />
-
-<!-- === Fullscreen star trail canvas === -->
+<!-- =========================
+     Star Trail Canvas
+========================= -->
 <canvas id="trailCanvas" class="trail-canvas" aria-hidden="true"></canvas>
 
-<!-- 星トレイル本体 -->
+<!-- Star Trail Script -->
 <script src="trail.js" defer></script>
 
 

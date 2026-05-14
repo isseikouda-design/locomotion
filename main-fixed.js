@@ -29,19 +29,13 @@ let pendingPanelToOpen = null;
 const scene = new THREE.Scene();
 addCommonLights(scene);
 
-const WORLD_AXES = {
-  x: new THREE.Vector3(1, 0, 0),
-  y: new THREE.Vector3(0, 1, 0),
-  z: new THREE.Vector3(0, 0, 1),
-};
-
 const canvasEl = document.getElementById('canvas-home');
 const renderer = new THREE.WebGLRenderer({
   canvas: canvasEl,
   alpha: true,
   antialias: true,
 });
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
@@ -49,7 +43,7 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
    環境マップ (HDR)
 ========================= */
 const rgbeLoader = new RGBELoader();
-rgbeLoader.load('env.hdr', (hdrTex) => {
+rgbeLoader.load('./assets/hdr/env.hdr', (hdrTex) => {
   hdrTex.mapping = THREE.EquirectangularReflectionMapping;
 
   const pmremGen = new THREE.PMREMGenerator(renderer);
@@ -240,7 +234,7 @@ const MODELS = [
   /* ===== scene 系 ===== */
   {
     id: 'scene001',
-    glb: 'scene001.glb',
+    glb: './assets/models/scene001.glb',
     goObjectId: 'object001',
     scale: 0.7,
     margin: 0.7,
@@ -265,27 +259,34 @@ const MODELS = [
       pivotOffset: { x: 0, y: 0.2, z: 0 },
       cam: { pos: { x: 3, y: 5, z: 6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
-    info: {
+   info: {
   title: 'scene001',
-
-  description: `A fragment of space, extracted and repositioned.
-The object rotates without origin, detached from its initial context.
-What remains is a surface — carrying traces of time, light, and contact.`,
-
-  location: [`Statue: Kyoto, Japan
-35.0116° N / 135.7681° E`,
-`Statue: Kyoto, Japan
-35.0116° N / 135.7681° E`,],
-
-  credit: `3D scan and reconstruction by Locomotion™.
-Derived from physical environments and processed into digital form.
-Licensed materials follow CC BY 4.0 where applicable.`
+  description: ``,
+  location: [
+    `Burnt site model: Sumber Rejo, Wirowongso, Ajung, Jember, East Java, Indonesia
+-8.217939, 113.688243`,
+    `Cabbage model: Whalley Range, Manchester, United Kingdom
+53.447491, -2.257835`,
+    `Pedestal model: Shimogyo Ward, Kyoto, Japan
+35.003806, 135.762572`,
+    `Statue model: Shimogyo Ward, Kyoto, Japan
+35.003660, 135.766309`,
+    `Plant model: Otabicho, Shimogyo Ward, Kyoto, Japan
+35.003705, 135.768439`
+  ],
+  credit: [
+    `Burnt site model by VariegatedBeacon528. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Cabbage model by UrsaMinor. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Pedestal model by SageDreamwalker1529. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Statue model by SageDreamwalker1529. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Plant model by SageDreamwalker1529. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
 }
     
   },
   {
     id: 'scene002',
-    glb: 'scene002.glb',
+    glb: './assets/models/scene002.glb',
     goObjectId: 'object002',
     scale: 0.25,
     margin: 1.1,
@@ -301,10 +302,27 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: -0.1, y: 0, z: 0 },
       cam: { pos: { x: -3, y: 11, z: -12 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene002',
+  description: ``,
+  location: [
+    `Concrete block model: 55 Boulevard de l'Europe, 31700 Beauzelle, France
+43.662498, 1.366819`,
+    `Burnt site model: Sumber Rejo, Wirowongso, Ajung, Jember, East Java, Indonesia
+-8.217939, 113.688243`,
+    `Toy sword model: Gong'an Village, Huwei Township, Yunlin County, Taiwan 632
+23.711418, 120.435367`
+  ],
+  credit: [
+    `Concrete block model by Syntax. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Burnt site model by VariegatedBeacon528. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Toy sword model by Linklub. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene003',
-    glb: 'scene003.glb',
+    glb: './assets/models/scene003.glb',
     goObjectId: 'object003',
     scale: 0.35,
     margin: 1.3,
@@ -320,10 +338,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0, y: -0.3, z: 0 },
       cam: { pos: { x: -12, y: 10, z: -5 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene003',
+  description: ``,
+  location: [
+    `YMCA Ott Pool model: Broadway Proper, Tucson, Arizona, United States 85710
+32.214190, -110.832093`
+  ],
+  credit: [
+    `YMCA Ott Pool model by OmniPools. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene004',
-    glb: 'scene004.glb',
+    glb: './assets/models/scene004.glb',
     goObjectId: 'object004',
     scale: 0.47,
     margin: 1.0,
@@ -339,10 +368,20 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0, y: 0.8, z: 0 },
       cam: { pos: { x: 1, y: 3, z: 3}, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene004',
+  description: ``,
+  location: [
+    `Beach model: 16 Ocean Avenue, Skegness PE25 3DN, United Kingdom`
+  ],
+  credit: [
+    `Beach model by MrBear711. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene005',
-    glb: 'scene005.glb',
+    glb: './assets/models/scene005.glb',
     goObjectId: 'object005',
     scale: 0.15,
     margin: 1.5,
@@ -358,10 +397,25 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0, y: 0.1, z: 0 },
       cam: { pos: { x: -1, y: 8, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene005',
+  description: ``,
+  location: [
+    `Plant and wall model: San Diego, California, United States`,
+    `Cardboard model: South Park, Los Angeles, California, United States 90015
+34.039350, -118.259872`,
+    `Backpack model: Location unknown`
+  ],
+  credit: [
+    `Plant and wall model by Chris. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Cardboard model by Jet_Blaque. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Backpack model by mischavyyy. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene006',
-    glb: 'scene006.glb',
+    glb: './assets/models/scene006.glb',
     goObjectId: 'object006',
     scale: 0.085,
     margin: 1.5,
@@ -377,10 +431,23 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0, y: 0.3, z: 0 },
       cam: { pos: { x: 0, y: 4, z: -10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene006',
+  description: ``,
+  location: [
+    `Feet model: 1396 Capital Drive, Fond du Lac, Wisconsin 54937, United States`,
+    `Road model: Albemarle County, Virginia, United States
+38.148513, -78.269106`
+  ],
+  credit: [
+    `Feet model by OmniscientOwl1093. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Road model by Clayton56. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene007',
-    glb: 'scene007.glb',
+    glb: './assets/models/scene007.glb',
     goObjectId: 'object007',
     scale: 0.5,
     margin: 1.45,
@@ -396,10 +463,20 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0.03, y: 0.3, z: 0 },
       cam: { pos: { x: 3, y: 14, z: 6.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene007',
+  description: ``,
+  location: [
+    `Goat and grassland model: Location unknown`
+  ],
+  credit: [
+    `Goat and grassland model by SynapticJavelin3179. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene008',
-    glb: 'scene008.glb',
+    glb: './assets/models/scene008.glb',
     goObjectId: 'object008',
     scale: 0.3,
     margin: 0.95,
@@ -415,10 +492,20 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0.5, y: 1.2, z: 0 },
       cam: { pos: { x: 0, y: 1, z: 3 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene007',
+  description: ``,
+  location: [
+    `Goat and grassland model: Location unknown`
+  ],
+  credit: [
+    `Goat and grassland model by SynapticJavelin3179. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
   {
     id: 'scene009',
-    glb: 'scene009.glb',
+    glb: './assets/models/scene009.glb',
     goObjectId: 'object009',
     scale: 0.3,
     margin: 0.9,
@@ -434,12 +521,25 @@ Licensed materials follow CC BY 4.0 where applicable.`
       pivotOffset: { x: 0, y: 0.1, z: 0 },
       cam: { pos: { x: 1, y: 15, z: 1 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
+    info: {
+  title: 'scene009',
+  description: ``,
+  location: [
+    `Seated person model: Chaim Levanon 8, Tel Aviv-Jaffa, Israel
+32.104021, 34.798312`,
+    `Branch model: Romania`
+  ],
+  credit: [
+    `Seated person model by KinglyLantern6004. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`,
+    `Branch model by Hmate. Used under CC BY 4.0. Modified and reconstructed by Locomotion™.`
+  ]
+}
   },
 
   /* ===== object 系 ===== */
 {
   id: 'object001',
-  glb: 'object001.glb',
+  glb: './assets/models/object001.glb',
   detail: 'object001.html',
   scale: 0.6,
   margin: 0.8,
@@ -449,11 +549,7 @@ Licensed materials follow CC BY 4.0 where applicable.`
   cam: { pos: { x: 8.6, y: 4, z: -5.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
   clickMeshName: 'Mesh_0001',
   spin: { whole: true, wholeSpeed: 0.1, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-  info: {
-    title: 'object001',
-    lines: ['"A shard of silence carries the weight of a forgotten spring."', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-  },
-
+   
   sp: {
     scale: 1,
     margin: 1.4,
@@ -465,11 +561,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
+  },
+  info: {
+    title: 'object001',
+    lines: [
+      '"A shard of silence carries the weight of a forgotten spring."',
+      'W90 D90 H90.',
+      'block code resin.',
+      'Buy/Ask'
+    ],
   }
 },
+
   {
     id: 'object002',
-    glb: 'object002.glb',
+    glb: './assets/models/object002.glb',
     detail: 'object002.html',
     scale: 0.7,
     margin: 1.0,
@@ -478,11 +584,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     pivotOffset: { x: 0, y: 0.0, z: 0 },
     cam: { pos: { x: 0, y: 6, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 0.8 },
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT002',
-      lines: ['The wind has traveled far, stripping away color.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-      sp: {
+    
+    sp: {
     scale: 1,
     margin: 2,
     centerMode: 'sphere',
@@ -493,11 +596,23 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+    info: {
+      title: 'object002',
+      lines: [
+        'The wind has traveled far, stripping away color.', 
+        'General Requires / Sales.', 
+        'W90 D90 H90.', 
+        'block code resin.', 
+        'Buy/Ask'
+      ],
+    }
+   
+  },
+
   {
     id: 'object003',
-    glb: 'object003.glb',
+    glb: './assets/models/object003.glb',
     detail: 'object003.html',
     scale: 0.5,
     margin: 1.3,
@@ -507,17 +622,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 6.4, y: 1, z: -7.6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT003',
-      lines: [
-        'The alleys of Lisbon, the kitchens of New York, the sound of rain in Seoul, the houses of Oaxaca, the ruins of Denmark.',
-        'General Requires / Sales.',
-        'W90 D90 H90.',
-        'block code resin.',
-        'Buy/Ask',
-      ],
-    },
-     sp: {
+    
+    sp: {
     scale: 1,
     margin: 1.6,
     centerMode: 'sphere',
@@ -528,11 +634,23 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+    info: {
+      title: 'OBJECT003',
+      lines: [
+        'The alleys of Lisbon, the kitchens of New York, the sound of rain in Seoul, the houses of Oaxaca, the ruins of Denmark.',
+        'General Requires / Sales.',
+        'W90 D90 H90.',
+        'block code resin.',
+        'Buy/Ask',
+      ],
+    }
+   
+  },
+
   {
     id: 'object004',
-    glb: 'object004.glb',
+    glb: './assets/models/object004.glb',
     detail: 'object00.html',
     scale: 0.5,
     margin: 0.9,
@@ -542,11 +660,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT004',
-      lines: ['Hooves of the bull, hands of prayer, dry wind—all merged into a single heartbeat upon the stone.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-       sp: {
+ 
+    sp: {
     scale: 1,
     margin: 1.2,
     centerMode: 'sphere',
@@ -557,11 +672,22 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+
+   info: {
+      title: 'OBJECT004',
+      lines: [
+        'Hooves of the bull, hands of prayer, dry wind—all merged into a single heartbeat upon the stone.', 
+        'General Requires / Sales.', 
+        'W90 D90 H90.', 
+        'block code resin.', 
+        'Buy/Ask'],
+    }
+  },
+
   {
     id: 'object005',
-    glb: 'object005.glb',
+    glb: './assets/models/object005.glb',
     detail: 'object00.html',
     scale: 0.7,
     margin: 1,
@@ -571,11 +697,7 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0013', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT005',
-      lines: ['She grew mint between the cracks,and the air always smelled like soup and soil.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-       sp: {
+    sp: {
     scale: 1,
     margin: 1.4,
     centerMode: 'sphere',
@@ -586,11 +708,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+   info: {
+      title: 'OBJECT005',
+      lines: [
+        'She grew mint between the cracks,and the air always smelled like soup and soil.', 
+        'General Requires / Sales.', 
+        'W90 D90 H90.', 
+        'block code resin.',
+         'Buy/Ask'],
+    }
+  },
+
   {
     id: 'object006',
-    glb: 'object006.glb',
+    glb: './assets/models/object006.glb',
     detail: 'object00.html',
     scale: 0.5,
     margin: 0.7,
@@ -600,11 +732,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0013', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT006',
-      lines: ['Years later, in another country,someone holds the fragment and exhales.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-     sp: {
+  
+    sp: {
     scale: 1,
     margin: 2.2,
     centerMode: 'sphere',
@@ -615,12 +744,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
-    
   },
+    info: {
+      title: 'OBJECT006',
+      lines: [
+        'Years later, in another country,someone holds the fragment and exhales.', 
+        'General Requires / Sales.', 
+        'W90 D90 H90.', 
+        'block code resin.',
+        'Buy/Ask'],
+    }
+  },
+
   {
     id: 'object007',
-    glb: 'object007.glb',
+    glb: './assets/models/object007.glb',
     detail: 'object00.html',
     scale: 0.45,
     margin: 0.7,
@@ -630,11 +768,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 12.6, y: 4, z: -1.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT007',
-      lines: ['A shard. His hands were red, cracked from the cold. The air still carried the chill after rain.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-      sp: {
+    
+    sp: {
     scale: 1,
     margin: 1,
     centerMode: 'sphere',
@@ -645,11 +780,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+    info: {
+      title: 'OBJECT007',
+      lines: [
+        'A shard. His hands were red, cracked from the cold. The air still carried the chill after rain.', 
+        'General Requires / Sales.',
+        'W90 D90 H90.',
+        'block code resin.',
+        'Buy/Ask'],
+    }
+  },
+
   {
     id: 'object008',
-    glb: 'object008.glb',
+    glb: './assets/models/object008.glb',
     detail: 'object00.html',
     scale: 0.5,
     margin: 1.3,
@@ -659,11 +804,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 7, y: 2, z: 7.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT008',
-      lines: ['Frogs croaked in the distance,water boiled in the kitchen pot.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-       sp: {
+
+    sp: {
     scale: 1,
     margin: 1.6,
     centerMode: 'sphere',
@@ -674,11 +816,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+   info: {
+      title: 'OBJECT008',
+      lines: [
+        'Frogs croaked in the distance,water boiled in the kitchen pot.', 
+        'General Requires / Sales.', 
+        'W90 D90 H90.', 
+        'block code resin.', 
+        'Buy/Ask'],
+    }
+  },
+
   {
     id: 'object009',
-    glb: 'object009.glb',
+    glb: './assets/models/object009.glb',
     detail: 'object00.html',
     scale: 0.55,
     margin: 0.7,
@@ -688,11 +840,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     cam: { pos: { x: 10, y: 4, z: 0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    info: {
-      title: 'OBJECT009',
-      lines: ['Frogs croaked in the distance,water boiled in the kitchen pot.', 'General Requires / Sales.', 'W90 D90 H90.', 'block code resin.', 'Buy/Ask'],
-    },
-       sp: {
+  
+    sp: {
     scale: 1,
     margin: 1.5,
     centerMode: 'sphere',
@@ -703,11 +852,21 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
   },
+   info: {
+      title: 'OBJECT009',
+      lines: [
+        'Frogs croaked in the distance,water boiled in the kitchen pot.', 
+        'General Requires / Sales.', 
+        'W90 D90 H90.', 
+        'block code resin.', 
+        'Buy/Ask'],
+    }
+  },
+
   {
     id: 'objectXXX',
-    glb: 'objectXXX.glb',
+    glb: './assets/models/objectXXX.glb',
     scale: 0.6,
     margin: 0.8,
     centerMode: 'sphere',
@@ -715,9 +874,8 @@ Licensed materials follow CC BY 4.0 where applicable.`
     pivotOffset: { x: 0, y: 0, z: 0 },
     cam: { pos: { x: 8, y: 4, z: 8 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     spin: { whole: true, wholeSpeed: 0.08 },
-    info: { title: 'objectXXX', lines: ['Details coming soon.'] },
 
-     sp: {
+    sp: {
     scale: 1,
     margin: 1.2,
     centerMode: 'sphere',
@@ -728,13 +886,16 @@ Licensed materials follow CC BY 4.0 where applicable.`
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
-  }
+  },
+  info: { 
+    title: 'objectXXX', 
+    lines: ['Details coming soon.'] }
   },
    
 ];
 
 /* =========================================================
-   ヘルパー
+   Model / Camera Helpers
 ========================================================= */
 function fitOrthoToObject(camera, object, margin = 1.2) {
   const box = new THREE.Box3().setFromObject(object);
@@ -749,25 +910,6 @@ function fitOrthoToObject(camera, object, margin = 1.2) {
 
   camera.zoom = Math.min(needZoomW, needZoomH);
   camera.updateProjectionMatrix();
-}
-
-function refitCurrentSpObjectAfterLayout() {
-  const isSP = window.matchMedia('(max-width: 768px)').matches;
-  if (!isSP) return;
-  if (!currentModel || !currentItem) return;
-  if (!document.body.classList.contains('is-sp-object')) return;
-
-  const spConf = currentItem.sp ?? null;
-  const margin = spConf?.margin ?? currentItem.margin ?? 0.7;
-  const camConf = spConf?.cam ?? currentItem.cam ?? null;
-
-  // ★ object用UIが反映された後のcanvasサイズで再fit
-  fitOrthoToObject(camera, currentModel, margin);
-
-  if (camConf?.zoomMul && camConf.zoomMul !== 1) {
-    camera.zoom *= camConf.zoomMul;
-    camera.updateProjectionMatrix();
-  }
 }
 
 function centerModel(model, mode = 'box', offset = { x: 0, y: 0, z: 0 }) {
@@ -800,7 +942,7 @@ function setOrbitTargetToModelCenter(model, { isMobile, itemId } = {}) {
 }
 
 /* =========================================================
-   ローダ & 差し替え
+   Model Loading / Scene Switching
 ========================================================= */
 const loader = new GLTFLoader();
 
@@ -817,10 +959,6 @@ let currentItem = null;
 let lastSceneId = null;
 let loadRequestId = 0;
 
-// === SP align base (camera/target) ===
-let spBaseCamY = 0;
-let spBaseTargetY = 0;
-let spAlignPending = false;
 
 const isObjectId = (id) => /^object\d{3}$/.test(id) || id === 'objectXXX';
 const isSceneId = (id) => /^scene\d{3}$/.test(id);
@@ -862,169 +1000,6 @@ function clearCurrentModel() {
   currentModel = null;
   currentItem = null;
   currentSpinPart = null;
-}
-
-/* =========================================================
-   DOMヘルパー（info-box / back / guide）
-========================================================= */
-function ensureInfoBox() {
-  let box = document.getElementById('object-info-box');
-  if (!box) {
-    box = document.createElement('div');
-    box.id = 'object-info-box';
-    document.body.appendChild(box);
-  }
-  return box;
-}
-
-function ensureBackButton(sceneId) {
-  if (!sceneId) return;
-
-  let btn = document.getElementById('backToSceneBtn');
-  if (!btn) {
-    btn = document.createElement('button');
-    btn.id = 'backToSceneBtn';
-    document.body.appendChild(btn);
-  }
-
-  btn.textContent = `← Back to ${sceneId}`;
-  btn.style.display = 'block';
-  btn.onclick = () => {
-    loadModelById(sceneId);
-
-    const id3 = sceneId.replace(/^scene/, '');
-    const u = new URL(location.href);
-    u.searchParams.delete('object');
-    u.searchParams.set('scene', id3);
-    history.pushState({ type: 'scene', id: id3 }, '', u);
-  };
-}
-
-function hideBackButton() {
-  const btn = document.getElementById('backToSceneBtn');
-  if (btn) btn.style.display = 'none';
-}
-
-/* =========================
-   Guide Window (movie終了後に一度だけ)
-========================= */
-function ensureGuideWindow() {
-  let gw = document.getElementById('guide-window');
-  if (!gw) {
-    gw = document.createElement('div');
-    gw.id = 'guide-window';
-    gw.innerHTML = `
-      <div class="gw-titlebar">
-        <span class="gw-dots"><i></i><i></i><i></i></span>
-        <span class="gw-url">https://your-site.example/about</span>
-        <button class="gw-close" type="button" aria-label="Close">×</button>
-      </div>
-      <div class="gw-body">
-        <p class="gw-head">Locomotion™</p>
-        <p class="gw-text">Double-clicking on rotating objects on this site</p>
-        <p class="gw-text">will take you to the next page.</p>
-        <p class="gw-emoji">💫💫💫💫💫</p>
-      </div>
-    `;
-    gw.style.display = 'none';
-    document.body.appendChild(gw);
-
-    gw.querySelector('.gw-close')?.addEventListener('click', () => {
-      hideGuideWindow();
-      markGuideSeen();
-    });
-  }
-  return gw;
-}
-
-function showGuideWindow() {
-  const gw = ensureGuideWindow();
-  gw.style.display = 'block';
-  requestAnimationFrame(() => gw.classList.add('show'));
-}
-
-function hideGuideWindow() {
-  const gw = document.getElementById('guide-window');
-  if (!gw) return;
-  gw.classList.remove('show');
-  setTimeout(() => {
-    gw.style.display = 'none';
-  }, 180);
-}
-
-function hasSeenGuide() {
-  return localStorage.getItem('guideSeen') === '1';
-}
-function markGuideSeen() {
-  localStorage.setItem('guideSeen', '1');
-}
-function showGuideWindowOnce() {
-  if (!hasSeenGuide()) showGuideWindow();
-}
-
-/* =========================================================
-   SP: 右下ボタン（Go to object / Back to scene）
-========================================================= */
-function updateSpGotoButton() {
-  const btn = document.querySelector('.sp-action-goto');
-  if (!btn || !currentItem) return;
-
-  const isObj = isObjectId(currentItem.id);
-
-  if (isObj) {
-    const backScene = currentItem.id === 'objectXXX' ? 'scene007' : pairSceneForObject(currentItem.id);
-    btn.textContent = `← Back to ${backScene || 'scene'}`;
-    btn.dataset.mode = 'back';
-    btn.dataset.target = backScene || '';
-  } else {
-    const go = currentItem.goObjectId || '';
-    btn.textContent = go ? `→ Go to ${go}` : '→ Go to object';
-    btn.dataset.mode = 'goto';
-    btn.dataset.target = go;
-  }
-}
-
-function wireSpGotoButton() {
-  const btn = document.querySelector('.sp-action-goto');
-  if (!btn) return;
-
-  btn.addEventListener(
-    'click',
-    (e) => {
-      e.preventDefault();
-      if (!currentItem) return;
-
-      const mode = btn.dataset.mode;
-      const target = btn.dataset.target;
-
-      if (mode === 'back') {
-        if (!target) return;
-
-        loadModelById(target);
-
-        const id3 = target.replace(/^scene/, '');
-        const u = new URL(location.href);
-        u.searchParams.delete('object');
-        u.searchParams.set('scene', id3);
-        history.pushState({ type: 'scene', id: id3 }, '', u);
-        return;
-      }
-
-      const go = target || currentItem.goObjectId;
-      if (!go) return;
-
-      if (isSceneId(currentItem.id)) lastSceneId = currentItem.id;
-
-      loadModelById(go);
-
-      const id3 = go.replace(/^object/, '');
-      const u = new URL(location.href);
-      u.searchParams.delete('scene');
-      u.searchParams.set('object', id3);
-      history.pushState({ type: 'object', id: id3 }, '', u);
-    },
-    { passive: false }
-  );
 }
 
 /* =========================================================
@@ -1114,7 +1089,7 @@ function loadModelById(id) {
       updatePcPlusText();
       updatePcBottomLabels();
 
-      updateSpGotoButton();
+     
 
       // レイアウト選択（PC / SP）
       const spConf = isMobile && item.sp ? item.sp : null;
@@ -1127,7 +1102,7 @@ function loadModelById(id) {
       const camConf = spConf?.cam ?? item.cam ?? null;
       const rotateConf = spConf?.rotate ?? null;
 
-      // リセット
+   
       // リセット
 pivot.rotation.set(0, 0, 0);
 pivot.position.set(0, 0, 0);
@@ -1186,7 +1161,7 @@ camera.updateProjectionMatrix();
         else console.warn('[spin] partName not found:', item.spin.partName);
       }
 
-      // カメラ pos / target
+ 
  // カメラ pos / target
 
 // ★ targetを完全初期化
@@ -1228,25 +1203,6 @@ if (isMobile && isObjectId(item.id)) {
 // ★ UI更新は、model/cameraの準備が終わってから
 window.__spUiUpdate?.(item);
 
-// ★ scene / object ともに同じレイアウト確定ルートに統一
-// if (isMobile) {
-//   syncSpLayoutThenAlign();
-// }
-
-      // info-box / back（今はSP新UIへ移すので常に隠す）
-      const infoBox = ensureInfoBox();
-      infoBox.style.display = 'none';
-
-      hideBackButton();
-      document.body.classList.remove('is-object-page');
-
-      if (isObjectId(item.id)) {
-        hideGuideWindow();
-        markGuideSeen();
-      }
-
-
-      
     },
     undefined,
     (err) => {
@@ -1260,7 +1216,7 @@ window.__spUiUpdate?.(item);
 window.selectModel = loadModelById;
 
 /* =========================================================
-   ホバー：カーソル/発光/アウトライン
+   Hover Highlight / Outline Effects
 ========================================================= */
 const hoverState = { lastMesh: null, lastOrig: new Map() };
 
@@ -1327,15 +1283,13 @@ window.addEventListener('pointermove', (e) => {
 });
 
 /* =========================================================
-   オブジェクトクリック共通処理
-   - PC: dblclick
-   - SP: touch pointerup
+   3D Object Picking / Navigation
 ========================================================= */
 function handlePickAt(ev) {
   if (document.body.classList.contains('modal-open')) return;
 
   const t = ev?.target;
-  if (t && t.closest && t.closest('.topnav, .ticker, .overlay, .sp-ui, .sp-bottom')) return;
+  if (t && t.closest && t.closest('.topnav, .overlay, .sp-ui, .sp-bottom')) return;
 
   const rect = renderer.domElement.getBoundingClientRect();
   const clientX = ev.clientX;
@@ -1379,7 +1333,7 @@ window.addEventListener('pointerup', (event) => {
 });
 
 /* =========================================================
-   ループ
+   Render Loop / Animation
 ========================================================= */
 function animate() {
   requestAnimationFrame(animate);
@@ -1423,7 +1377,7 @@ function animate() {
 animate();
 
 /* =========================================================
-   SP UI wiring
+   PC / SP UI System
 ========================================================= */
 
 function buildPcSceneStrip() {
@@ -1459,8 +1413,18 @@ function renderPcInfo(item) {
     info.lines?.[0] ||
     'Information coming soon.';
 
-  const location = info.location || '';
-  const credit = info.credit || '';
+ const location = Array.isArray(info.location)
+  ? info.location.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
+  : info.location
+    ? `<div class="pc-info-item">${info.location}</div>`
+    : '';
+
+const credit = Array.isArray(info.credit)
+  ? info.credit.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
+  : info.credit
+    ? `<div class="pc-info-item">${info.credit}</div>`
+    : '';
+
   const material = info.material || info.lines?.[2] || '';
   const size = info.size || info.lines?.[1] || '';
   const price = info.price || '';
@@ -1473,8 +1437,8 @@ function renderPcInfo(item) {
 
     <p>${description}</p>
 
-    ${location ? `<p><strong>Location:</strong><br>${location}</p>` : ''}
-    ${credit ? `<p><strong>Credit:</strong><br>${credit}</p>` : ''}
+    ${location ? `<div class="pc-info-block"><strong>Location:</strong>${location}</div>` : ''}
+${credit ? `<div class="pc-info-block"><strong>Credit:</strong>${credit}</div>` : ''}
 
     ${isObject && material ? `<p><strong>Material:</strong><br>${material}</p>` : ''}
     ${isObject && size ? `<p><strong>Size:</strong><br>${size}</p>` : ''}
@@ -1557,11 +1521,7 @@ panel.className = isObject
   starsBtn?.addEventListener('click', (e) => {
     e.preventDefault();
 
-    const locus =
-      document.getElementById('locusTopRight') ||
-      document.getElementById('locusBottomLeft');
-
-    locus?.click();
+    window.toggleStarTrail?.();
 
     requestAnimationFrame(() => {
       const isOn =
@@ -1590,7 +1550,7 @@ openPanel(explainBtn, `
     The project treats navigation, product display, and spatial memory as one
     continuous movement.
   </p>
-  <img src="about_image_1.jpeg" alt="">
+  <img src="./assets/images/about_image_1.jpeg" alt="">
 `, 'explain');
   });
 
@@ -1719,7 +1679,7 @@ window.addEventListener('popstate', () => {
 });
 
 /* =========================================================
-   Overlay Manager
+   Overlay / Modal System
 ========================================================= */
 (function () {
   const overlay = document.getElementById('overlay');
@@ -1823,42 +1783,9 @@ window.addEventListener('popstate', () => {
       return;
     }
 
-    // ===== Movie =====
-    if (panel === 'movie') {
-      titleEl.textContent = '';
-      contentEl.innerHTML = `
-        <div class="movie-frame">
-          <video id="introMovie" autoplay muted loop playsinline preload="auto">
-            <source src="intro.mp4" type="video/mp4" />
-          </video>
-        </div>
-      `;
+    console.warn('[overlay] unknown panel:', panel);
+return;
 
-      const v = contentEl.querySelector('#introMovie');
-      v?.play?.().catch(() => {});
-
-      const unlock = () => {
-        v?.play?.().catch(() => {});
-        window.removeEventListener('pointerdown', unlock);
-      };
-      window.addEventListener('pointerdown', unlock, { once: true });
-
-      const u = new URL(location.href);
-      u.searchParams.set('panel', panel);
-      history.pushState({ type: 'panel', panel }, '', u);
-
-      const tc = document.getElementById('trailCanvas');
-      tc?.classList.add('on-top', 'force-visible');
-      return;
-    }
-
-    // デフォルト
-    titleEl.textContent = String(panel).toUpperCase();
-    contentEl.innerHTML = `<p>${panel} content goes here</p>`;
-
-    const u = new URL(location.href);
-    u.searchParams.set('panel', panel);
-    history.pushState({ type: 'panel', panel }, '', u);
   }
 
   function closePanel() {
@@ -1871,12 +1798,6 @@ window.addEventListener('popstate', () => {
 
     lockBody(false);
     setRenderPaused(false);
-
-    if (closed === 'movie') {
-      showGuideWindowOnce();
-      const tc = document.getElementById('trailCanvas');
-      tc?.classList.remove('on-top', 'force-visible');
-    }
 
     const u = new URL(location.href);
     u.searchParams.delete('panel');
@@ -1897,45 +1818,18 @@ window.addEventListener('popstate', () => {
       return;
     }
 
-    if (e.target.classList.contains('overlay__backdrop') && currentPanel !== 'movie') {
-      closePanel();
-    }
+    if (e.target.classList.contains('overlay__backdrop')) {
+  closePanel();
+}
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
-      if (currentPanel !== 'movie') closePanel();
-    }
+  closePanel();
+}
   });
 
   window.openOverlayPanel = openPanel;
-
-  // ティッカークリックでmovie（PC側）
-  (function wireTickerToMovie() {
-    const ticker = document.querySelector('[data-ticker]');
-    if (!ticker) return;
-
-    let ticking = false;
-    ticker.addEventListener(
-      'click',
-      (e) => {
-        if (ticking) return;
-        e.preventDefault();
-        ticking = true;
-
-        const u = new URL(location.href);
-        u.searchParams.set('panel', 'movie');
-        history.pushState({ type: 'panel', panel: 'movie' }, '', u);
-
-        window.openOverlayPanel?.('movie');
-
-        setTimeout(() => {
-          ticking = false;
-        }, 300);
-      },
-      { passive: false }
-    );
-  })();
 
   // URLに panel があったら開く
   if (pendingPanelToOpen) {
@@ -1944,15 +1838,6 @@ window.addEventListener('popstate', () => {
   }
 })();
 
-/* =========================================================
-   初回ロード時：panel指定が無ければmovieを開く
-========================================================= */
-window.addEventListener('load', () => {
-  const u = new URL(location.href);
-  if (!u.searchParams.get('panel')) {
-    window.openOverlayPanel?.('movie');
-  }
-});
 
 /* =========================================================
    SP: touchmove → mousemove を trail が拾えるように代理発火

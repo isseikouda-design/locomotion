@@ -193,30 +193,13 @@ function clearStars() {
   window.addEventListener('pointerup', handleUp, { passive: true });
   window.addEventListener('pointercancel', handleUp, { passive: true });
 
-  // ===== シンボル画像のトグル =====
-  const imgRT = document.getElementById('locusTopRight');
-  const imgLB = document.getElementById('locusBottomLeft');
-
-  function swapToClose(img, toClose) {
-    if (!img) return;
-    const openSrc  = img.getAttribute('data-open-src');
-    const closeSrc = img.getAttribute('data-close-src');
-    if (openSrc && closeSrc) {
-      img.src = toClose ? closeSrc : openSrc;
-      img.dataset.state = toClose ? 'close' : 'open';
-    }
-  }
-
+  
   function activate() {
-    setTrailActive(true);
-    swapToClose(imgRT, true);
-    swapToClose(imgLB, true);
-  }
+  setTrailActive(true);
+}
   // 既存の deactivate() を これに差し替え
 function deactivate() {
   setTrailActive(false);
-  swapToClose(imgRT, false);
-  swapToClose(imgLB, false);
 
   // ★ 星（キャンバス）をクリアして完全に消す
   clearStars();
@@ -226,20 +209,10 @@ function deactivate() {
   nextStep = pickStep();
 }
 
-  function onSymbolClick(e) {
-    e.preventDefault();
-    e.stopPropagation(); // 親のクリック（動画オーバーレイ等）に伝播させない
-    const target = e.currentTarget;
-    const state = target?.dataset.state || 'open';
-    if (state === 'open') activate();
-    else                  deactivate();
-  }
-
-  // 初期状態セット＆イベント
-  swapToClose(imgRT, false);
-  swapToClose(imgLB, false);
-  imgRT?.addEventListener('click', onSymbolClick);
-  imgLB?.addEventListener('click', onSymbolClick);
+  window.toggleStarTrail = function () {
+  if (trailActive) deactivate();
+  else activate();
+};
 
   // もし “キャンバスをダブルクリックで全消し” したくなったら↓
   // canvas.addEventListener('dblclick', () => {
