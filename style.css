@@ -976,7 +976,7 @@ body.has-trails #trailCanvas,
     padding-bottom: 24px;
   }
 
-  .pc-info-panel.is-scene .pc-info-content,
+.pc-info-panel.is-scene .pc-info-content,
 .pc-info-panel.is-object-info .pc-info-content {
   position: fixed !important;
 
@@ -987,7 +987,7 @@ body.has-trails #trailCanvas,
 
   width: auto !important;
 
-  max-height: calc(100vh - 200px) !important;
+  max-height: calc(100dvh - 200px) !important;
 
   overflow-y: auto !important;
   overflow-x: hidden !important;
