@@ -1432,6 +1432,12 @@ const credit = Array.isArray(info.credit)
 
   const isObject = isObjectId(item.id);
 
+  panel.classList.toggle('is-scene001-info', item.id === 'scene001');
+panel.classList.toggle(
+  'is-other-scene-info',
+  isSceneId(item.id) && item.id !== 'scene001'
+);
+
   content.innerHTML = `
     <h2>${title}</h2>
 
@@ -1884,3 +1890,18 @@ document.addEventListener('click', (e) => {
 
   loadModelById(btn.dataset.pcJump);
 });
+
+function updateSpUiHeights() {
+  const topUi = document.querySelector('.pc-flat-ui');
+  const bottomUi = document.querySelector('.pc-bottom-links');
+
+  const topH = topUi ? topUi.getBoundingClientRect().height : 120;
+  const bottomH = bottomUi ? bottomUi.getBoundingClientRect().height : 48;
+
+  document.documentElement.style.setProperty('--sp-top-ui-height', `${topH}px`);
+  document.documentElement.style.setProperty('--sp-bottom-ui-height', `${bottomH}px`);
+}
+
+updateSpUiHeights();
+window.addEventListener('resize', updateSpUiHeights);
+window.addEventListener('orientationchange', updateSpUiHeights);
