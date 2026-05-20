@@ -1532,11 +1532,11 @@ function renderPcInfo(item) {
 
   const title = info.title || item.id;
 
-  const description =
-    info.description ||
-    info.poem ||
-    info.lines?.[0] ||
-    'Information coming soon.';
+ const description =
+  info.description ||
+  info.poem ||
+  info.lines?.[0] ||
+  '';
 
   const location = Array.isArray(info.location)
     ? info.location.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
