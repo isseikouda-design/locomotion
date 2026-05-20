@@ -546,30 +546,56 @@ const MODELS = [
   centerMode: 'sphere',
   offset: { x: 0, y: 0, z: 0 },
   pivotOffset: { x: 0, y: 0.0, z: 0 },
-  cam: { pos: { x: 8.6, y: 4, z: -5.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+  cam: {
+    pos: { x: 8.6, y: 4, z: -5.0 },
+    target: { x: 0, y: 0, z: 0 },
+    zoomMul: 1.0
+  },
+
   clickMeshName: 'Mesh_0001',
-  spin: { whole: true, wholeSpeed: 0.1, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-   
+
+  spin: {
+    whole: true,
+    wholeSpeed: 0.1,
+    part: true,
+    partName: 'Mesh_0',
+    partSpeed: 1.0
+  },
+
   sp: {
     scale: 1,
     margin: 1.4,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
+
     cam: {
       pos: { x: 10.6, y: 4, z: -5.0 },
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
   },
+
   info: {
     title: 'object001',
-    lines: [
-      '"A shard of silence carries the weight of a forgotten spring."',
-      'W90 D90 H90.',
-      'block code resin.',
-      'Buy/Ask'
-    ],
+
+    poem:
+      'In the heat of midday, white dust drifted down from a crumbling wall. Workers silently swung their hammers, dismantling the old building piece by piece. Car horns echoed through the street, while the smell of grilled meat drifted from a nearby shop. In the distance, the call to Adhān began to rise, and hot sand rode the wind, settling softly around my feet.',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(/Buy/)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
   }
 },
 
@@ -597,16 +623,28 @@ const MODELS = [
       zoomMul: 1.0
     }
   },
+
     info: {
-      title: 'object002',
-      lines: [
-        'The wind has traveled far, stripping away color.', 
-        'General Requires / Sales.', 
-        'W90 D90 H90.', 
-        'block code resin.', 
-        'Buy/Ask'
-      ],
-    }
+    title: 'object002',
+
+    poem:
+      'In a place where even the sound of birds could not reach, only the old steel beams held onto the heat. The roof, which had been baking all day, still glowed white even as evening fell, and the shards of glass scattered across the floor reflected the sky with a delayed glow. Deep inside the empty warehouse, a severed cable swayed in the wind, leaving behind a faint scraping sound with every movement.',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(/Buy/)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
    
   },
 
@@ -635,16 +673,28 @@ const MODELS = [
       zoomMul: 1.0
     }
   },
-    info: {
-      title: 'OBJECT003',
-      lines: [
-        'The alleys of Lisbon, the kitchens of New York, the sound of rain in Seoul, the houses of Oaxaca, the ruins of Denmark.',
-        'General Requires / Sales.',
-        'W90 D90 H90.',
-        'block code resin.',
-        'Buy/Ask',
-      ],
-    }
+    
+  info: {
+    title: 'object003',
+
+    poem:
+      'On the highway visible in the distance, cars flow ceaselessly westward. An old man stands in the apartment hallway, staring intently at the lights. Is the Ford in the parking lot outside—which hasn’t moved in ages—his? The old man doesn’t light a cigarette; he just rolls the lighter between his fingers.',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
    
   },
 
@@ -675,14 +725,26 @@ const MODELS = [
   },
 
    info: {
-      title: 'OBJECT004',
-      lines: [
-        'Hooves of the bull, hands of prayer, dry wind—all merged into a single heartbeat upon the stone.', 
-        'General Requires / Sales.', 
-        'W90 D90 H90.', 
-        'block code resin.', 
-        'Buy/Ask'],
-    }
+    title: 'object004',
+
+    poem:
+      '“Where are you going once you get out of here?” “West.” “Everyone’s heading west.” “I hear the sky’s wider over there.” “Are you going to see the ocean or something?” “Probably.” “What do you mean, ‘probably’?” “I’ve never seen the ocean before.”',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
   },
 
   {
@@ -710,14 +772,26 @@ const MODELS = [
     }
   },
    info: {
-      title: 'OBJECT005',
-      lines: [
-        'She grew mint between the cracks,and the air always smelled like soup and soil.', 
-        'General Requires / Sales.', 
-        'W90 D90 H90.', 
-        'block code resin.',
-         'Buy/Ask'],
-    }
+    title: 'object005',
+
+    poem:
+      '“Mint grew in the cracks, and the air always smelled of soup and soil. It was like a greenhouse that had been left untouched for a long time. There was a tea ring on the old table. Someone must have spent many long afternoons here.”',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
   },
 
   {
@@ -745,15 +819,27 @@ const MODELS = [
       zoomMul: 1.0
     }
   },
-    info: {
-      title: 'OBJECT006',
-      lines: [
-        'Years later, in another country,someone holds the fragment and exhales.', 
-        'General Requires / Sales.', 
-        'W90 D90 H90.', 
-        'block code resin.',
-        'Buy/Ask'],
-    }
+   info: {
+    title: 'object006',
+
+    poem:
+      '“After the fire had passed, the woman was searching for flowers in the church’s ash-covered garden, where restoration work had been completed. She crouched down and touched the soil. A cold dampness lingered on her fingertips. Just then, she heard the sound of a door opening behind her. When she turned around, a young restorer was looking at her. “Did you drop something?” The woman thought for a moment, then replied, “I’m looking for the flowers that used to bloom here.” The restorer was silent for a moment, then said, “After the fire, only weeds grow here now.””',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
   },
 
   {
@@ -781,15 +867,27 @@ const MODELS = [
       zoomMul: 1.0
     }
   },
-    info: {
-      title: 'OBJECT007',
-      lines: [
-        'A shard. His hands were red, cracked from the cold. The air still carried the chill after rain.', 
-        'General Requires / Sales.',
-        'W90 D90 H90.',
-        'block code resin.',
-        'Buy/Ask'],
-    }
+     info: {
+    title: 'object007',
+
+    poem:
+      '“After the snow melted, I found the bones of a small bird at the bottom of the forest. The feathers were gone, and only the slender white ribs stood out against the damp fallen leaves. I crouched there for a while, staring at those tiny bones. I couldn’t do anything.I just stared.””',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
   },
 
   {
@@ -818,14 +916,26 @@ const MODELS = [
     }
   },
    info: {
-      title: 'OBJECT008',
-      lines: [
-        'Frogs croaked in the distance,water boiled in the kitchen pot.', 
-        'General Requires / Sales.', 
-        'W90 D90 H90.', 
-        'block code resin.', 
-        'Buy/Ask'],
-    }
+    title: 'object008',
+
+    poem:
+      '“Three o’clock in the afternoon. I walk along the riverbank, the plastic bags from my shopping trip swaying in my hand.White futons are lined up on the balconies of the apartment complex across the way, waiting patiently to be brought inside once it gets dark. Once, long ago, I climbed up to the roof of that complex.Looking down at the city after a light rain, it seemed incredibly dull, as if it had been coated in layer upon layer of flat, gray paint.””',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
   },
 
   {
@@ -854,14 +964,26 @@ const MODELS = [
     }
   },
    info: {
-      title: 'OBJECT009',
-      lines: [
-        'Frogs croaked in the distance,water boiled in the kitchen pot.', 
-        'General Requires / Sales.', 
-        'W90 D90 H90.', 
-        'block code resin.', 
-        'Buy/Ask'],
-    }
+    title: 'object008',
+
+    poem:
+      '“Before dawn, the station was shrouded in a white haze of coal smoke and cold fog. The long-distance train was two hours late. On the platform sat sleepy-eyed soldiers and families wrapped in blankets. The border was just a short distance away, and the checkpoints would open as soon as daybreak arrived. A mother touched her sleeping child’s forehead, and an old man silently stubbed out his cigarette. The sky began to lighten slightly. Beyond the gray snowfield, only a watchtower stood slenderly.””',
+
+    material:
+      'Block, code, resin',
+
+    size:
+      'W90 D90 H90',
+
+    weight:
+      '320g',
+
+    contact:
+      '(Buy)',
+
+    notes:
+      'Do not get this object wet. Also, do not leave it in a humid place.'
+  }
   },
 
   {
@@ -1406,37 +1528,41 @@ function renderPcInfo(item) {
   if (!panel || !content || !item) return;
 
   const info = item.info || {};
+  const isObject = isObjectId(item.id);
 
   const title = info.title || item.id;
+
   const description =
     info.description ||
+    info.poem ||
     info.lines?.[0] ||
     'Information coming soon.';
 
- const location = Array.isArray(info.location)
-  ? info.location.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
-  : info.location
-    ? `<div class="pc-info-item">${info.location}</div>`
-    : '';
+  const location = Array.isArray(info.location)
+    ? info.location.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
+    : info.location
+      ? `<div class="pc-info-item">${info.location}</div>`
+      : '';
 
-const credit = Array.isArray(info.credit)
-  ? info.credit.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
-  : info.credit
-    ? `<div class="pc-info-item">${info.credit}</div>`
-    : '';
+  const credit = Array.isArray(info.credit)
+    ? info.credit.map((v) => `<div class="pc-info-item">${v}</div>`).join('')
+    : info.credit
+      ? `<div class="pc-info-item">${info.credit}</div>`
+      : '';
 
-  const material = info.material || info.lines?.[2] || '';
-  const size = info.size || info.lines?.[1] || '';
+  const material = info.material || info.lines?.[3] || '';
+  const size = info.size || info.lines?.[2] || '';
+  const weight = info.weight || '';
   const price = info.price || '';
+  const notes = info.notes || '';
+  const contact = info.contact || info.lines?.[4] || 'Buy/Ask';
   const email = info.email || 'info@locomotion.com';
 
-  const isObject = isObjectId(item.id);
-
   panel.classList.toggle('is-scene001-info', item.id === 'scene001');
-panel.classList.toggle(
-  'is-other-scene-info',
-  isSceneId(item.id) && item.id !== 'scene001'
-);
+  panel.classList.toggle(
+    'is-other-scene-info',
+    isSceneId(item.id) && item.id !== 'scene001'
+  );
 
   content.innerHTML = `
     <h2>${title}</h2>
@@ -1444,17 +1570,20 @@ panel.classList.toggle(
     <p>${description}</p>
 
     ${location ? `<div class="pc-info-block"><strong>Location:</strong>${location}</div>` : ''}
-${credit ? `<div class="pc-info-block"><strong>Credit:</strong>${credit}</div>` : ''}
+    ${credit ? `<div class="pc-info-block"><strong>Credit:</strong>${credit}</div>` : ''}
 
     ${isObject && material ? `<p><strong>Material:</strong><br>${material}</p>` : ''}
     ${isObject && size ? `<p><strong>Size:</strong><br>${size}</p>` : ''}
+    ${isObject && weight ? `<p><strong>Weight:</strong><br>${weight}</p>` : ''}
     ${isObject && price ? `<p><strong>Price:</strong><br>${price}</p>` : ''}
 
-    ${
-      isObject
-        ? `<p><a href="mailto:${email}">Buy / Ask</a></p>`
-        : ''
-    }
+    ${isObject && notes ? `<p><strong>Important Notes:</strong><br>${notes}</p>` : ''}
+
+${
+  isObject && contact
+    ? `<p><a href="mailto:${email}">${contact}</a></p>`
+    : ''
+}
   `;
 }
 

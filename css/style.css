@@ -4,7 +4,7 @@
 /* style.css の先頭あたり */
 @font-face {
   font-family: "Bitcount Grid Single Ink";
-  src: url("./fonts/BitcountGridSingleInk.ttf") format("truetype");
+  src: url("../fonts/BitcountGridSingleInk.ttf") format("truetype");
   font-weight: 100 900; /* ← レンジを宣言（可変フォント） */
   font-style: normal;
   font-display: swap; /* チラつき防止・読み込み待ちの挙動改善 */
@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: "Instrument Serif";
-  src: url("/assets/fonts/InstrumentSerif-Regular.ttf") format("truetype");
+  src: url("../fonts/InstrumentSerif-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -20,26 +20,26 @@
 
 @font-face {
   font-family: "Americana";
-  src: url("/assets/fonts/Americana-Regular.otf") format("opentype");
+  src: url("../fonts/Americana-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "LibreBaskervilleVar";
-  src: url("LibreBaskerville-VariableFont_wght.ttf") format("truetype");
+  src: url("../fonts/LibreBaskerville-VariableFont_wght.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "OutfitVar";
-  src: url("Outfit-VariableFont_wght.ttf") format("truetype");
+  src: url("../fonts/Outfit-VariableFont_wght.ttf") format("truetype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "PlayfairVar";
-  src: url("PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
+  src: url("../fonts/PlayfairDisplay-VariableFont_wght.ttf") format("truetype");
   font-style: normal;
 }
 
@@ -531,7 +531,7 @@ body.has-trails #trailCanvas,
 
 .pc-info-content h2 {
   margin: 0 0 4px;
-  font-size: 42px;
+  font-size: 34px;
   line-height: 1;
   font-weight: 700;
 }
@@ -960,21 +960,24 @@ body.has-trails #trailCanvas,
 ========================================================= */
 @media (max-width: 768px) {
 
-  .pc-info-panel.is-explain .pc-info-content,
-  .pc-info-panel.is-privacy .pc-info-content {
-    position: fixed !important;
+.pc-info-panel.is-explain .pc-info-content,
+.pc-info-panel.is-privacy .pc-info-content {
+  position: fixed !important;
 
-    top: 140px !important;
-    left: 8px !important;
-    right: 8px !important;
-    bottom: 48px !important;
+  top: var(--sp-top-ui-height, 120px) !important;
+  left: 8px !important;
+  right: 8px !important;
+  bottom: var(--sp-bottom-ui-height, 48px) !important;
 
-    width: auto !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+  width: auto !important;
 
-    padding-bottom: 24px;
-  }
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+
+  padding-top: 24px !important;
+  padding-bottom: 16px !important;
+  box-sizing: border-box !important;
+}
 
 .pc-info-panel.is-scene .pc-info-content,
 .pc-info-panel.is-object-info .pc-info-content {
@@ -991,6 +994,10 @@ body.has-trails #trailCanvas,
 
   overflow-y: auto !important;
   overflow-x: hidden !important;
+
+  padding-top: 24px !important;
+  padding-bottom: 16px !important;
+  box-sizing: border-box !important;
   
 }
 .pc-info-panel.is-scene001-info .pc-info-content {
@@ -1019,7 +1026,7 @@ body.has-trails #trailCanvas,
   display: block;
   margin-bottom: 4px;
 
-  font-size: 20px;
+  font-size: 23px;
   line-height: 1;
 
   font-weight: 700;
