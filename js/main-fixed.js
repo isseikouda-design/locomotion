@@ -234,7 +234,7 @@ const MODELS = [
   /* ===== scene 系 ===== */
   {
     id: 'scene001',
-    glb: './assets/models/scene001.glb',
+    glb: './assets/models/scene001_opt.glb',
     goObjectId: 'object001',
     scale: 0.7,
     margin: 0.7,
@@ -286,7 +286,7 @@ const MODELS = [
   },
   {
     id: 'scene002',
-    glb: './assets/models/scene002.glb',
+    glb: './assets/models/scene002_opt.glb',
     goObjectId: 'object002',
     scale: 0.25,
     margin: 1.1,
@@ -322,7 +322,7 @@ const MODELS = [
   },
   {
     id: 'scene003',
-    glb: './assets/models/scene003.glb',
+    glb: './assets/models/scene003_opt.glb',
     goObjectId: 'object003',
     scale: 0.35,
     margin: 1.3,
@@ -352,7 +352,7 @@ const MODELS = [
   },
   {
     id: 'scene004',
-    glb: './assets/models/scene004.glb',
+    glb: './assets/models/scene004_opt.glb',
     goObjectId: 'object004',
     scale: 0.47,
     margin: 1.0,
@@ -381,7 +381,7 @@ const MODELS = [
   },
   {
     id: 'scene005',
-    glb: './assets/models/scene005.glb',
+    glb: './assets/models/scene005_opt.glb',
     goObjectId: 'object005',
     scale: 0.15,
     margin: 1.5,
@@ -415,7 +415,7 @@ const MODELS = [
   },
   {
     id: 'scene006',
-    glb: './assets/models/scene006.glb',
+    glb: './assets/models/scene006_opt.glb',
     goObjectId: 'object006',
     scale: 0.085,
     margin: 1.5,
@@ -447,7 +447,7 @@ const MODELS = [
   },
   {
     id: 'scene007',
-    glb: './assets/models/scene007.glb',
+    glb: './assets/models/scene007_opt.glb',
     goObjectId: 'object007',
     scale: 0.5,
     margin: 1.45,
@@ -476,14 +476,14 @@ const MODELS = [
   },
   {
     id: 'scene008',
-    glb: './assets/models/scene008.glb',
+    glb: './assets/models/scene008_opt.glb',
     goObjectId: 'object008',
     scale: 0.3,
     margin: 0.95,
     centerMode: 'sphere',
     pivotOffset: { x: 0.85, y: 1, z: 0 },
     cam: { pos: { x: 0, y: 1.5, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0007',
+    clickMeshName: 'Mesh_0001',
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.1,
@@ -493,7 +493,7 @@ const MODELS = [
       cam: { pos: { x: 0, y: 1, z: 3 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
-  title: 'scene007',
+  title: 'scene008',
   description: ``,
   location: [
     `Goat and grassland model: Location unknown`
@@ -505,7 +505,7 @@ const MODELS = [
   },
   {
     id: 'scene009',
-    glb: './assets/models/scene009.glb',
+    glb: './assets/models/scene009_opt.glb',
     goObjectId: 'object009',
     scale: 0.3,
     margin: 0.9,
@@ -540,7 +540,6 @@ const MODELS = [
 {
   id: 'object001',
   glb: './assets/models/object001.glb',
-  detail: 'object001.html',
   scale: 0.6,
   margin: 0.8,
   centerMode: 'sphere',
@@ -602,7 +601,6 @@ const MODELS = [
   {
     id: 'object002',
     glb: './assets/models/object002.glb',
-    detail: 'object002.html',
     scale: 0.7,
     margin: 1.0,
     centerMode: 'sphere',
@@ -651,7 +649,6 @@ const MODELS = [
   {
     id: 'object003',
     glb: './assets/models/object003.glb',
-    detail: 'object003.html',
     scale: 0.5,
     margin: 1.3,
     centerMode: 'sphere',
@@ -690,7 +687,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
@@ -701,7 +698,6 @@ const MODELS = [
   {
     id: 'object004',
     glb: './assets/models/object004.glb',
-    detail: 'object00.html',
     scale: 0.5,
     margin: 0.9,
     centerMode: 'sphere',
@@ -740,7 +736,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
@@ -750,7 +746,6 @@ const MODELS = [
   {
     id: 'object005',
     glb: './assets/models/object005.glb',
-    detail: 'object00.html',
     scale: 0.7,
     margin: 1,
     centerMode: 'sphere',
@@ -787,7 +782,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
@@ -797,7 +792,6 @@ const MODELS = [
   {
     id: 'object006',
     glb: './assets/models/object006.glb',
-    detail: 'object00.html',
     scale: 0.5,
     margin: 0.7,
     centerMode: 'sphere',
@@ -835,7 +829,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
@@ -845,7 +839,6 @@ const MODELS = [
   {
     id: 'object007',
     glb: './assets/models/object007.glb',
-    detail: 'object00.html',
     scale: 0.45,
     margin: 0.7,
     centerMode: 'sphere',
@@ -883,7 +876,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
@@ -893,7 +886,6 @@ const MODELS = [
   {
     id: 'object008',
     glb: './assets/models/object008.glb',
-    detail: 'object00.html',
     scale: 0.5,
     margin: 1.3,
     centerMode: 'sphere',
@@ -931,7 +923,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
@@ -941,7 +933,6 @@ const MODELS = [
   {
     id: 'object009',
     glb: './assets/models/object009.glb',
-    detail: 'object00.html',
     scale: 0.55,
     margin: 0.7,
     centerMode: 'sphere',
@@ -964,7 +955,7 @@ const MODELS = [
     }
   },
    info: {
-    title: 'object008',
+    title: 'object009',
 
     poem:
       '“Before dawn, the station was shrouded in a white haze of coal smoke and cold fog. The long-distance train was two hours late. On the platform sat sleepy-eyed soldiers and families wrapped in blankets. The border was just a short distance away, and the checkpoints would open as soon as daybreak arrived. A mother touched her sleeping child’s forehead, and an old man silently stubbed out his cigarette. The sky began to lighten slightly. Beyond the gray snowfield, only a watchtower stood slenderly.””',
@@ -979,7 +970,7 @@ const MODELS = [
       '320g',
 
     contact:
-      '(Buy)',
+      '(/Buy/)',
 
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
