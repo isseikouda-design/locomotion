@@ -1054,6 +1054,23 @@ function setOrbitTargetToModelCenter(model, { isMobile, itemId } = {}) {
   controls.update();
 }
 
+function showModelLoading(id) {
+  const el = document.getElementById('modelLoading');
+  if (!el) return;
+
+  el.textContent = 'We are on the move...';
+
+  el.classList.add('is-visible');
+  el.setAttribute('aria-hidden', 'false');
+}
+
+function hideModelLoading() {
+  const el = document.getElementById('modelLoading');
+  if (!el) return;
+
+  el.classList.remove('is-visible');
+  el.setAttribute('aria-hidden', 'true');
+}
 /* =========================================================
    Model Loading / Scene Switching
 ========================================================= */
@@ -1158,6 +1175,8 @@ function setupPartPivotForItem(model, item, { isMobile }) {
    モデル読み込み本体
 ========================================================= */
 function loadModelById(id) {
+
+  showModelLoading(id);
 
   const requestId = ++loadRequestId;
 
@@ -1315,12 +1334,14 @@ if (isMobile && isObjectId(item.id)) {
 
 // ★ UI更新は、model/cameraの準備が終わってから
 window.__spUiUpdate?.(item);
+hideModelLoading();
 
     },
     undefined,
     (err) => {
-      console.error('[GLTFLoader] failed:', item.glb, err);
-    }
+  console.error('[GLTFLoader] failed:', item.glb, err);
+  hideModelLoading();
+}
   );
   
 }
