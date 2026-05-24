@@ -1058,8 +1058,6 @@ function showModelLoading(id) {
   const el = document.getElementById('modelLoading');
   if (!el) return;
 
-  el.textContent = 'We are on the move...';
-
   el.classList.add('is-visible');
   el.setAttribute('aria-hidden', 'false');
 }
