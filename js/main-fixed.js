@@ -25,6 +25,7 @@ let rotSpeed = 0.2;
 let currentSpinPart = null;
 let currentPartPivot = null; // ★ 部分回転用の専用 Pivot
 let pendingPanelToOpen = null;
+let shouldRestorePlusTextAfterLoading = false;
 
 const scene = new THREE.Scene();
 addCommonLights(scene);
@@ -1053,8 +1054,41 @@ function setOrbitTargetToModelCenter(model, { isMobile, itemId } = {}) {
   controls.target.copy(centerWorld);
   controls.update();
 }
+function closePcPlusText() {
+  const btn = document.getElementById('pcPlusBtn');
+  const text = document.getElementById('pcPlusText');
+
+  if (!btn || !text) return;
+
+  text.classList.remove('is-open');
+  text.setAttribute('aria-hidden', 'true');
+  btn.classList.remove('is-active');
+}
+
+function isPcPlusTextOpen() {
+  const text = document.getElementById('pcPlusText');
+  return !!text?.classList.contains('is-open');
+}
+
+function openPcPlusText() {
+  const btn = document.getElementById('pcPlusBtn');
+  const text = document.getElementById('pcPlusText');
+
+  if (!btn || !text) return;
+
+  updatePcPlusText();
+
+  text.classList.add('is-open');
+  text.setAttribute('aria-hidden', 'false');
+
+  btn.classList.add('is-active');
+}
 
 function showModelLoading(id) {
+  shouldRestorePlusTextAfterLoading = isPcPlusTextOpen();
+
+  closePcPlusText();
+
   const el = document.getElementById('modelLoading');
   if (!el) return;
 
@@ -1068,6 +1102,12 @@ function hideModelLoading() {
 
   el.classList.remove('is-visible');
   el.setAttribute('aria-hidden', 'true');
+
+  if (shouldRestorePlusTextAfterLoading) {
+    openPcPlusText();
+  }
+
+  shouldRestorePlusTextAfterLoading = false;
 }
 /* =========================================================
    Model Loading / Scene Switching
