@@ -31,7 +31,8 @@
     </a>
 
     <button class="pc-cart-btn" type="button">
-  (open the cart)
+  <span class="pc-cart-label">(open the cart)</span>
+  <span class="pc-cart-count" aria-hidden="true"></span>
 </button>
 
   </div>
@@ -88,6 +89,21 @@
   <div id="pcInfoContent" class="pc-info-content"></div>
 </section>
 
+<section id="cartPanel" class="cart-panel" aria-hidden="true">
+  <button id="cartClose" class="cart-close" type="button">×</button>
+
+  <div class="cart-content">
+    <h2>Cart</h2>
+
+    <div id="cartItems" class="cart-items">
+      <p>Your cart is empty.</p>
+    </div>
+
+    <button id="cartCheckoutBtn" class="cart-checkout-btn" type="button">
+      Checkout
+    </button>
+  </div>
+</section>
   
   <script type="module" src="./js/main-fixed.js"></script>
  

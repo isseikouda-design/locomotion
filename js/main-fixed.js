@@ -591,6 +591,15 @@ const MODELS = [
     weight:
       '320g',
 
+     productId:
+      'object001',
+
+    productName:
+      'object001',
+
+    price:
+      32000,
+
     contact:
       '(/Buy/)',
 
@@ -637,6 +646,15 @@ const MODELS = [
 
     weight:
       '320g',
+    
+    productId:
+      'object002',
+
+    productName:
+      'object002',
+
+    price:
+      32000,
 
     contact:
       '(/Buy/)',
@@ -686,6 +704,15 @@ const MODELS = [
 
     weight:
       '320g',
+    
+    productId:
+      'object003',
+
+    productName:
+      'object003',
+
+    price:
+      32000,
 
     contact:
       '(/Buy/)',
@@ -736,6 +763,15 @@ const MODELS = [
     weight:
       '320g',
 
+    productId:
+      'object004',
+
+    productName:
+      'object004',
+
+    price:
+      32000,
+
     contact:
       '(/Buy/)',
 
@@ -781,6 +817,15 @@ const MODELS = [
 
     weight:
       '320g',
+
+   productId:
+      'object005',
+
+    productName:
+      'object005',
+
+    price:
+      32000,
 
     contact:
       '(/Buy/)',
@@ -829,6 +874,15 @@ const MODELS = [
     weight:
       '320g',
 
+    productId:
+      'object006',
+
+    productName:
+      'object006',
+
+    price:
+      32000,
+
     contact:
       '(/Buy/)',
 
@@ -875,6 +929,15 @@ const MODELS = [
 
     weight:
       '320g',
+
+    productId:
+      'object007',
+
+    productName:
+      'object007',
+
+    price:
+      32000,
 
     contact:
       '(/Buy/)',
@@ -923,6 +986,15 @@ const MODELS = [
     weight:
       '320g',
 
+    productId:
+      'object008',
+
+    productName:
+      'object008',
+
+    price:
+      32000,
+
     contact:
       '(/Buy/)',
 
@@ -969,6 +1041,15 @@ const MODELS = [
 
     weight:
       '320g',
+
+    productId:
+      'object009',
+
+    productName:
+      'object009',
+
+    price:
+      32000,
 
     contact:
       '(/Buy/)',
@@ -1625,16 +1706,36 @@ function renderPcInfo(item) {
     ${isObject && material ? `<p><strong>Material:</strong><br>${material}</p>` : ''}
     ${isObject && size ? `<p><strong>Size:</strong><br>${size}</p>` : ''}
     ${isObject && weight ? `<p><strong>Weight:</strong><br>${weight}</p>` : ''}
-    ${isObject && price ? `<p><strong>Price:</strong><br>${price}</p>` : ''}
+    ${
+  isObject && price
+    ? `<p><strong>Price:</strong><br>¥${Number(price).toLocaleString()}</p>`
+    : ''
+}
 
     ${isObject && notes ? `<p><strong>Important Notes:</strong><br>${notes}</p>` : ''}
 
 ${
-  isObject && contact
-    ? `<p><a href="mailto:${email}">${contact}</a></p>`
+  isObject
+    ? `
+      <p>
+        <button
+          class="buy-btn"
+          data-product-id="${item.id}"
+        >
+          ${contact}
+        </button>
+      </p>
+    `
     : ''
 }
   `;
+
+  const buyBtn = content.querySelector('.buy-btn');
+
+buyBtn?.addEventListener('click', () => {
+  addToCart(item.id);
+openCartPanel();
+});
 }
 
 
@@ -1765,6 +1866,260 @@ openPanel(explainBtn, `
     closePanel();
   });
 })();
+
+/* =========================================================
+   Cart UI
+========================================================= */
+
+
+const CART_STORAGE_KEY = 'locomotion_cart';
+
+function getCart() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+}
+
+function addToCart(productId) {
+  const cart = getCart();
+
+  const existing = cart.find((item) => item.productId === productId);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      productId,
+      quantity: 1,
+    });
+  }
+
+  saveCart(cart);
+renderCart();
+updateCartCount();
+
+  console.log('cart:', cart);
+}
+function updateCartQuantity(productId, delta) {
+  const cart = getCart();
+
+  const item = cart.find(
+    (item) => item.productId === productId
+  );
+
+  if (!item) return;
+
+  item.quantity += delta;
+
+  if (item.quantity <= 0) {
+    removeFromCart(productId);
+    return;
+  }
+
+  saveCart(cart);
+  renderCart();
+  updateCartCount();
+}
+
+function removeFromCart(productId) {
+  const cart = getCart().filter(
+    (item) => item.productId !== productId
+  );
+
+  saveCart(cart);
+  renderCart();
+  updateCartCount();
+
+  console.log('cart:', cart);
+}
+
+function updateCartCount() {
+  const cartBtn = document.querySelector('.pc-cart-btn');
+  if (!cartBtn) return;
+
+  const countEl = cartBtn.querySelector('.pc-cart-count');
+  if (!countEl) return;
+
+  const count = getCart().reduce((sum, item) => {
+    return sum + item.quantity;
+  }, 0);
+
+  countEl.textContent = count > 0 ? String(count) : '';
+  cartBtn.classList.toggle('has-count', count > 0);
+}
+
+function renderCart() {
+  const cartItems = document.getElementById('cartItems');
+  if (!cartItems) return;
+
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    cartItems.innerHTML = `
+      <p>Your cart is empty.</p>
+    `;
+    return;
+  }
+
+  const total = cart.reduce((sum, item) => {
+  const model = MODELS.find(
+    (m) => m.info?.productId === item.productId
+  );
+
+  const price = Number(model?.info?.price || 0);
+
+  return sum + price * item.quantity;
+}, 0);
+
+  cartItems.innerHTML = cart
+  .map((item) => {
+
+    const model = MODELS.find(
+      (m) => m.info?.productId === item.productId
+    );
+
+    const name =
+      model?.info?.productName || item.productId;
+
+    const price =
+      model?.info?.price || 0;
+
+    return `
+  <div class="cart-item">
+    <div>${name}</div>
+    <div>¥${Number(price).toLocaleString()}</div>
+    <div class="cart-qty-row">
+  <button
+    class="cart-qty-btn"
+    data-minus="${item.productId}"
+  >
+    −
+  </button>
+
+  <span>
+    ${item.quantity}
+  </span>
+
+  <button
+    class="cart-qty-btn"
+    data-plus="${item.productId}"
+  >
+    +
+  </button>
+</div>
+    <button
+      class="cart-remove-btn"
+      type="button"
+      data-product-id="${item.productId}"
+    >
+      remove
+    </button>
+  </div>
+`;
+  })
+  .join('') +
+  `
+    <div class="cart-total">
+      <div>Total</div>
+      <div>¥${total.toLocaleString()}</div>
+    </div>
+  `;
+
+
+cartItems.querySelectorAll('.cart-remove-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    removeFromCart(btn.dataset.productId);
+  });
+});
+
+cartItems.querySelectorAll('[data-minus]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    updateCartQuantity(btn.dataset.minus, -1);
+  });
+});
+
+cartItems.querySelectorAll('[data-plus]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    updateCartQuantity(btn.dataset.plus, 1);
+  });
+});
+}
+
+
+function openCartPanel() {
+  const panel = document.getElementById('cartPanel');
+  const cartBtn = document.querySelector('.pc-cart-btn');
+
+  if (!panel) return;
+
+  renderCart();
+
+  panel.classList.add('is-open');
+  panel.setAttribute('aria-hidden', 'false');
+
+  cartBtn?.classList.add('is-active');
+}
+
+function closeCartPanel() {
+  const panel = document.getElementById('cartPanel');
+  const cartBtn = document.querySelector('.pc-cart-btn');
+
+  if (!panel) return;
+
+  panel.classList.remove('is-open');
+  panel.setAttribute('aria-hidden', 'true');
+
+  cartBtn?.classList.remove('is-active');
+}
+
+(function wireCartPanel() {
+  const cartBtn = document.querySelector('.pc-cart-btn');
+  const closeBtn = document.getElementById('cartClose');
+
+  cartBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const panel = document.getElementById('cartPanel');
+    const isOpen = panel?.classList.contains('is-open');
+
+    if (isOpen) closeCartPanel();
+    else openCartPanel();
+  });
+
+  closeBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    closeCartPanel();
+  });
+})();
+updateCartCount();
+
+function updatePcUiHeights() {
+  const topUi = document.querySelector('.pc-flat-ui');
+  const bottomUi = document.querySelector('.pc-bottom-links');
+
+  const topHeight = topUi ? topUi.offsetHeight : 96;
+  const bottomHeight = bottomUi ? bottomUi.offsetHeight : 48;
+
+  document.documentElement.style.setProperty(
+    '--pc-top-ui-height',
+    `${topHeight}px`
+  );
+
+  document.documentElement.style.setProperty(
+    '--pc-bottom-ui-height',
+    `${bottomHeight}px`
+  );
+}
+
+updatePcUiHeights();
+window.addEventListener('resize', updatePcUiHeights);
+
 (function wirePcPlusText() {
   const btn = document.getElementById('pcPlusBtn');
   const text = document.getElementById('pcPlusText');
