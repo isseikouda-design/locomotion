@@ -2077,10 +2077,36 @@ function closeCartPanel() {
 
   cartBtn?.classList.remove('is-active');
 }
+async function goToCheckout() {
+  const cart = getCart();
+
+  if (!cart.length) {
+    alert('Cart is empty');
+    return;
+  }
+
+  const res = await fetch('/api/create-checkout-session', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ items: cart })
+  });
+
+  const data = await res.json();
+
+  if (data.url) {
+    window.location.href = data.url;
+  } else {
+    alert('Checkout failed');
+    console.error(data);
+  }
+}
 
 (function wireCartPanel() {
   const cartBtn = document.querySelector('.pc-cart-btn');
   const closeBtn = document.getElementById('cartClose');
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
 
   cartBtn?.addEventListener('click', (e) => {
     e.preventDefault();
@@ -2096,6 +2122,9 @@ function closeCartPanel() {
     e.preventDefault();
     closeCartPanel();
   });
+
+  checkoutBtn?.addEventListener('click', goToCheckout);
+  
 })();
 updateCartCount();
 
