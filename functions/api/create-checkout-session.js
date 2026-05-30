@@ -1,78 +1,63 @@
-import Stripe from 'stripe';
-
 const PRODUCTS = {
-  object001: {
-    name: 'object001',
-    price: 32000,
-  },
-  object002: {
-    name: 'object002',
-    price: 32000,
-  },
-  object003: {
-    name: 'object003',
-    price: 32000,
-  },
-  object004: {
-    name: 'object004',
-    price: 32000,
-  },
-  object005: {
-    name: 'object005',
-    price: 32000,
-  },
-  object006: {
-    name: 'object006',
-    price: 32000,
-  },
-  object007: {
-    name: 'object007',
-    price: 32000,
-  },
-  object008: {
-    name: 'object008',
-    price: 32000,
-  },
-  object009: {
-    name: 'object009',
-    price: 32000,
-  },
+  object001: { name: 'object001', price: 32000 },
+  object002: { name: 'object002', price: 32000 },
+  object003: { name: 'object003', price: 32000 },
+  object004: { name: 'object004', price: 32000 },
+  object005: { name: 'object005', price: 32000 },
+  object006: { name: 'object006', price: 32000 },
+  object007: { name: 'object007', price: 32000 },
+  object008: { name: 'object008', price: 32000 },
+  object009: { name: 'object009', price: 32000 },
 };
 
 export async function onRequestPost(context) {
-  const stripe = new Stripe(context.env.STRIPE_SECRET_KEY);
+  try {
+    const { items } = await context.request.json();
 
-  const { items } = await context.request.json();
-
-  const line_items = items.map((item) => {
-    const product = PRODUCTS[item.productId];
-
-    if (!product) {
-      throw new Error(`Unknown product: ${item.productId}`);
+    if (!Array.isArray(items) || items.length === 0) {
+      return Response.json({ error: 'Cart is empty' }, { status: 400 });
     }
 
-    return {
-      price_data: {
-        currency: 'jpy',
-        product_data: {
-          name: product.name,
-        },
-        unit_amount: product.price,
+    const origin = new URL(context.request.url).origin;
+    const body = new URLSearchParams();
+
+    body.append('mode', 'payment');
+    body.append('success_url', `${origin}/index.html?checkout=success`);
+    body.append('cancel_url', `${origin}/index.html?checkout=cancel`);
+
+    items.forEach((item, index) => {
+      const product = PRODUCTS[item.productId];
+
+      if (!product) {
+        throw new Error(`Unknown product: ${item.productId}`);
+      }
+
+      body.append(`line_items[${index}][price_data][currency]`, 'jpy');
+      body.append(`line_items[${index}][price_data][product_data][name]`, product.name);
+      body.append(`line_items[${index}][price_data][unit_amount]`, String(product.price));
+      body.append(`line_items[${index}][quantity]`, String(item.quantity));
+    });
+
+    const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${context.env.STRIPE_SECRET_KEY}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      quantity: item.quantity,
-    };
-  });
+      body,
+    });
 
-  const origin = new URL(context.request.url).origin;
+    const data = await res.json();
 
-  const session = await stripe.checkout.sessions.create({
-    mode: 'payment',
-    line_items,
-    success_url: `${origin}/index.html?checkout=success`,
-    cancel_url: `${origin}/index.html?checkout=cancel`,
-  });
+    if (!res.ok) {
+      return Response.json(data, { status: res.status });
+    }
 
-  return Response.json({
-    url: session.url,
-  });
+    return Response.json({ url: data.url });
+  } catch (err) {
+    return Response.json(
+      { error: err.message || 'Checkout failed' },
+      { status: 500 }
+    );
+  }
 }
