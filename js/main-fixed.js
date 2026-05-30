@@ -1904,6 +1904,22 @@ function addToCart(productId) {
 renderCart();
 updateCartCount();
 
+function handleCheckoutResult() {
+  const url = new URL(window.location.href);
+  const checkout = url.searchParams.get('checkout');
+
+  if (checkout === 'success') {
+    localStorage.removeItem(CART_STORAGE_KEY);
+    renderCart();
+    updateCartCount();
+
+    url.searchParams.delete('checkout');
+    window.history.replaceState({}, '', url);
+  }
+}
+
+handleCheckoutResult();
+
   console.log('cart:', cart);
 }
 function updateCartQuantity(productId, delta) {
@@ -2124,7 +2140,7 @@ async function goToCheckout() {
   });
 
   checkoutBtn?.addEventListener('click', goToCheckout);
-  
+
 })();
 updateCartCount();
 
