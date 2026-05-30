@@ -1874,6 +1874,21 @@ openPanel(explainBtn, `
 
 const CART_STORAGE_KEY = 'locomotion_cart';
 
+function handleCheckoutResult() {
+  const url = new URL(window.location.href);
+  const checkout = url.searchParams.get('checkout');
+
+  if (checkout === 'success') {
+    localStorage.removeItem(CART_STORAGE_KEY);
+    renderCart();
+    updateCartCount();
+
+    url.searchParams.delete('checkout');
+    window.history.replaceState({}, '', url);
+  }
+}
+
+
 function getCart() {
   try {
     return JSON.parse(localStorage.getItem(CART_STORAGE_KEY)) || [];
@@ -1903,22 +1918,6 @@ function addToCart(productId) {
   saveCart(cart);
 renderCart();
 updateCartCount();
-
-function handleCheckoutResult() {
-  const url = new URL(window.location.href);
-  const checkout = url.searchParams.get('checkout');
-
-  if (checkout === 'success') {
-    localStorage.removeItem(CART_STORAGE_KEY);
-    renderCart();
-    updateCartCount();
-
-    url.searchParams.delete('checkout');
-    window.history.replaceState({}, '', url);
-  }
-}
-
-handleCheckoutResult();
 
   console.log('cart:', cart);
 }
@@ -2143,6 +2142,7 @@ async function goToCheckout() {
 
 })();
 updateCartCount();
+handleCheckoutResult();
 
 function updatePcUiHeights() {
   const topUi = document.querySelector('.pc-flat-ui');
@@ -2484,3 +2484,5 @@ function updateSpUiHeights() {
 updateSpUiHeights();
 window.addEventListener('resize', updateSpUiHeights);
 window.addEventListener('orientationchange', updateSpUiHeights);
+
+handleCheckoutResult();
