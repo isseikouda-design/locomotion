@@ -24,6 +24,9 @@ export async function onRequestPost(context) {
     body.append('mode', 'payment');
     body.append('success_url', `${origin}/index.html?checkout=success`);
     body.append('cancel_url', `${origin}/index.html?checkout=cancel`);
+    body.append('billing_address_collection', 'required');
+
+body.append('shipping_address_collection[allowed_countries][0]', 'JP');
 
     items.forEach((item, index) => {
       const product = PRODUCTS[item.productId];
