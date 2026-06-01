@@ -1881,18 +1881,16 @@ function showCheckoutMessage(type) {
   if (!text) return;
 
   if (type === 'success') {
-    text.innerHTML = `
-      <p>Thank you for your order.</p>
-      <p>Your purchase has been successfully completed.</p>
-    `;
-  }
+  text.innerHTML = `
+    <p>(Thank you for your order.)</p>
+  `;
+}
 
-  if (type === 'cancel') {
-    text.innerHTML = `
-      <p>Checkout was canceled.</p>
-      <p>Your cart is still saved.</p>
-    `;
-  }
+if (type === 'cancel') {
+  text.innerHTML = `
+    <p>(Checkout was canceled.)</p>
+  `;
+}
 
   text.classList.add('is-open');
   text.setAttribute('aria-hidden', 'false');
