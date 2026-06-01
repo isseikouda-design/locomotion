@@ -19,13 +19,28 @@ export async function onRequestPost(context) {
     }
 
     const origin = new URL(context.request.url).origin;
-    const body = new URLSearchParams();
+const body = new URLSearchParams();
 
-    body.append('mode', 'payment');
-    body.append('success_url', `${origin}/index.html?checkout=success`);
-    body.append('cancel_url', `${origin}/index.html?checkout=cancel`);
-    body.append('billing_address_collection', 'required');
+const orderItems = items.map((item) => {
+  const product = PRODUCTS[item.productId];
 
+  if (!product) {
+    throw new Error(`Unknown product: ${item.productId}`);
+  }
+
+  return {
+    productId: item.productId,
+    name: product.name,
+    price: product.price,
+    quantity: item.quantity,
+  };
+});
+
+body.append('mode', 'payment');
+body.append('metadata[items_json]', JSON.stringify(orderItems));
+body.append('success_url', `${origin}/index.html?checkout=success`);
+body.append('cancel_url', `${origin}/index.html?checkout=cancel`);
+body.append('billing_address_collection', 'required');
 body.append('shipping_address_collection[allowed_countries][0]', 'JP');
 
     items.forEach((item, index) => {
