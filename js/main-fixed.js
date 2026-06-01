@@ -1190,6 +1190,7 @@ function hideModelLoading() {
 
   shouldRestorePlusTextAfterLoading = false;
 }
+
 /* =========================================================
    Model Loading / Scene Switching
 ========================================================= */
@@ -1454,6 +1455,10 @@ if (isMobile && isObjectId(item.id)) {
 // ★ UI更新は、model/cameraの準備が終わってから
 window.__spUiUpdate?.(item);
 hideModelLoading();
+if (pendingCheckoutMessage) {
+  showCheckoutMessage(pendingCheckoutMessage);
+  pendingCheckoutMessage = null;
+}
 
     },
     undefined,
@@ -1871,6 +1876,7 @@ openPanel(explainBtn, `
    Cart UI
 ========================================================= */
 
+let pendingCheckoutMessage = null;
 
 const CART_STORAGE_KEY = 'locomotion_cart';
 
@@ -1910,23 +1916,23 @@ function handleCheckoutResult() {
   const checkout = url.searchParams.get('checkout');
 
   if (checkout === 'success') {
-    localStorage.removeItem(CART_STORAGE_KEY);
-    renderCart();
-    updateCartCount();
+  localStorage.removeItem(CART_STORAGE_KEY);
+  renderCart();
+  updateCartCount();
 
-    showCheckoutMessage('success');
+  pendingCheckoutMessage = 'success';
 
-    url.searchParams.delete('checkout');
-    window.history.replaceState({}, '', url);
-    return;
-  }
+  url.searchParams.delete('checkout');
+  window.history.replaceState({}, '', url);
+  return;
+}
 
-  if (checkout === 'cancel') {
-    showCheckoutMessage('cancel');
+if (checkout === 'cancel') {
+  pendingCheckoutMessage = 'cancel';
 
-    url.searchParams.delete('checkout');
-    window.history.replaceState({}, '', url);
-  }
+  url.searchParams.delete('checkout');
+  window.history.replaceState({}, '', url);
+}
 }
 
 
