@@ -1874,6 +1874,39 @@ openPanel(explainBtn, `
 
 const CART_STORAGE_KEY = 'locomotion_cart';
 
+function showCheckoutMessage(type) {
+  const btn = document.getElementById('pcPlusBtn');
+  const text = document.getElementById('pcPlusText');
+
+  if (!text) return;
+
+  if (type === 'success') {
+    text.innerHTML = `
+      <p>Thank you for your order.</p>
+      <p>Your purchase has been successfully completed.</p>
+    `;
+  }
+
+  if (type === 'cancel') {
+    text.innerHTML = `
+      <p>Checkout was canceled.</p>
+      <p>Your cart is still saved.</p>
+    `;
+  }
+
+  text.classList.add('is-open');
+  text.setAttribute('aria-hidden', 'false');
+  btn?.classList.add('is-active');
+
+  setTimeout(() => {
+    text.classList.remove('is-open');
+    text.setAttribute('aria-hidden', 'true');
+    btn?.classList.remove('is-active');
+
+    updatePcPlusText();
+  }, 5000);
+}
+
 function handleCheckoutResult() {
   const url = new URL(window.location.href);
   const checkout = url.searchParams.get('checkout');
@@ -1882,6 +1915,16 @@ function handleCheckoutResult() {
     localStorage.removeItem(CART_STORAGE_KEY);
     renderCart();
     updateCartCount();
+
+    showCheckoutMessage('success');
+
+    url.searchParams.delete('checkout');
+    window.history.replaceState({}, '', url);
+    return;
+  }
+
+  if (checkout === 'cancel') {
+    showCheckoutMessage('cancel');
 
     url.searchParams.delete('checkout');
     window.history.replaceState({}, '', url);
@@ -2485,4 +2528,3 @@ updateSpUiHeights();
 window.addEventListener('resize', updateSpUiHeights);
 window.addEventListener('orientationchange', updateSpUiHeights);
 
-handleCheckoutResult();
