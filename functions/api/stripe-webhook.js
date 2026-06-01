@@ -63,7 +63,13 @@ export async function onRequestPost(context) {
     const session = event.data.object;
 
     const shipping = session.shipping_details || {};
-    const address = shipping.address || {};
+const customer = session.customer_details || {};
+
+const shippingAddress = shipping.address || null;
+const customerAddress = customer.address || null;
+
+const address = shippingAddress || customerAddress || {};
+const shippingName = shipping.name || customer.name || '';
 
     await context.env.DB.prepare(`
       INSERT OR IGNORE INTO orders (
@@ -94,13 +100,13 @@ export async function onRequestPost(context) {
       session.payment_status || '',
       'unfulfilled',
       JSON.stringify(session.metadata || {}),
-      shipping.name || '',
-      address.line1 || '',
-      address.line2 || '',
-      address.city || '',
-      address.state || '',
-      address.postal_code || '',
-      address.country || ''
+      shippingName,
+address.line1 || '',
+address.line2 || '',
+address.city || '',
+address.state || '',
+address.postal_code || '',
+address.country || ''
     ).run();
 
     return Response.json({ received: true });
