@@ -99,7 +99,7 @@ const shippingName = shipping.name || customer.name || '';
       session.currency || '',
       session.payment_status || '',
       'unfulfilled',
-      JSON.stringify(session.metadata || {}),
+      session.metadata?.items_json || '{}',
       shippingName,
 address.line1 || '',
 address.line2 || '',
