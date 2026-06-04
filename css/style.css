@@ -594,11 +594,10 @@ body.has-trails #trailCanvas,
 
   top: 28px;
   left: 18px;
+  right: 18px;
+  bottom: 0;
 
-  right: auto;
-  bottom: auto;
-
-  width: min(760px, 58vw);
+  width: auto;
 
   overflow: visible;
 }
@@ -757,7 +756,102 @@ body.has-trails #trailCanvas,
   cursor: pointer;
   text-decoration: none;
 }
+.legal-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 28px;
 
+  width: 100%;
+
+  max-height: calc(
+    100vh
+    - var(--pc-top-ui-height)
+    - var(--pc-bottom-ui-height)
+    - 80px
+  );
+}
+
+.legal-tabs {
+  position: sticky;
+  top: 0;
+  align-self: start;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.legal-tab {
+  background: transparent;
+  border: none;
+  padding: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 23px;
+  line-height: 1.08;
+  color: #111;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.legal-tab.is-active {
+  text-decoration: line-through;
+}
+
+.legal-text {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111;
+
+  max-height: calc(
+    100vh
+    - var(--pc-top-ui-height)
+    - var(--pc-bottom-ui-height)
+    - 80px
+  );
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 12px;
+}
+
+.legal-text h2 {
+  margin: 0 0 8px;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.legal-text p {
+  margin: 0 0 6px;
+  font-size: 23px;
+  line-height: 1.08;
+}
+
+.legal-text-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+
+  max-height: calc(
+    100vh
+    - var(--pc-top-ui-height)
+    - var(--pc-bottom-ui-height)
+    - 80px
+  );
+}
+
+.legal-text-en {
+  border-right: 1px solid rgba(0,0,0,0.15);
+  padding-right: 24px;
+}
+
+.legal-text-jp {
+  padding-left: 8px;
+}
+.legal-hidden-title {
+  visibility: hidden;
+}
 
 }
 
