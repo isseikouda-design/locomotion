@@ -1858,91 +1858,122 @@ openPanel(explainBtn, `
         <button class="legal-tab" type="button" data-legal-tab="legal">Legal Notice</button>
       </nav>
 
-      <div class="legal-text-wrap">
-  <div class="legal-text legal-text-en" id="legalTextEn"></div>
-  <div class="legal-text legal-text-jp" id="legalTextJp"></div>
+   <div class="legal-body">
+  <div class="legal-lang-tabs">
+    <button class="legal-lang-btn is-active" type="button" data-legal-lang="en">EN</button>
+    <button class="legal-lang-btn" type="button" data-legal-lang="jp">JP</button>
+  </div>
+
+  <div class="legal-text" id="legalText"></div>
 </div>
-    </div>
   `, 'privacy');
 
-  const legalTextEn = document.getElementById('legalTextEn');
-const legalTextJp = document.getElementById('legalTextJp');
-  const tabs = document.querySelectorAll('.legal-tab');
+const legalText = document.getElementById('legalText');
+const tabs = document.querySelectorAll('.legal-tab');
+const langBtns = document.querySelectorAll('.legal-lang-btn');
 
+let currentLegalTab = 'privacy';
+let currentLegalLang = 'en';
   const texts = {
     privacy: {
-      en:
-      `
-      <h2>Privacy Policy</h2>
+  en: `
+<h2>(Privacy Policy)</h2>
 
 <p>
-Locomotion™ respects the privacy of visitors and customers and is committed to handling personal information responsibly.
-This Privacy Policy explains what information may be collected through this website, how it is used, and how it is protected.
+Locomotion™ handles personal information in accordance with this Privacy Policy.
+This policy explains what information we collect, how we use it, how it may be shared, and how customers may contact us regarding their personal information.
 </p>
 
 <p>
-When placing an order, contacting us, or using this website, we may collect information including your name, email address, shipping address, payment-related information, and other information voluntarily provided by you.
+Information we may collect includes the customer’s name, email address, shipping address, order details, payment status, and other information provided when placing an order or contacting us.
 </p>
 
 <p>
-We may also collect limited technical information such as browser type, device type, operating system, referring pages, and anonymous usage data in order to maintain, improve, and secure the website.
+Locomotion™ may also collect limited technical information necessary for operating and maintaining this website, such as access logs, device information, browser information, and error-related information.
+At this time, Locomotion™ does not intentionally use advertising cookies, tracking pixels, or behavioral advertising tools.
 </p>
 
 <p>
-Personal information is used solely for purposes related to operating Locomotion™, including:
+The collected information is used for the following purposes:
 </p>
 
 <p>
-– Processing and fulfilling orders<br>
-– Handling payments and transactions<br>
-– Shipping products<br>
+– Processing orders<br>
+– Confirming payment status<br>
+– Arranging shipment and delivery<br>
 – Responding to inquiries<br>
-– Maintaining and improving website functionality<br>
-– Preventing fraud, abuse, or unauthorized access
+– Preventing fraud, unauthorized access, or misuse<br>
+– Maintaining, securing, and improving this website<br>
+– Complying with applicable laws and regulations
 </p>
 
 <p>
-Payments are processed through third-party payment providers such as Stripe. Locomotion™ does not directly store complete payment card information.
+Payment processing is handled through Stripe Checkout.
+Locomotion™ does not directly receive or store full credit card numbers or complete card information.
+Payment-related information may be handled by Stripe in accordance with Stripe’s own privacy policy and terms.
 </p>
 
 <p>
-Personal information will not be sold, rented, or disclosed to unrelated third parties. Information may be shared only when necessary for payment processing, shipping services, legal compliance, or website operation.
+Order information, including customer name, email address, shipping address, purchased items, payment status, and related transaction information, may be stored by Locomotion™ for order management, shipping, customer support, and record-keeping purposes.
 </p>
 
 <p>
-Reasonable measures are taken to protect personal information from unauthorized access, alteration, disclosure, or destruction. However, no method of transmission or storage can be guaranteed to be completely secure.
+Locomotion™ will not sell or rent personal information to third parties.
+Personal information may be shared with third parties only when necessary for payment processing, shipping, system operation, legal compliance, fraud prevention, or other purposes reasonably related to the operation of this website.
 </p>
 
 <p>
-You may request access to, correction of, or deletion of your personal information where permitted by applicable law.
+Examples of such third parties may include payment service providers, delivery service providers, hosting providers, database providers, and other service providers necessary for operating this website.
 </p>
 
 <p>
-Questions regarding this Privacy Policy may be directed to:
+Locomotion™ takes reasonable measures to prevent unauthorized access, loss, alteration, leakage, or misuse of personal information.
+However, no method of transmission over the internet or electronic storage can be guaranteed to be completely secure.
+</p>
+
+<p>
+Customers may request disclosure, correction, suspension of use, or deletion of their personal information, where permitted by applicable law.
+Requests will be handled after confirming the identity of the requester and within a reasonable scope.
+</p>
+
+<p>
+Personal information may be retained for as long as necessary for order fulfillment, customer support, legal compliance, accounting, dispute resolution, or other legitimate business purposes.
+</p>
+
+<p>
+This website uses localStorage to store cart information on the customer’s device.
+This is used only to keep cart contents available during browsing and checkout preparation.
+</p>
+
+<p>
+For questions regarding this Privacy Policy or the handling of personal information, please contact:
 <br>
 info@locomotion_service.com
 </p>
 
 <p>
-This Privacy Policy may be updated from time to time without prior notice. The most current version will always be available on this website.
+This Privacy Policy may be revised when necessary.
+Any changes will become effective when posted on this website.
 </p>
-    `,
-    jp: `
-<h2 class="legal-hidden-title">
-  プライバシーポリシー
+  `,
+
+  jp: `
+<h2>
+  (プライバシーポリシー)
 </h2>
 
 <p>
-Locomotion™ は、お客様および本ウェブサイトを利用するすべての方のプライバシーを尊重し、個人情報を適切に取り扱うことを重要な責任と考えています。
-本ポリシーは、本ウェブサイトを通じて取得する情報、その利用目的、および管理方法について説明するものです。
+Locomotion™ は、本プライバシーポリシーに基づき、個人情報を適切に取り扱います。
+本ポリシーは、当サイトにおいて取得する情報、その利用目的、第三者への提供、ならびに個人情報に関するお問い合わせ方法について定めるものです。
 </p>
 
 <p>
-商品購入、お問い合わせ、その他本ウェブサイトの利用に際して、お客様の氏名、メールアドレス、配送先住所、決済に関連する情報、およびお客様が任意に提供する情報を取得する場合があります。
+当サイトでは、ご注文またはお問い合わせの際に、お客様の氏名、メールアドレス、配送先住所、注文内容、決済状況、その他お客様が任意に提供する情報を取得する場合があります。
 </p>
 
 <p>
-また、本ウェブサイトの維持・改善・安全性向上を目的として、ブラウザ情報、デバイス情報、アクセス履歴、参照元ページなどの技術的情報を取得する場合があります。
+また、当サイトの運営、保守、安全性の確保のため、アクセスログ、端末情報、ブラウザ情報、エラーに関する情報など、必要最小限の技術的情報を取得する場合があります。
+現時点において、Locomotion™ は広告配信用Cookie、トラッキングピクセル、行動ターゲティング広告のための解析ツールを意図的に使用していません。
 </p>
 
 <p>
@@ -1950,243 +1981,755 @@ Locomotion™ は、お客様および本ウェブサイトを利用するすべ
 </p>
 
 <p>
-・商品の受注および発送<br>
-・決済処理および取引管理<br>
+・商品の注文処理<br>
+・決済状況の確認<br>
+・商品の発送および配送対応<br>
 ・お問い合わせへの対応<br>
-・ウェブサイトの改善および運営<br>
-・不正利用や不正アクセスの防止
+・不正利用、不正アクセス、その他の不適切な利用の防止<br>
+・当サイトの維持、保守、安全性向上および改善<br>
+・法令または規則に基づく対応
 </p>
 
 <p>
-決済は Stripe などの外部決済サービスを通じて行われます。Locomotion™ はクレジットカード番号等の完全な決済情報を保有しません。
+決済処理は Stripe Checkout を通じて行われます。
+Locomotion™ は、クレジットカード番号その他の完全なカード情報を直接取得または保存しません。
+決済に関する情報は、Stripe のプライバシーポリシーおよび利用規約に基づき、Stripe によって取り扱われる場合があります。
 </p>
 
 <p>
-個人情報を第三者へ販売、貸与することはありません。ただし、決済処理、配送業務、法令に基づく開示義務、またはサービス運営上必要な場合に限り、必要な範囲で第三者へ提供することがあります。
+お客様の氏名、メールアドレス、配送先住所、購入商品、決済状況、その他注文に関連する情報は、注文管理、発送、問い合わせ対応、記録保管のため、Locomotion™ により保存される場合があります。
 </p>
 
 <p>
-Locomotion™ は、個人情報への不正アクセス、改ざん、漏洩、紛失等を防止するため合理的な安全対策を講じます。ただし、インターネット上の通信や保存方法について完全な安全性を保証するものではありません。
+Locomotion™ は、個人情報を第三者に販売または貸与することはありません。
+ただし、決済処理、配送、システム運営、法令遵守、不正防止、その他当サイトの運営に合理的に必要な範囲において、第三者に情報を提供する場合があります。
 </p>
 
 <p>
-法令の定める範囲において、お客様は自己の個人情報について開示、訂正、削除等を請求することができます。
+第三者には、決済サービス事業者、配送事業者、ホスティング事業者、データベース提供事業者、その他当サイトの運営に必要な外部サービス提供者が含まれる場合があります。
 </p>
 
 <p>
-本ポリシーに関するお問い合わせは以下までご連絡ください。<br>
+Locomotion™ は、個人情報への不正アクセス、紛失、改ざん、漏えい、不正利用等を防止するため、合理的な安全管理措置を講じます。
+ただし、インターネット上の通信または電子的な保存方法について、完全な安全性を保証するものではありません。
+</p>
+
+<p>
+お客様は、法令の定める範囲において、自己の個人情報について、開示、訂正、利用停止、削除等を請求することができます。
+これらの請求については、ご本人確認のうえ、合理的な範囲で対応いたします。
+</p>
+
+<p>
+個人情報は、商品の発送、問い合わせ対応、法令遵守、会計処理、紛争対応、その他正当な業務上の目的に必要な期間、保存される場合があります。
+</p>
+
+<p>
+当サイトでは、カート情報をお客様の端末上に保存するため localStorage を使用しています。
+これは、閲覧中および決済準備中にカート内容を保持するために使用されるものであり、広告配信や行動追跡を目的とするものではありません。
+</p>
+
+<p>
+本ポリシーおよび個人情報の取扱いに関するお問い合わせは、以下までご連絡ください。<br>
 info@locomotion_service.com
 </p>
 
 <p>
-本ポリシーは予告なく変更される場合があります。変更後の内容は本ウェブサイト上に掲載された時点で効力を生じるものとします。
+本ポリシーは、必要に応じて改定される場合があります。
+改定後の内容は、本ウェブサイト上に掲載された時点で効力を生じるものとします。
 </p>
-`
-    },
-
+  `
+},
     terms: {
-      en: `
-      <h2>Terms of Use</h2>
+
+en: `
+<h2>(Terms of Use)</h2>
+
+<h3>Application</h3>
 
 <p>
-These Terms of Use govern access to and use of the Locomotion™ website and any purchases made through it.
-By accessing this website, browsing its content, or placing an order, you agree to be bound by these Terms.
+These Terms of Use ("Terms") govern the use of the Locomotion™ website, online store, and related services (collectively, the "Service").
 </p>
 
 <p>
-Locomotion™ presents scanned environments, handmade objects, digital artifacts, and related materials. Information, prices, product descriptions, and availability may be changed at any time without prior notice.
+By accessing, browsing, purchasing products from, or otherwise using this website, you agree to be bound by these Terms.
 </p>
 
 <p>
-All products are offered subject to availability. Locomotion™ reserves the right to refuse, cancel, or limit any order when necessary, including in cases of pricing errors, technical issues, suspected fraud, or other circumstances that may affect fulfillment.
+Any policies, guidelines, notices, or additional rules published by Locomotion™ shall form part of these Terms.
+</p>
+
+<h3>Service Description</h3>
+
+<p>
+Locomotion™ operates a website dedicated to the presentation, publication, archiving, and sale of spatial scans, photographs, videos, 3D models, digital archives, handmade objects, and related works.
 </p>
 
 <p>
-A purchase request submitted through this website does not automatically constitute acceptance of the order. A sales agreement is considered formed when payment is successfully completed and the order is accepted for fulfillment.
+Locomotion™ reserves the right to modify, add, suspend, or discontinue any part of the Service without prior notice.
+</p>
+
+<h3>Purchases</h3>
+
+<p>
+Users wishing to purchase products must follow the procedures specified by Locomotion™.
 </p>
 
 <p>
-Users agree not to:
+Submission of an order does not automatically create a binding sales agreement.
+A sales agreement shall be formed only after payment has been successfully completed and the order has been accepted by Locomotion™.
 </p>
 
 <p>
-– Use the website for unlawful purposes<br>
-– Interfere with website operation or security<br>
-– Attempt unauthorized access to systems or data<br>
-– Upload or transmit harmful code or software<br>
-– Violate intellectual property rights belonging to Locomotion™ or third parties
+Locomotion™ reserves the right to refuse or cancel any order under the following circumstances:
 </p>
 
 <p>
-Unless otherwise stated, all content on this website, including text, photographs, scans, 3D models, graphics, layouts, and other materials, remains the intellectual property of Locomotion™ or its respective rights holders.
+• Product unavailability or production limitations<br>
+• Errors in pricing or product information<br>
+• Suspected fraudulent activity or unauthorized payment<br>
+• False, inaccurate, or incomplete customer information<br>
+• Violation of these Terms<br>
+• Any other circumstance deemed inappropriate by Locomotion™
+</p>
+
+<h3>Pricing and Product Information</h3>
+
+<p>
+Prices, specifications, dimensions, weight, materials, photographs, and other product information may be changed without prior notice.
 </p>
 
 <p>
-The website and its contents are provided on an "as is" and "as available" basis. Locomotion™ makes no guarantee that the website will always be uninterrupted, error-free, or free from technical issues.
+Price changes shall not affect orders that have already been accepted.
+</p>
+
+<h3>Product Characteristics</h3>
+
+<p>
+Products sold through this website may include one-of-a-kind works, limited-production items, handmade objects, works incorporating natural materials, and works derived from 3D scan data.
 </p>
 
 <p>
-To the maximum extent permitted by law, Locomotion™ shall not be liable for indirect, incidental, consequential, or special damages arising from use of the website or products purchased through it.
+As a result, variations in color, shape, dimensions, texture, surface condition, and other characteristics may occur between individual pieces.
 </p>
 
 <p>
-Locomotion™ reserves the right to modify, suspend, discontinue, or update any part of the website, products, services, or these Terms at any time.
+While product images are presented as accurately as possible, differences may occur due to photography conditions, lighting, display settings, monitor calibration, and other viewing conditions.
 </p>
+
+<p>
+Such variations shall not be considered defects or grounds for return.
+</p>
+
+<h3>Refusal of Delivery and Extended Absence</h3>
+
+<p>
+If a product is returned due to refusal of delivery, extended absence, incorrect shipping information, or any other circumstance attributable to the customer, Locomotion™ may charge additional shipping and handling fees required for redelivery.
+</p>
+
+<p>
+If Locomotion™ is unable to contact the customer for an extended period following the return of a shipment, the order may be considered abandoned.
+</p>
+
+<p>
+Shipping charges and related expenses already incurred may be non-refundable.
+</p>
+
+<h3>Restrictions on Use and Order Refusal</h3>
+
+<p>
+Locomotion™ may restrict access to the Service, cancel orders, suspend transactions, or take other appropriate measures if a user:
+</p>
+
+<p>
+• Violates these Terms<br>
+• Has previously violated these Terms<br>
+• Appears to be purchasing products for unauthorized resale purposes<br>
+• Uses fraudulent payment methods<br>
+• Damages the trust relationship between the user and Locomotion™<br>
+• Is otherwise deemed inappropriate by Locomotion™
+</p>
+
+<h3>Prohibited Conduct</h3>
+
+<p>
+Users shall not:
+</p>
+
+<p>
+• Violate laws or public order<br>
+• Engage in criminal activity<br>
+• Impersonate another person or entity<br>
+• Interfere with the operation of the website<br>
+• Attempt unauthorized access to systems or servers<br>
+• Upload or transmit malicious software or harmful code<br>
+• Cause damage to other users or third parties<br>
+• Infringe intellectual property rights or other legal rights<br>
+• Engage in any activity deemed inappropriate by Locomotion™
+</p>
+
+<h3>Intellectual Property</h3>
+
+<p>
+All text, photographs, images, videos, 3D models, scan data, digital data, layouts, designs, and other content published on this website are owned by Locomotion™ or their respective rights holders.
+</p>
+
+<p>
+Users may not copy, reproduce, distribute, transmit, sell, modify, or otherwise use such content without prior permission from the rights holder.
+</p>
+
+<p>
+Some works, photographs, 3D models, scan data, or other materials published on this website may include content owned by third parties.
+In such cases, users must comply with the applicable license terms and conditions set by the relevant rights holders.
+</p>
+
+<h3>Exclusion of Anti-Social Forces</h3>
+
+<p>
+Users represent and warrant that they are not, and will not be in the future, members of organized crime groups, affiliated companies, corporate racketeers, groups engaging in criminal or antisocial activities, or any other equivalent anti-social forces.
+</p>
+
+<p>
+If Locomotion™ determines that a user falls under any of the above categories, Locomotion™ may cancel orders, suspend use of the Service, or take any other necessary measures without prior notice.
+</p>
+
+<h3>Suspension or Interruption of the Service</h3>
+
+<p>
+Locomotion™ may suspend or interrupt all or part of the Service without prior notice in the following cases:
+</p>
+
+<p>
+• System maintenance or updates<br>
+• Network or server failure<br>
+• Natural disasters, fire, power outage, or other force majeure events<br>
+• Failure or interruption of external service providers<br>
+• Any other circumstance deemed necessary by Locomotion™
+</p>
+
+<p>
+Locomotion™ shall not be liable for any damage arising from suspension or interruption of the Service.
+</p>
+
+<h3>Disclaimer</h3>
+
+<p>
+The website and the Service are provided on an "as is" and "as available" basis.
+</p>
+
+<p>
+Locomotion™ does not warrant that the website will be continuously available, error-free, secure, or uninterrupted.
+</p>
+
+<p>
+Locomotion™ shall not be liable for damages caused by delivery delays, system failures, communication failures, unauthorized third-party actions, natural disasters, or any other event beyond the reasonable control of Locomotion™.
+</p>
+
+<h3>Damages</h3>
+
+<p>
+If a user causes damage to Locomotion™ or a third party by violating these Terms, engaging in illegal conduct, or otherwise acting improperly, the user shall compensate such damage at their own responsibility and expense.
+</p>
+
+<p>
+In the event of non-payment, payment failure, or other default by the user, Locomotion™ may claim late payment charges and other necessary costs to the extent permitted by applicable law.
+</p>
+
+<h3>Changes to These Terms</h3>
+
+<p>
+Locomotion™ may revise these Terms at any time without prior notice to users.
+</p>
+
+<p>
+Revised Terms shall become effective when posted on this website.
+</p>
+
+<p>
+If a user continues to use this website after the Terms have been revised, the user shall be deemed to have agreed to the revised Terms.
+</p>
+
+<h3>Governing Law and Jurisdiction</h3>
 
 <p>
 These Terms shall be governed by and interpreted in accordance with the laws of Japan.
 </p>
 
 <p>
-Questions regarding these Terms may be directed to:
-<br>
+Any dispute arising in connection with these Terms or use of this website shall be subject to the exclusive jurisdiction of the court having jurisdiction over the location of the operator of Locomotion™ as the court of first instance.
+</p>
+
+<h3>Contact</h3>
+
+<p>
+Questions regarding these Terms may be directed to:<br>
 info@locomotion_service.com
 </p>
-    `,
-    jp: `
-<h2 class="legal-hidden-title">
-利用規約</h2>
+   `,
+
+jp: `
+<h2>
+(利用規約)
+</h2>
+
+<h3>適用</h3>
 
 <p>
-本利用規約は、Locomotion™ が運営するウェブサイトの利用および本ウェブサイトを通じた商品の購入に関する条件を定めるものです。
-本ウェブサイトを利用し、閲覧し、または注文を行うことにより、お客様は本規約に同意したものとみなされます。
+本利用規約（以下「本規約」といいます。）は、Locomotion™（以下「当サイト」といいます。）が提供するウェブサイト、オンラインストアおよび関連サービスの利用条件を定めるものです。
 </p>
 
 <p>
-Locomotion™ は、3Dスキャンによる空間記録、手作業によるオブジェクト、デジタルアーカイブおよび関連作品を取り扱います。
-商品情報、価格、仕様、在庫状況その他の情報は予告なく変更される場合があります。
+利用者は、本ウェブサイトを利用することにより、本規約に同意したものとみなされます。
 </p>
 
 <p>
-すべての商品は在庫状況および制作状況に応じて販売されます。
-価格表示の誤り、システム障害、不正利用の疑い、その他販売継続が困難であると判断した場合、Locomotion™ は注文の取消し、拒否、または数量制限を行う権利を有します。
+当サイトが別途定めるガイドライン、ポリシー、注意事項その他の規定は、本規約の一部を構成するものとします。
+</p>
+
+<h3>サービス内容</h3>
+
+<p>
+当サイトは、3Dスキャンによる空間記録、写真、映像、3Dモデル、デジタルアーカイブ、オブジェクトおよび関連作品の展示、販売、公開を目的として運営されています。
 </p>
 
 <p>
-本ウェブサイト上で注文が行われた時点では、売買契約は成立していません。
-決済が正常に完了し、Locomotion™ が注文を受理した時点で売買契約が成立するものとします。
+当サイトは、事前の通知なく、サービス内容の変更、追加、停止または終了を行うことがあります。
+</p>
+
+<h3>商品の購入</h3>
+
+<p>
+利用者は、当サイトの定める手続に従って商品を注文するものとします。
 </p>
 
 <p>
-利用者は以下の行為を行ってはなりません。
+利用者による注文のみをもって売買契約は成立しません。
+決済手続が正常に完了し、当サイトが注文を受理した時点で売買契約が成立するものとします。
+</p>
+
+<p>
+当サイトは、以下の場合、注文を取消し、または受理しないことがあります。
+</p>
+
+<p>
+・在庫不足または制作継続が困難な場合<br>
+・価格表示その他掲載内容に誤りがあった場合<br>
+・不正決済または不正利用の疑いがある場合<br>
+・利用者情報に虚偽または不備がある場合<br>
+・本規約違反が確認された場合<br>
+・その他当サイトが不適切と判断した場合
+</p>
+
+<h3>商品価格および表示</h3>
+
+<p>
+商品の価格、仕様、寸法、重量、素材、写真その他の情報は、予告なく変更される場合があります。
+</p>
+
+<p>
+価格改定後も、既に成立した注文については注文時点の価格が適用されます。
+</p>
+
+<h3>商品の特性について</h3>
+
+<p>
+当サイトで販売される商品には、一点物、少量生産品、手作業による制作物、天然素材を含む作品、3Dスキャンデータをもとに制作された作品等が含まれます。
+</p>
+
+<p>
+そのため、色味、形状、寸法、質感、表面状態その他の特徴について個体差が生じる場合があります。
+</p>
+
+<p>
+また、商品画像はできる限り実物に近い状態で掲載しておりますが、撮影環境、照明条件、閲覧環境、モニター設定その他の要因により、実際の商品と見え方が異なる場合があります。
+</p>
+
+<p>
+これらは商品の欠陥または不良には該当しないものとします。
+</p>
+
+<h3>受領拒否・長期不在について</h3>
+
+<p>
+利用者の都合による受領拒否、長期不在、住所不備その他利用者の責めに帰す事由により商品が返送された場合、当サイトは再発送に必要な送料その他の費用を請求することができるものとします。
+</p>
+
+<p>
+返送後一定期間利用者と連絡が取れない場合、当サイトは注文を終了したものとして取り扱うことがあります。
+</p>
+
+<p>
+この場合においても、既に発生した送料その他の費用について返金を行わない場合があります。
+</p>
+
+<h3>利用制限および注文拒否</h3>
+
+<p>
+当サイトは、利用者が以下のいずれかに該当すると判断した場合、事前通知なく利用制限、注文取消し、サービス利用停止その他必要な措置を講じることができるものとします。
+</p>
+
+<p>
+・本規約に違反した場合<br>
+・過去に本規約違反があった場合<br>
+・転売目的による購入と判断される場合<br>
+・不正決済が確認された場合<br>
+・当サイトとの信頼関係を損なう行為があった場合<br>
+・その他当サイトが不適切と判断した場合
+</p>
+
+<h3>禁止事項</h3>
+
+<p>
+利用者は、以下の行為を行ってはなりません。
 </p>
 
 <p>
 ・法令または公序良俗に反する行為<br>
-・本ウェブサイトの運営を妨害する行為<br>
-・不正アクセスまたはシステム侵入を試みる行為<br>
-・有害なプログラムやデータの送信<br>
-・Locomotion™ または第三者の知的財産権を侵害する行為
+・犯罪行為またはこれに関連する行為<br>
+・第三者になりすます行為<br>
+・当サイトの運営を妨害する行為<br>
+・不正アクセスまたはその試行<br>
+・有害なプログラム等の送信<br>
+・他の利用者または第三者に損害を与える行為<br>
+・知的財産権その他の権利を侵害する行為<br>
+・その他当サイトが不適切と判断する行為
+</p>
+    <h3>知的財産権</h3>
+
+<p>
+当サイト上に掲載される文章、写真、画像、映像、3Dモデル、スキャンデータ、デジタルデータ、レイアウト、デザインその他一切のコンテンツに関する知的財産権は、当サイトまたは正当な権利者に帰属します。
 </p>
 
 <p>
-本ウェブサイトに掲載される文章、写真、3Dモデル、図版、レイアウト、その他のコンテンツに関する権利は、特別な記載がない限り Locomotion™ または正当な権利者に帰属します。
+利用者は、権利者の事前の許可なく、これらのコンテンツを複製、転載、配布、公衆送信、販売、改変その他の利用を行うことはできません。
 </p>
 
 <p>
-本ウェブサイトおよび掲載情報は現状有姿で提供されます。
-Locomotion™ は、サイトが常に利用可能であること、エラーが存在しないこと、または中断なく利用できることを保証しません。
+当サイトに掲載される一部の作品、写真、3Dモデルその他のデータには第三者が権利を有するコンテンツが含まれる場合があります。
+その場合、利用者は当該権利者の定める利用条件およびライセンスに従うものとします。
+</p>
+
+<h3>反社会的勢力の排除</h3>
+
+<p>
+利用者は、現在および将来にわたり、暴力団、暴力団員、暴力団関係企業、総会屋、社会運動等標榜ゴロ、特殊知能暴力集団その他これらに準ずる反社会的勢力に該当しないことを表明し保証するものとします。
 </p>
 
 <p>
-法令で認められる最大限の範囲において、Locomotion™ は本ウェブサイトの利用または商品の利用に関連して生じた間接的損害、付随的損害、特別損害について責任を負いません。
+当サイトは、利用者が反社会的勢力に該当すると判断した場合、何らの通知または催告を行うことなく、注文の取消し、サービス利用停止その他必要な措置を講じることができるものとします。
+</p>
+
+<h3>サービスの停止・中断</h3>
+
+<p>
+当サイトは、以下の場合、利用者への事前通知なくサービスの全部または一部を停止または中断することがあります。
 </p>
 
 <p>
-Locomotion™ は必要に応じて、本ウェブサイト、サービス、商品内容、および本規約を変更、中断、終了することができます。
+・システム保守または更新を行う場合<br>
+・通信回線またはサーバー障害が発生した場合<br>
+・地震、火災、停電その他の不可抗力が発生した場合<br>
+・外部サービス事業者に障害が発生した場合<br>
+・その他当サイトが必要と判断した場合
 </p>
 
 <p>
-本規約は日本法に準拠し、日本法に基づいて解釈されます。
+当サイトは、サービス停止または中断によって生じた損害について責任を負わないものとします。
 </p>
+
+<h3>免責事項</h3>
+
+<p>
+当サイトは、本ウェブサイトおよびサービスを現状有姿で提供します。
+</p>
+
+<p>
+当サイトは、本ウェブサイトが常に利用可能であること、エラーが存在しないこと、安全であること、または中断なく運営されることについて保証しません。
+</p>
+
+<p>
+当サイトは、商品の配送遅延、システム障害、通信障害、第三者による不正行為、天災地変その他当サイトの合理的支配を超える事由によって生じた損害について責任を負いません。
+</p>
+
+<h3>損害賠償</h3>
+
+<p>
+利用者が本規約に違反し、または違法行為その他の不適切な行為によって当サイトまたは第三者に損害を与えた場合、利用者は自己の責任と費用においてこれを賠償するものとします。
+</p>
+
+<p>
+利用者による決済不履行その他の債務不履行があった場合、当サイトは法令の定める範囲において遅延損害金その他必要な費用を請求できるものとします。
+</p>
+
+<h3>利用規約の変更</h3>
+
+<p>
+当サイトは、お客様に事前に通知することなく、本規約を変更することができるものとします。
+</p>
+
+<p>
+変更後の本規約は、本ウェブサイト上に掲載された時点から効力を生じるものとします。
+</p>
+
+<p>
+利用者が変更後も本ウェブサイトを利用した場合、変更後の本規約に同意したものとみなします。
+</p>
+
+<h3>準拠法および管轄裁判所</h3>
+
+<p>
+本規約は日本法に準拠し、日本法に基づいて解釈されるものとします。
+</p>
+
+<p>
+本規約または本ウェブサイトの利用に関して紛争が生じた場合、当サイト運営者所在地を管轄する裁判所を第一審の専属的合意管轄裁判所とします。
+</p>
+
+<h3>お問い合わせ</h3>
 
 <p>
 本規約に関するお問い合わせは以下までご連絡ください。<br>
 info@locomotion_service.com
 </p>
+
 `
     },
 
     shipping: {
       en: `
-      <h2>Shipping Policy</h2>
+<h2>(Shipping Policy)</h2>
+
+<h3>Shipping</h3>
 
 <p>
-Locomotion™ ships physical objects and related products from Japan.
-All orders are processed individually and prepared by hand.
+Locomotion™ ships products from Japan.
+Orders are prepared and processed individually after payment has been successfully confirmed.
 </p>
 
 <p>
-Orders will generally be prepared for shipment after payment has been successfully confirmed.
-Because some products are produced, finished, or packaged individually, processing times may vary depending on the nature of the work and current order volume.
+Depending on the nature of the work, some products may require additional finishing, inspection, or packaging prior to shipment.
+As a result, processing times may vary between products.
+</p>
+
+<h3>Processing Time</h3>
+
+<p>
+Orders are generally prepared for shipment within several business days after payment confirmation.
 </p>
 
 <p>
-At present, shipping is available within Japan only.
+However, processing times may be extended due to production schedules, order volume, holidays, year-end periods, or other operational circumstances.
+</p>
+
+<p>
+For one-of-a-kind works, made-to-order products, or limited-edition items, the estimated shipping schedule stated on the product page shall take precedence.
+</p>
+
+<h3>Shipping Destinations</h3>
+
+<p>
+At present, orders placed through this website are available for delivery within Japan only.
+</p>
+
+<p>
 International shipping may become available in the future, but is not currently supported through this website.
 </p>
 
+<h3>Shipping Carriers</h3>
+
 <p>
-Estimated shipping times are provided as a general reference only and are not guaranteed.
-Delays may occur due to production schedules, weather conditions, transportation disruptions, holidays, or other circumstances beyond our control.
+Shipping methods and carriers are selected by Locomotion™ based on the size, weight, destination, and nature of each shipment.
 </p>
 
 <p>
-Customers are responsible for providing accurate shipping information at checkout.
-Locomotion™ is not responsible for delays, failed deliveries, or additional costs resulting from incorrect or incomplete address information.
+Customers may not request specific shipping carriers unless otherwise agreed in advance.
+</p>
+
+<h3>Shipping Fees</h3>
+
+<p>
+Shipping fees may vary depending on the product and destination.
+Where applicable, shipping costs will be displayed during checkout before payment is completed.
+</p>
+
+<h3>Shipping Delays</h3>
+
+<p>
+Delivery times are estimates only and are not guaranteed.
 </p>
 
 <p>
-If a shipment is returned due to an incorrect address, refusal of delivery, or failure to receive the package, additional shipping charges may be required before the order can be resent.
+Delays may occur due to weather conditions, natural disasters, transportation disruptions, carrier-related issues, public holidays, system failures, pandemics, or other circumstances beyond the reasonable control of Locomotion™.
 </p>
 
 <p>
-Risk of loss and responsibility for purchased products passes to the customer upon delivery to the shipping address provided during checkout.
+Locomotion™ shall not be liable for losses or damages arising from such delays.
+</p>
+
+<h3>Shipping Information</h3>
+
+<p>
+Customers are responsible for providing accurate and complete shipping information, including name, address, and contact details at the time of purchase.
 </p>
 
 <p>
-Questions regarding shipping may be directed to:
-<br>
+Locomotion™ shall not be responsible for delays, failed deliveries, or additional expenses resulting from incorrect, incomplete, or outdated shipping information provided by the customer.
+</p>
+
+<h3>Refused Deliveries and Extended Absence</h3>
+
+<p>
+If a shipment is returned due to refusal of delivery, extended absence, incorrect address information, or any other circumstance attributable to the customer, Locomotion™ may require payment of additional shipping and handling charges prior to reshipment.
+</p>
+
+<p>
+If the customer cannot be contacted for an extended period after a shipment has been returned, Locomotion™ may consider the order abandoned and close the transaction.
+</p>
+
+<p>
+In such cases, shipping costs and other expenses already incurred may be non-refundable.
+</p>
+
+<h3>Risk of Loss</h3>
+
+<p>
+Risk of loss, theft, damage, or destruction of purchased products transfers to the customer upon successful delivery to the shipping address provided during checkout.
+</p>
+
+<p>
+Locomotion™ shall not be responsible for losses arising from storage conditions, handling, or management of products after delivery has been completed.
+</p>
+
+<h3>Changes to Shipping Address</h3>
+
+<p>
+Changes to shipping addresses may not be possible after an order has been placed.
+</p>
+
+<p>
+Customers who need to modify shipping information should contact Locomotion™ as soon as possible before shipment.
+</p>
+
+<h3>Contact</h3>
+
+<p>
+Questions regarding shipping may be directed to:<br>
 info@locomotion_service.com
 </p>
-    `,
+`,
     jp: `
-    <h2 class="legal-hidden-title">
-  配送ポリシー
+    <h2>
+(配送ポリシー)
 </h2>
 
+<h3>配送について</h3>
+
 <p>
-Locomotion™ は日本国内より商品を発送しています。
-すべての注文は個別に確認され、手作業で梱包および発送準備が行われます。
+Locomotion™ は、日本国内より商品を発送しています。
+ご注文いただいた商品は、決済確認後に順次発送準備を行います。
 </p>
 
 <p>
-ご注文いただいた商品は、決済確認後に発送準備を開始いたします。
-作品の性質上、制作・仕上げ・梱包を個別に行う場合があり、発送までの日数は商品内容や注文状況によって異なる場合があります。
+商品の性質上、受注後に仕上げ、検品、梱包作業を行う場合があります。
+そのため、商品ごとに発送までの日数が異なる場合があります。
 </p>
+
+<h3>発送時期</h3>
+
+<p>
+通常、ご注文および決済確認後、数営業日以内に発送手続きを行います。
+ただし、受注状況、制作状況、祝祭日、年末年始その他の事情により発送までお時間をいただく場合があります。
+</p>
+
+<p>
+一点物作品、受注制作作品、数量限定作品については、商品ページに記載された発送予定時期を優先するものとします。
+</p>
+
+<h3>配送地域</h3>
 
 <p>
 現在、本ウェブサイトからの注文については日本国内への配送のみ対応しています。
-海外配送については将来的に対応する可能性がありますが、現時点では提供しておりません。
 </p>
 
 <p>
-配送予定日数は目安であり、到着を保証するものではありません。
-天候、交通状況、配送会社の事情、祝祭日、制作状況その他の要因により遅延が発生する場合があります。
+海外配送については将来的に対応する可能性がありますが、現時点では対応しておりません。
+</p>
+
+<h3>配送業者</h3>
+
+<p>
+配送方法および配送業者は、商品のサイズ、重量、配送地域等を考慮し、Locomotion™ が選定します。
 </p>
 
 <p>
-お客様は注文時に正確な配送先情報を入力する責任を負います。
-住所の誤入力、不完全な住所情報、受取人情報の不備等により生じた配送遅延や配送不能について、Locomotion™ は責任を負いません。
+お客様による配送業者の指定は原則としてお受けできません。
+</p>
+
+<h3>送料について</h3>
+
+<p>
+送料は商品ごとに異なる場合があります。
+送料が発生する場合は、決済時に表示される金額が適用されます。
+</p>
+
+<h3>配送遅延について</h3>
+
+<p>
+天候、自然災害、交通事情、配送会社の事情、システム障害、感染症の流行その他当サイトの合理的支配を超える事由により、配送が遅延する場合があります。
 </p>
 
 <p>
-住所不備、受取拒否、長期不在等により商品が返送された場合、再発送にかかる費用を別途ご負担いただく場合があります。
+これらの事由による配送遅延について、Locomotion™ は責任を負わないものとします。
+</p>
+
+<h3>配送先情報について</h3>
+
+<p>
+お客様は、注文時に正確な氏名、住所、電話番号その他必要情報を入力するものとします。
 </p>
 
 <p>
-商品の紛失・破損等に関する責任は、配送先への配達完了時点でお客様へ移転するものとします。
+入力情報に誤りまたは不足がある場合、商品の発送または配送ができない場合があります。
 </p>
+
+<p>
+これにより発生した損害について、Locomotion™ は責任を負いません。
+</p>
+
+<h3>受領拒否・長期不在について</h3>
+
+<p>
+お客様の都合による受領拒否、長期不在、住所不備その他お客様の責めに帰す事由により商品が返送された場合、再発送に必要な送料および手数料を別途ご負担いただく場合があります。
+</p>
+
+<p>
+返送後一定期間ご連絡が取れない場合、当サイトは注文を終了したものとして取り扱う場合があります。
+</p>
+
+<p>
+その場合でも、既に発生した送料その他費用について返金を行わない場合があります。
+</p>
+
+<h3>配送後の責任</h3>
+
+<p>
+商品の滅失、紛失、盗難その他の危険負担は、お客様が指定した配送先への配達完了時点でお客様に移転するものとします。
+</p>
+
+<p>
+配送完了後の保管状況、管理状況その他お客様の責任に起因する損害について、Locomotion™ は責任を負いません。
+</p>
+
+<h3>配送先変更について</h3>
+
+<p>
+注文確定後の配送先変更は対応できない場合があります。
+</p>
+
+<p>
+配送先変更をご希望の場合は、発送前にお問い合わせください。
+</p>
+
+<h3>お問い合わせ</h3>
 
 <p>
 配送に関するお問い合わせは以下までご連絡ください。<br>
@@ -2196,256 +2739,536 @@ info@locomotion_service.com
 
     refund: {
       en: `
-      <h2>Refund Policy</h2>
+<h2>(Refund Policy)</h2>
+
+<h3>Returns and Exchanges</h3>
 
 <p>
-Locomotion™ primarily offers handmade objects, limited-edition works, scanned artifacts, and products produced in small quantities.
+Locomotion™ primarily offers one-of-a-kind works, limited-production items, handmade objects, and works derived from 3D scan data.
 Due to the nature of these products, all sales are generally considered final.
 </p>
 
 <p>
-Returns, exchanges, cancellations, or refunds are not accepted for reasons including change of mind, personal preference, mistaken purchase, or circumstances unrelated to product condition.
+Returns, exchanges, or refunds will not be accepted for reasons including change of mind, mistaken purchase, differences in personal expectations, display-related color variations, or any reason unrelated to the condition of the product.
+</p>
+
+<h3>Defective or Damaged Products</h3>
+
+<p>
+If a product arrives with significant damage, missing components, or substantial manufacturing defects, please contact Locomotion™ within three (3) days of receiving the product.
 </p>
 
 <p>
-If an item arrives damaged during shipping, arrives with a significant manufacturing defect, or differs substantially from the product description, please contact us within three (3) days of receiving the item.
+After reviewing the circumstances, Locomotion™ may offer a replacement, repair, refund, or other appropriate remedy where deemed appropriate.
+</p>
+
+<h3>Shipping Damage</h3>
+
+<p>
+If damage appears to have occurred during transit, customers should retain the product and all original packaging materials and contact Locomotion™ as soon as possible.
 </p>
 
 <p>
-When requesting assistance, please include:
+An investigation with the shipping carrier may be required before a claim can be processed.
+</p>
+
+<h3>Information Required for Claims</h3>
+
+<p>
+When requesting a return, exchange, or refund, customers may be asked to provide:
 </p>
 
 <p>
-– Your name<br>
-– Order information<br>
-– Photographs showing the condition of the item and packaging
+• Name<br>
+• Order number or order information<br>
+• Photographs of the product<br>
+• Photographs of the packaging<br>
+• Description of the issue
+</p>
+
+<h3>Return Shipping Costs</h3>
+
+<p>
+If a defect or issue is determined to be the responsibility of Locomotion™, return shipping and replacement shipping costs will be covered by Locomotion™.
 </p>
 
 <p>
-Each request will be reviewed individually.
-If Locomotion™ determines that the product was damaged prior to delivery or does not reasonably match the description provided on the website, an appropriate remedy may be offered, including replacement, repair, store credit, or refund.
+Returns or exchanges requested for customer convenience will not be accepted.
+</p>
+
+<h3>Refund Method</h3>
+
+<p>
+Approved refunds will generally be issued through the original payment method used for the purchase.
 </p>
 
 <p>
-Refunds or replacements will not be provided for damage resulting from improper handling, storage, modification, misuse, accidental damage after delivery, or normal aging of materials.
+The time required for refunded funds to appear in the customer's account may vary depending on the payment provider, credit card issuer, or financial institution.
+</p>
+
+<h3>Order Cancellations</h3>
+
+<p>
+Orders may not be canceled after payment has been completed.
 </p>
 
 <p>
-Because many products incorporate natural materials, handmade processes, scanning artifacts, irregular surfaces, color variations, or unique production characteristics, minor variations should not be considered defects.
+However, if shipment has not yet occurred and Locomotion™ determines that cancellation is reasonably possible, an exception may be granted at its sole discretion.
+</p>
+
+<h3>Refused Deliveries and Extended Absence</h3>
+
+<p>
+Refunds will not be provided for orders returned due to refusal of delivery, extended absence, incorrect shipping information, or other circumstances attributable to the customer.
 </p>
 
 <p>
-Questions regarding refunds may be directed to:
-<br>
+If reshipment is requested, additional shipping charges and related expenses may apply.
+</p>
+
+<h3>Product Characteristics</h3>
+
+<p>
+Many products sold through this website incorporate natural materials, handmade production processes, 3D scan-derived forms, or unique surface characteristics.
+</p>
+
+<p>
+Variations in color, texture, dimensions, shape, finish, and other characteristics are considered part of the nature of the work and shall not be regarded as defects.
+</p>
+
+<h3>Non-Refundable Cases</h3>
+
+<p>
+Refunds, exchanges, or replacements will not be provided in the following situations:
+</p>
+
+<p>
+• Damage caused by the customer<br>
+• Improper handling, storage, or modification<br>
+• Changes resulting from normal aging or wear<br>
+• Requests submitted more than three (3) days after delivery<br>
+• Natural variations inherent to handmade or one-of-a-kind works
+</p>
+
+<h3>Contact</h3>
+
+<p>
+Questions regarding returns, exchanges, or refunds may be directed to:<br>
 info@locomotion_service.com
 </p>
-    `,
+`,
     jp:`
-    <h2 class="legal-hidden-title">
-  返金ポリシー
+    <h2>
+(返金ポリシー)
 </h2>
 
+<h3>返品・交換について</h3>
+
 <p>
-Locomotion™ では、手作業による作品、一点物、少量生産品、3Dスキャンに関連する制作物などを主に取り扱っています。
-これらの商品の性質上、原則としてすべての販売は最終的なものとし、購入後の返品・交換・返金はお受けしておりません。
+Locomotion™ では、一点物作品、少量生産品、手作業による制作物、3Dスキャンデータをもとに制作された作品等を取り扱っています。
+商品の性質上、原則としてお客様都合による返品、交換、返金はお受けしておりません。
 </p>
 
 <p>
-お客様都合による返品、交換、キャンセル、返金（イメージ違い、注文間違い、不要になった等）はお受けできません。
+イメージ違い、注文間違い、サイズの認識違い、モニター表示との差異、不要になった等の理由による返品・返金はできません。
+</p>
+
+<h3>初期不良について</h3>
+
+<p>
+商品到着時に重大な破損、欠損、製造上の不具合が認められる場合には、商品到着後3日以内にご連絡ください。
 </p>
 
 <p>
-ただし、商品到着時に著しい破損が認められる場合、重大な製造上の欠陥が存在する場合、または商品説明と著しく異なる場合には、商品到着後3日以内にご連絡ください。
+内容を確認のうえ、交換、修理、返金等の対応を検討いたします。
+</p>
+
+<h3>配送事故について</h3>
+
+<p>
+配送中の事故による破損が疑われる場合は、商品および梱包材を保管した状態で速やかにご連絡ください。
 </p>
 
 <p>
-お問い合わせの際は、以下の情報をご用意ください。
+配送会社への確認が必要となる場合があります。
+</p>
+
+<h3>ご連絡時に必要な情報</h3>
+
+<p>
+返品または交換をご希望の場合は、以下の情報をご提供ください。
 </p>
 
 <p>
 ・お名前<br>
-・注文情報<br>
-・商品の状態が確認できる写真<br>
-・梱包状態が確認できる写真
+・注文番号または注文情報<br>
+・商品の写真<br>
+・梱包状態が確認できる写真<br>
+・不具合内容の説明
+</p>
+
+<h3>返送料について</h3>
+
+<p>
+初期不良または当サイトの責任による不備が認められた場合、返送および再発送にかかる費用は Locomotion™ が負担します。
 </p>
 
 <p>
-ご連絡内容を確認のうえ、Locomotion™ が妥当と判断した場合には、交換、修理、返金その他適切な対応を行います。
+お客様都合による返品または交換については対応いたしかねます。
+</p>
+
+<h3>返金方法について</h3>
+
+<p>
+返金が認められた場合、原則としてご利用いただいた決済方法を通じて返金を行います。
 </p>
 
 <p>
-お客様による誤使用、改造、保管不備、落下・衝撃による破損、経年変化等については返金または交換の対象となりません。
+返金処理完了後、実際の返金反映時期はカード会社または決済事業者の処理状況により異なります。
+</p>
+
+<h3>注文後のキャンセルについて</h3>
+
+<p>
+決済完了後のお客様都合によるキャンセルはお受けしておりません。
 </p>
 
 <p>
-天然素材や手作業による制作工程を含む作品については、色味、形状、質感、表面状態等に個体差が生じる場合がありますが、これらは不良品とはみなしません。
+ただし、発送前であり、かつ当サイトが対応可能と判断した場合に限り、例外的に対応する場合があります。
+</p>
+
+<h3>受領拒否・長期不在について</h3>
+
+<p>
+受領拒否、長期不在、住所不備その他お客様の責めに帰す事由により商品が返送された場合、返金は行いません。
 </p>
 
 <p>
-返金・交換に関するお問い合わせは以下までご連絡ください。<br>
+再発送を希望される場合は、追加送料および必要な費用をご負担いただく場合があります。
+</p>
+
+<h3>作品の特性について</h3>
+
+<p>
+天然素材、手作業による制作工程、3Dスキャン由来の形状、表面処理の個体差等により、色味、質感、寸法、形状等に差異が生じる場合があります。
+</p>
+
+<p>
+これらは作品固有の特性であり、不良品には該当しません。
+</p>
+
+<h3>返金対象外</h3>
+
+<p>
+以下の場合は返金または交換の対象外となります。
+</p>
+
+<p>
+・お客様による破損、汚損、改造<br>
+・誤使用または不適切な保管による損傷<br>
+・経年変化による状態変化<br>
+・商品到着後3日を超えてからの申請<br>
+・作品固有の個体差
+</p>
+
+<h3>お問い合わせ</h3>
+
+<p>
+返品・交換・返金に関するお問い合わせは以下までご連絡ください。<br>
 info@locomotion_service.com
 </p>`
     },
 
     legal: {
-      en:  `
-      <h2>Legal Notice</h2>
+      en: `
+<h2>(Legal Notice)</h2>
+
+<h3>Seller</h3>
 
 <p>
-Business Name:
-<br>
 Locomotion™
 </p>
 
+<h3>Representative</h3>
+
 <p>
-Representative:
-<br>
 Issei Kouda
 </p>
 
-<p>
-Address:
-<br>
-Available upon request
-</p>
+<h3>Business Address</h3>
 
 <p>
-Phone:
-<br>
-Available upon request
+The business address will be disclosed without delay upon request in accordance with the Act on Specified Commercial Transactions of Japan.
 </p>
 
+<h3>Telephone Number</h3>
+
 <p>
-Email:
-<br>
+The telephone number will be disclosed without delay upon request in accordance with the Act on Specified Commercial Transactions of Japan.
+</p>
+
+<h3>Email Address</h3>
+
+<p>
 info@locomotion_service.com
 </p>
 
+<h3>Product Prices</h3>
+
 <p>
-Sales Price:
-<br>
-Displayed on each product page.
+Prices are listed on each product page and include applicable taxes unless otherwise stated.
+</p>
+
+<h3>Price Changes</h3>
+
+<p>
+Product prices may be changed without prior notice.
 </p>
 
 <p>
-Additional Fees:
-<br>
-Shipping fees and any applicable charges are displayed during checkout when applicable.
+However, price changes will not affect orders that have already been accepted.
+</p>
+
+<h3>Additional Charges</h3>
+
+<p>
+Shipping fees and other applicable charges may apply.
 </p>
 
 <p>
-Payment Methods:
-<br>
-Credit card payments and other payment methods supported by Stripe Checkout.
+Any such charges will be displayed during checkout before payment is completed.
+</p>
+
+<h3>Payment Methods</h3>
+
+<p>
+Credit card payments processed through Stripe.
+</p>
+
+<h3>Payment Timing</h3>
+
+<p>
+Payment is charged at the time the order is placed.
+</p>
+
+<h3>Delivery</h3>
+
+<p>
+Orders will be shipped within the period specified in the Shipping Policy after payment has been confirmed.
 </p>
 
 <p>
-Payment Timing:
-<br>
-Payment is processed at the time the order is placed through the checkout system.
+Delivery times may vary depending on product type, production schedules, inventory availability, and other operational circumstances.
+</p>
+
+<h3>Returns, Exchanges, and Cancellations</h3>
+
+<p>
+Please refer to the Refund Policy for detailed information regarding returns, exchanges, refunds, and cancellations.
 </p>
 
 <p>
-Order Acceptance:
-<br>
-An order is considered accepted after successful payment processing and confirmation by Locomotion™.
+Due to the nature of the products offered by Locomotion™, returns, exchanges, and refunds for customer convenience are generally not accepted.
+</p>
+
+<h3>Sales Quantity Limitations</h3>
+
+<p>
+Certain products may be subject to quantity limitations.
 </p>
 
 <p>
-Delivery:
-<br>
-Products are shipped after payment confirmation.
-Shipping times may vary depending on product type, production schedule, and shipping conditions.
+One-of-a-kind works, limited-production items, and made-to-order products may become unavailable once inventory has been exhausted.
+</p>
+
+<h3>Shipping Availability</h3>
+
+<p>
+Orders placed through this website are currently available for delivery within Japan only.
 </p>
 
 <p>
-Returns and Refunds:
-<br>
-Please refer to the Refund Policy for details regarding returns, exchanges, and refunds.
+International shipping is not currently supported.
+</p>
+
+<h3>System Requirements</h3>
+
+<p>
+Access to this website and the purchase of products require a compatible internet connection and supported web browser.
 </p>
 
 <p>
-Website:
-<br>
-Locomotion™
+Locomotion™ shall not be responsible for issues arising from the customer's device, browser, network environment, or other technical conditions beyond its control.
 </p>
-    `,
+
+<h3>Contact</h3>
+
+<p>
+Questions regarding products, orders, or this website may be directed to:<br>
+info@locomotion_service.com
+</p>
+`,
     jp: `
-    <h2 class="legal-hidden-title">
-  特定商取引法に基づく表記
+<h2>
+(特定商取引法に基づく表記)
 </h2>
 
+<h3>販売事業者</h3>
+
 <p>
-販売事業者名<br>
 Locomotion™
 </p>
 
+<h3>運営責任者</h3>
+
 <p>
-代表責任者<br>
 Issei Kouda
 </p>
 
-<p>
-所在地<br>
-請求があった場合、遅滞なく開示いたします。
-</p>
+<h3>所在地</h3>
 
 <p>
-電話番号<br>
-請求があった場合、遅滞なく開示いたします。
+所在地については、特定商取引法に基づき、
+お客様から請求があった場合には遅滞なく開示いたします。
 </p>
 
+<h3>電話番号</h3>
+
 <p>
-メールアドレス<br>
+電話番号については、特定商取引法に基づき、
+お客様から請求があった場合には遅滞なく開示いたします。
+</p>
+
+<h3>メールアドレス</h3>
+
+<p>
 info@locomotion_service.com
 </p>
 
+<h3>販売価格</h3>
+
 <p>
-販売価格<br>
-各商品ページに表示された価格（税込）
+各商品ページに表示された価格（税込）によります。
+</p>
+
+<h3>販売価格の変更について</h3>
+
+<p>
+商品価格は予告なく変更される場合があります。
 </p>
 
 <p>
-商品代金以外の必要料金<br>
-送料その他必要な費用が発生する場合は、決済時に表示します。
+ただし、注文確定後の価格変更は既に成立した注文には適用されません。
+</p>
+
+<h3>商品代金以外の必要料金</h3>
+
+<p>
+送料その他決済時に表示される費用が発生する場合があります。
+詳細は決済画面にてご確認ください。
+</p>
+
+<h3>支払方法</h3>
+
+<p>
+Stripe を利用したクレジットカード決済
+</p>
+
+<h3>支払時期</h3>
+
+<p>
+ご注文時に決済が確定します。
+</p>
+
+<h3>商品の引渡時期</h3>
+
+<p>
+決済確認後、配送ポリシーに定める期間内に発送いたします。
 </p>
 
 <p>
-支払方法<br>
-Stripe Checkout が対応する決済方法
+商品の種類、制作状況、在庫状況その他の事情により発送時期が異なる場合があります。
+詳細は各商品ページまたは配送ポリシーをご確認ください。
+</p>
+
+<h3>返品・交換・キャンセルについて</h3>
+
+<p>
+返品、交換および返金に関する条件については Refund Policy をご確認ください。
 </p>
 
 <p>
-支払時期<br>
-注文時に決済が行われます。
+商品の性質上、お客様都合による返品、交換および返金は原則としてお受けしておりません。
+</p>
+
+<h3>販売数量の制限</h3>
+
+<p>
+商品によって販売数量を制限する場合があります。
 </p>
 
 <p>
-商品の引渡時期<br>
-決済確認後、発送準備を行い順次発送いたします。
+一点物、少量生産品、受注制作作品については在庫がなくなり次第販売終了となります。
+</p>
+
+<h3>対応地域</h3>
+
+<p>
+現在、本ウェブサイトからのご注文は日本国内への配送のみ対応しています。
 </p>
 
 <p>
-返品・交換・キャンセルについて<br>
-詳細は返金ポリシーをご確認ください。
+海外配送については現在対応しておりません。
+</p>
+
+<h3>動作環境について</h3>
+
+<p>
+本ウェブサイトの閲覧および商品の購入には、インターネット接続環境および対応ブラウザが必要です。
 </p>
 
 <p>
-ウェブサイト<br>
-Locomotion™
-</p>`
+利用環境に起因する表示不具合、通信障害その他の問題について、Locomotion™ は責任を負いません。
+</p>
+
+<h3>お問い合わせ</h3>
+
+<p>
+本ウェブサイトおよび商品の販売に関するお問い合わせは以下までご連絡ください。<br>
+info@locomotion_service.com
+</p>
+`
     },
   };
-function setLegalTab(key) {
-  legalTextEn.innerHTML = texts[key].en;
-  legalTextJp.innerHTML = texts[key].jp;
+function renderLegalText() {
+  legalText.classList.toggle('is-jp', currentLegalLang === 'jp');
+  legalText.classList.toggle('is-en', currentLegalLang === 'en');
+
+  legalText.innerHTML = texts[currentLegalTab][currentLegalLang];
 
   tabs.forEach((tab) => {
     tab.classList.toggle(
       'is-active',
-      tab.dataset.legalTab === key
+      tab.dataset.legalTab === currentLegalTab
     );
   });
+
+  langBtns.forEach((btn) => {
+    btn.classList.toggle(
+      'is-active',
+      btn.dataset.legalLang === currentLegalLang
+    );
+  });
+}
+
+function setLegalTab(key) {
+  currentLegalTab = key;
+  renderLegalText();
+}
+
+function setLegalLang(lang) {
+  currentLegalLang = lang;
+  renderLegalText();
 }
 
   tabs.forEach((tab) => {
@@ -2453,6 +3276,11 @@ function setLegalTab(key) {
       setLegalTab(tab.dataset.legalTab);
     });
   });
+  langBtns.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    setLegalLang(btn.dataset.legalLang);
+  });
+});
 
   setLegalTab('privacy');
 });
