@@ -1337,9 +1337,18 @@ function loadModelById(id) {
       currentModel = model;
       currentItem = item;
       updatePcSceneActive(item.id);
-      renderPcInfo(item);
-      updatePcPlusText();
-      updatePcBottomLabels();
+
+const infoPanel = document.getElementById('pcInfoPanel');
+const shouldRenderInfo =
+  infoPanel?.classList.contains('is-scene') ||
+  infoPanel?.classList.contains('is-object-info');
+
+if (shouldRenderInfo) {
+  renderPcInfo(item);
+}
+
+updatePcPlusText();
+updatePcBottomLabels();
 
      
 
@@ -1824,26 +1833,109 @@ panel.className = isObject
   });
 
   explainBtn?.addEventListener('click', (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
 openPanel(explainBtn, `
-  <h2>Locomotion™</h2>
-  <p>
-    Locomotion™ is a digital field for scanned scenes, handmade objects,
-    public fragments, and temporary materials.
-  </p>
-  <p>
-    Each scene functions as an entrance. Each object works as a small physical
-    trace, detached from its original location and placed back into motion
-    through the screen.
-  </p>
-  <p>
-    The project treats navigation, product display, and spatial memory as one
-    continuous movement.
-  </p>
-  <img src="./assets/images/about_image_1.jpeg" alt="">
+  <div class="about-body">
+    <div class="legal-lang-tabs">
+      <button class="legal-lang-btn is-active" type="button" data-about-lang="en">EN</button>
+      <button class="legal-lang-btn" type="button" data-about-lang="jp">JP</button>
+    </div>
+
+    <div id="aboutText" class="about-text"></div>
+
+    <img
+      src="./assets/images/about_image_1.png"
+      class="about-image"
+      alt=""
+    >
+  </div>
 `, 'explain');
+
+  const aboutText = document.getElementById('aboutText');
+  const aboutLangBtns = document.querySelectorAll('[data-about-lang]');
+
+  const aboutTexts = {
+    en: `
+      <h2>🪦Locomotion™🪦</h2>
+
+      <p>
+        Locomotion™ is an experimental project exploring the possibilities of contemporary independent work.
+      </p>
+
+      <p>
+        Combining the functions of a marketplace and an archive, it facilitates the circulation, preservation, and long-term accessibility of cultural production. In addition to presenting outstanding practices across a wide range of fields, Locomotion™ regularly develops collaborations with artists, designers, researchers, and independent practitioners.
+      </p>
+
+      <p>
+        As technology and social conditions continue to evolve, the ways people engage with creative production—and the experiences that emerge from it—also change. Locomotion™ seeks to understand, document, and share these transformations.🤺
+      </p>
+
+      <p class="about-meta">
+  email:
+  <a href="mailto:info@locomotion_service.com">
+    info@locomotion_service.com
+  </a>
+
+  <span class="about-meta-sep">　</span>
+
+  founded: 2025
+</p>
+    `,
+
+    jp: `
+      <h2>🪦Locomotion™🪦</h2>
+
+      <p>
+        Locomotion™は現代的なインデペンデントワークの可能性を提示する実験的プロジェクトです。
+      </p>
+
+      <p>
+        ECサイトとしての販売機能とアーカイブプロジェクトとしての保存機能を備え、文化的制作物の流通、保存、そして継続的なアクセスを可能にしています。様々な領域における優れた実践を取り扱う他、アーティスト、デザイナー、研究者、インディペンデントの実践者たちとのコラボレーションを定期的に展開します。
+      </p>
+
+      <p>
+        技術や社会環境の変化によって、人々の制作との関わり方や、そこから得られる実感もまた変化しています。Locomotion™は、その変化を理解し、記録し、共有することを目的とします。
+      </p>
+
+      <p class="about-meta">
+  email:
+  <a href="mailto:info@locomotion_service.com">
+    info@locomotion_service.com
+  </a>
+
+  <span class="about-meta-sep">　</span>
+
+  founded: 2025
+</p>
+    `
+  };
+
+  let currentAboutLang = 'en';
+
+  function renderAboutText() {
+    aboutText.innerHTML = aboutTexts[currentAboutLang];
+
+    aboutText.classList.toggle('is-jp', currentAboutLang === 'jp');
+    aboutText.classList.toggle('is-en', currentAboutLang === 'en');
+
+    aboutLangBtns.forEach((btn) => {
+      btn.classList.toggle(
+        'is-active',
+        btn.dataset.aboutLang === currentAboutLang
+      );
+    });
+  }
+
+  aboutLangBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      currentAboutLang = btn.dataset.aboutLang;
+      renderAboutText();
+    });
   });
+
+  renderAboutText();
+});
 
   privacyBtn?.addEventListener('click', (e) => {
   e.preventDefault();
@@ -2513,15 +2605,11 @@ As a result, processing times may vary between products.
 <h3>Processing Time</h3>
 
 <p>
-Orders are generally prepared for shipment within several business days after payment confirmation.
+Orders are generally prepared for shipment within 7 business days after payment confirmation.
 </p>
 
 <p>
 However, processing times may be extended due to production schedules, order volume, holidays, year-end periods, or other operational circumstances.
-</p>
-
-<p>
-For one-of-a-kind works, made-to-order products, or limited-edition items, the estimated shipping schedule stated on the product page shall take precedence.
 </p>
 
 <h3>Shipping Destinations</h3>
@@ -2636,12 +2724,8 @@ Locomotion™ は、日本国内より商品を発送しています。
 <h3>発送時期</h3>
 
 <p>
-通常、ご注文および決済確認後、数営業日以内に発送手続きを行います。
+通常、ご注文および決済確認後、7営業日以内に発送手続きを行います。
 ただし、受注状況、制作状況、祝祭日、年末年始その他の事情により発送までお時間をいただく場合があります。
-</p>
-
-<p>
-一点物作品、受注制作作品、数量限定作品については、商品ページに記載された発送予定時期を優先するものとします。
 </p>
 
 <h3>配送地域</h3>
@@ -3051,14 +3135,14 @@ Credit card payments processed through Stripe.
 Payment is charged at the time the order is placed.
 </p>
 
-<h3>Delivery</h3>
+<h3>Delivery Time</h3>
 
 <p>
-Orders will be shipped within the period specified in the Shipping Policy after payment has been confirmed.
+Orders are generally shipped within 7 business days after payment confirmation.
 </p>
 
 <p>
-Delivery times may vary depending on product type, production schedules, inventory availability, and other operational circumstances.
+Shipping times may be extended due to production schedules, order volume, holidays, year-end periods, or other unavoidable circumstances.
 </p>
 
 <h3>Returns, Exchanges, and Cancellations</h3>
@@ -3183,12 +3267,11 @@ Stripe を利用したクレジットカード決済
 <h3>商品の引渡時期</h3>
 
 <p>
-決済確認後、配送ポリシーに定める期間内に発送いたします。
+ご注文および決済確認後、通常7営業日以内に発送いたします。
 </p>
 
 <p>
-商品の種類、制作状況、在庫状況その他の事情により発送時期が異なる場合があります。
-詳細は各商品ページまたは配送ポリシーをご確認ください。
+受注状況、制作状況、祝祭日、年末年始その他やむを得ない事情により、発送までお時間をいただく場合があります。
 </p>
 
 <h3>返品・交換・キャンセルについて</h3>
@@ -3240,6 +3323,42 @@ info@locomotion_service.com
 `
     },
   };
+
+  const aboutTexts = {
+  en: `
+<h2>Locomotion™</h2>
+
+<p>
+Locomotion™ is an experimental project exploring the possibilities of contemporary independent work.
+</p>
+
+<p>
+Combining the functions of a marketplace and an archive, it facilitates the circulation, preservation, and long-term accessibility of cultural production. In addition to presenting outstanding practices across a wide range of fields, Locomotion™ regularly develops collaborations with artists, designers, researchers, and independent practitioners.
+</p>
+
+<p>
+As technology and social conditions continue to evolve, the ways people engage with creative production—and the experiences that emerge from it—also change. Locomotion™ seeks to understand, document, and share these transformations.
+</p>
+`,
+
+  jp: `
+<h2 class="legal-hidden-title">
+Locomotion™
+</h2>
+
+<p>
+Locomotion™は現代的なインデペンデントワークの可能性を提示する実験的プロジェクトです。
+</p>
+
+<p>
+ECサイトとしての販売機能とアーカイブプロジェクトとしての保存機能を備え、文化的制作物の流通、保存、そして継続的なアクセスを可能にしています。様々な領域における優れた実践を取り扱う他、アーティスト、デザイナー、研究者、インディペンデントの実践者たちとのコラボレーションを定期的に展開します。
+</p>
+
+<p>
+技術や社会環境の変化によって、人々の制作との関わり方や、そこから得られる実感もまた変化しています。Locomotion™は、その変化を理解し、記録し、共有することを目的とします。
+</p>
+`
+};
 function renderLegalText() {
   legalText.classList.toggle('is-jp', currentLegalLang === 'jp');
   legalText.classList.toggle('is-en', currentLegalLang === 'en');
