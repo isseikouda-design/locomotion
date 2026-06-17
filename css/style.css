@@ -282,9 +282,9 @@ body.modal-open {
 }
 
 .about-text a{
-  color: #0a42ff;
-  text-decoration: none;
-  font-weight: 900;
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 400;
 }
 
 @media (max-width: 860px){
@@ -1232,7 +1232,6 @@ body.has-trails #trailCanvas,
 
   font-size: 28px;
   line-height: 1;
-  font-weight: 700;
 }
 
 .pc-info-content p {
@@ -1279,7 +1278,6 @@ body.has-trails #trailCanvas,
   }
 
 }
-
 /* =========================================================
    SP Info Panel Adjustments
 ========================================================= */
@@ -1288,7 +1286,6 @@ body.has-trails #trailCanvas,
 .pc-info-panel.is-explain .pc-info-content,
 .pc-info-panel.is-privacy .pc-info-content {
   position: fixed !important;
-
   top: var(--sp-top-ui-height, 120px) !important;
   left: 8px !important;
   right: 8px !important;
@@ -1315,7 +1312,11 @@ body.has-trails #trailCanvas,
 
   width: auto !important;
 
-  max-height: calc(100dvh - var(--sp-top-ui-height, 120px) - var(--sp-bottom-ui-height, 48px)) !important;
+  max-height: calc(
+    100dvh
+    - var(--sp-top-ui-height, 120px)
+    - var(--sp-bottom-ui-height, 48px)
+  ) !important;
 
   overflow-y: auto !important;
   overflow-x: hidden !important;
@@ -1323,20 +1324,122 @@ body.has-trails #trailCanvas,
   padding-top: 24px !important;
   padding-bottom: 16px !important;
   box-sizing: border-box !important;
-  
 }
+
 .pc-info-panel.is-scene001-info .pc-info-content {
   padding-top: 24px !important;
   padding-bottom: 0 !important;
-  box-sizing: border-box !important;
 }
 
 .pc-info-panel.is-other-scene-info .pc-info-content {
   padding-top: 12px !important;
   padding-bottom: 8px !important;
-  box-sizing: border-box !important;
 }
-  
+
+/* Privacy Layout */
+.pc-info-panel.is-privacy .legal-layout {
+  display: flex !important;
+  flex-direction: column-reverse !important;
+  gap: 18px !important;
+}
+
+.pc-info-panel.is-privacy .legal-tabs {
+  position: static !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+
+  gap: 6px !important;
+  margin-top: 18px !important;
+}
+
+.pc-info-panel.is-privacy .legal-tab {
+  font-size: 22px !important;
+  line-height: 1.08 !important;
+
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* EN / JP */
+.pc-info-panel.is-privacy .legal-lang-tabs,
+.pc-info-panel.is-explain .legal-lang-tabs {
+  gap: 0 !important;
+  margin: -16px 0 4px !important;
+}
+
+.pc-info-panel.is-privacy .legal-lang-btn,
+.pc-info-panel.is-explain .legal-lang-btn {
+  font-size: 22px !important;
+  line-height: 1.08 !important;
+
+  text-decoration: underline !important;
+  text-underline-offset: 2px !important;
+
+  border: none !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.pc-info-panel .legal-lang-btn:first-child::after {
+  content: " /";
+  text-decoration: none;
+}
+
+/* spacing */
+.pc-info-panel.is-privacy .legal-text h3 {
+  margin: 0 !important;
+  line-height: 1.05 !important;
+}
+
+.pc-info-panel.is-privacy .legal-text p {
+  margin-top: 0 !important;
+}
+
+/* =====================================================
+   JP Typography
+===================================================== */
+
+.about-text.is-jp,
+.pc-info-content .legal-text.is-jp {
+  font-family: "Noto Sans JP", sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.pc-info-content .legal-text.is-jp h2,
+.about-text.is-jp h2 {
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-family: "Noto Sans JP", sans-serif;
+  letter-spacing: 0em;
+  font-size: 28px !important;
+}
+
+.pc-info-content .legal-text.is-jp h3 {
+  font-size: 17px !important;
+  line-height: 1.08 !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+}
+
+.pc-info-content .legal-text.is-jp p,
+.about-text.is-jp p {
+  font-size: 19px !important;
+  line-height: 1.18 !important;
+  font-weight: 400 !important;
+}
+
+.about-text.is-jp .about-meta {
+  font-size: 22px !important;
+  line-height: 1.18 !important;
+  font-weight: 400 !important;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 }
 
 /* =========================================================

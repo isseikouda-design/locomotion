@@ -1887,15 +1887,15 @@ openPanel(explainBtn, `
       <h2>🪦Locomotion™🪦</h2>
 
       <p>
-        Locomotion™は現代的なインデペンデントワークの可能性を提示する実験的プロジェクトです。
+        "Locomotion™は現代的なインデペンデントワークの可能性を提示する実験的プロジェクトです。"
       </p>
 
       <p>
-        ECサイトとしての販売機能とアーカイブプロジェクトとしての保存機能を備え、文化的制作物の流通、保存、そして継続的なアクセスを可能にしています。様々な領域における優れた実践を取り扱う他、アーティスト、デザイナー、研究者、インディペンデントの実践者たちとのコラボレーションを定期的に展開します。
+        "ECサイトとしての販売機能とアーカイブプロジェクトとしての保存機能を備え、文化的制作物の流通、保存、そして継続的なアクセスを可能にしています。様々な領域における優れた実践を取り扱う他、アーティスト、デザイナー、研究者、インディペンデントの実践者たちとのコラボレーションを定期的に展開します。"
       </p>
 
       <p>
-        技術や社会環境の変化によって、人々の制作との関わり方や、そこから得られる実感もまた変化しています。Locomotion™は、その変化を理解し、記録し、共有することを目的とします。
+        "技術や社会環境の変化によって、人々の制作との関わり方や、そこから得られる実感もまた変化しています。Locomotion™は、その変化を理解し、記録し、共有することを目的とします。"
       </p>
 
       <p class="about-meta">
@@ -2050,9 +2050,7 @@ Any changes will become effective when posted on this website.
   `,
 
   jp: `
-<h2>
-  (プライバシーポリシー)
-</h2>
+<h2>(Privacy Policy)</h2>
 
 <p>
 Locomotion™ は、本プライバシーポリシーに基づき、個人情報を適切に取り扱います。
@@ -2359,9 +2357,7 @@ info@locomotion_service.com
    `,
 
 jp: `
-<h2>
-(利用規約)
-</h2>
+<h2>(Terms of Use)</h2>
 
 <h3>適用</h3>
 
@@ -2705,9 +2701,7 @@ info@locomotion_service.com
 </p>
 `,
     jp: `
-    <h2>
-(配送ポリシー)
-</h2>
+<h2>(Shipping Policy)</h2>
 
 <h3>配送について</h3>
 
@@ -2942,9 +2936,7 @@ info@locomotion_service.com
 </p>
 `,
     jp:`
-    <h2>
-(返金ポリシー)
-</h2>
+<h2>(Refund Policy)</h2>
 
 <h3>返品・交換について</h3>
 
@@ -3193,9 +3185,7 @@ info@locomotion_service.com
 </p>
 `,
     jp: `
-<h2>
-(特定商取引法に基づく表記)
-</h2>
+<h2>(Legal Notice)</h2>
 
 <h3>販売事業者</h3>
 
@@ -3383,6 +3373,18 @@ function renderLegalText() {
 function setLegalTab(key) {
   currentLegalTab = key;
   renderLegalText();
+
+  requestAnimationFrame(() => {
+    legalText?.scrollTo({
+      top: 0,
+      behavior: 'auto'
+    });
+
+    content?.scrollTo({
+      top: 0,
+      behavior: 'auto'
+    });
+  });
 }
 
 function setLegalLang(lang) {
