@@ -1217,6 +1217,8 @@ body.has-trails #trailCanvas,
     color: #111;
   }
 
+  
+
   .pc-info-content {
     position: fixed;
     left: 8px;
@@ -1237,7 +1239,7 @@ body.has-trails #trailCanvas,
 .pc-info-content p {
   margin: 0 0 4px;
 
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.08;
 }
 
@@ -1269,8 +1271,8 @@ body.has-trails #trailCanvas,
    .pc-info-content img {
     display: block;
 
-    width: 72vw !important;
-    max-width: 280px !important;
+    width: 142vw !important;
+    max-width: 360px !important;
     height: auto !important;
 
     margin: 18px auto 0 !important;
@@ -1287,8 +1289,8 @@ body.has-trails #trailCanvas,
 .pc-info-panel.is-privacy .pc-info-content {
   position: fixed !important;
   top: var(--sp-top-ui-height, 120px) !important;
-  left: 8px !important;
-  right: 8px !important;
+  left: 0 !important;
+  right: 0 !important;
   bottom: var(--sp-bottom-ui-height, 48px) !important;
 
   width: auto !important;
@@ -1296,9 +1298,12 @@ body.has-trails #trailCanvas,
   overflow-y: auto !important;
   overflow-x: hidden !important;
 
-  padding-top: 24px !important;
-  padding-bottom: 16px !important;
+  padding: 24px 8px 16px !important;
   box-sizing: border-box !important;
+
+  background: rgba(255,255,255,0.12) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
 .pc-info-panel.is-scene .pc-info-content,
@@ -1385,6 +1390,14 @@ body.has-trails #trailCanvas,
   background: transparent !important;
   padding: 0 !important;
 }
+.pc-info-panel.is-privacy .legal-tab,
+.pc-info-panel.is-privacy .legal-lang-btn,
+.pc-info-panel.is-explain .legal-lang-btn,
+.about-text a,
+.about-text a:visited,
+.about-text a:active {
+  color: #111 !important;
+}
 
 .pc-info-panel .legal-lang-btn:first-child::after {
   content: " /";
@@ -1401,14 +1414,22 @@ body.has-trails #trailCanvas,
   margin-top: 0 !important;
 }
 
+
+
 /* =====================================================
    JP Typography
 ===================================================== */
 
 .about-text.is-jp,
 .pc-info-content .legal-text.is-jp {
-  font-family: "Noto Sans JP", sans-serif;
-  letter-spacing: -0.02em;
+  font-family:
+    "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN",
+    "Yu Gothic",
+    "YuGothic",
+    sans-serif;
+
+  letter-spacing: -0.03em;
 }
 
 .pc-info-content .legal-text.is-jp h2,
@@ -1428,16 +1449,44 @@ body.has-trails #trailCanvas,
 
 .pc-info-content .legal-text.is-jp p,
 .about-text.is-jp p {
-  font-size: 19px !important;
+  font-size: 21px !important;
   line-height: 1.18 !important;
   font-weight: 400 !important;
 }
 
 .about-text.is-jp .about-meta {
-  font-size: 22px !important;
+  font-size: 24px !important;
   line-height: 1.18 !important;
   font-weight: 400 !important;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.pc-info-panel.is-explain .about-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.pc-info-panel.is-explain .legal-lang-tabs {
+  order: 0;
+}
+
+.pc-info-panel.is-explain .about-text {
+  display: contents;
+}
+
+.pc-info-panel.is-explain .about-text h2 {
+  order: 1;
+}
+
+.pc-info-panel.is-explain .about-image {
+  order: 2;
+}
+
+.pc-info-panel.is-explain .about-text p {
+  order: 3;
+}
+.pc-info-panel.is-explain .about-text h2 {
+  display: none !important;
 }
 
 }
