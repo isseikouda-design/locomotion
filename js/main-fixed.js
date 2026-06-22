@@ -1774,6 +1774,8 @@ buildPcSceneStrip();
   }
 
 function openPanel(activeBtn, html, type = '') {
+  closeCartIfOpen();
+
   clearBottomActive();
 
   panel.className = 'pc-info-panel is-open';
@@ -1790,6 +1792,9 @@ function openPanel(activeBtn, html, type = '') {
     panel.setAttribute('aria-hidden', 'true');
     clearBottomActive();
   }
+  function closeCartIfOpen() {
+  closeCartPanel?.();
+}
 
 sceneBtn?.addEventListener('click', (e) => {
   e.preventDefault();
@@ -1804,6 +1809,8 @@ sceneBtn?.addEventListener('click', (e) => {
   }
 
   clearBottomActive();
+
+  closeCartIfOpen();
 
  const isObject = currentItem && currentItem.id.startsWith('object');
 panel.className = isObject
@@ -1886,17 +1893,17 @@ openPanel(explainBtn, `
     jp: `
       <h2>🪦Locomotion™🪦</h2>
 
-      <p>
-        "Locomotion™は現代的なインデペンデントワークの可能性を提示する実験的プロジェクトです。"
-      </p>
+     <p>
+  "Locomotion™は<span>現代的なインデペンデントワークの可能性を提示する<span>実験的プロジェクトです</span>。"
+</p>
 
-      <p>
-        "ECサイトとしての販売機能とアーカイブプロジェクトとしての保存機能を備え、文化的制作物の流通、保存、そして継続的なアクセスを可能にしています。様々な領域における優れた実践を取り扱う他、アーティスト、デザイナー、研究者、インディペンデントの実践者たちとのコラボレーションを定期的に展開します。"
-      </p>
+<p>
+  "ECサイトとしての販売機能とアーカイブプロジェクトとしての<span>保存機能を</span>備え、文化的制作物の流通、保存、そして継続的なアクセスを可能に<span>しています。様々な領域における優れた実践を取り扱う他、アーティスト、デザイナー、研究者、インディペンデントの実践者たちとのコラボレーションを定期的に展開します。"
+</p>
 
-      <p>
-        "技術や社会環境の変化によって、人々の制作との関わり方や、そこから得られる実感もまた変化しています。Locomotion™は、その変化を理解し、記録し、共有することを目的とします。"
-      </p>
+<p>
+  "<span>技術や社会</span>環境の変化によって、人々の制作との関わり方や、そこから得られる実感もまた変化しています。<span class="heisei-font">Locomotion™</span>は、その変化を理解し、記録し、共有することを目的とします。"
+</p>
 
       <p class="about-meta">
   email:
@@ -1910,14 +1917,66 @@ openPanel(explainBtn, `
 </p>
     `
   };
+function randomizeAboutJpFonts(html) {
+  const fonts = ['font-jp-base', 'font-heisei', 'font-rampart'];
 
+  const template = document.createElement('template');
+  template.innerHTML = html;
+
+  const walker = document.createTreeWalker(
+    template.content,
+    NodeFilter.SHOW_TEXT
+  );
+
+  const textNodes = [];
+
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+
+    if (!node.nodeValue.trim()) continue;
+
+    const parent = node.parentElement;
+
+    if (
+      parent?.closest('a') ||
+      parent?.closest('.about-meta')
+    ) {
+      continue;
+    }
+
+    textNodes.push(node);
+  }
+
+  textNodes.forEach((node) => {
+    const frag = document.createDocumentFragment();
+
+    node.nodeValue.split(/([\s。、，．！？「」『』（）])/).forEach((text) => {
+      if (!text.trim()) {
+        frag.appendChild(document.createTextNode(text));
+        return;
+      }
+
+      const span = document.createElement('span');
+      span.className = fonts[Math.floor(Math.random() * fonts.length)];
+      span.textContent = text;
+      frag.appendChild(span);
+    });
+
+    node.replaceWith(frag);
+  });
+
+  return template.innerHTML;
+}
   let currentAboutLang = 'en';
 
-  function renderAboutText() {
-    aboutText.innerHTML = aboutTexts[currentAboutLang];
+function renderAboutText() {
+  aboutText.innerHTML =
+    currentAboutLang === 'jp'
+      ? randomizeAboutJpFonts(aboutTexts.jp)
+      : aboutTexts.en;
 
-    aboutText.classList.toggle('is-jp', currentAboutLang === 'jp');
-    aboutText.classList.toggle('is-en', currentAboutLang === 'en');
+  aboutText.classList.toggle('is-jp', currentAboutLang === 'jp');
+  aboutText.classList.toggle('is-en', currentAboutLang === 'en');
 
     aboutLangBtns.forEach((btn) => {
       btn.classList.toggle(
@@ -3592,36 +3651,42 @@ function renderCart() {
     const price =
       model?.info?.price || 0;
 
-    return `
+   return `
   <div class="cart-item">
-    <div>${name}</div>
-    <div>¥${Number(price).toLocaleString()}</div>
-    <div class="cart-qty-row">
-  <button
-    class="cart-qty-btn"
-    data-minus="${item.productId}"
-  >
-    −
-  </button>
+    <div class="cart-item-main">
+      <div class="cart-item-text">
+        <div class="cart-item-name">${name}</div>
+        <div class="cart-item-price">¥${Number(price).toLocaleString()}</div>
 
-  <span>
-    ${item.quantity}
-  </span>
+        <div class="cart-qty-row">
+          <button class="cart-qty-btn" data-minus="${item.productId}">
+            −
+          </button>
 
-  <button
-    class="cart-qty-btn"
-    data-plus="${item.productId}"
+          <span>${item.quantity}</span>
+
+          <button class="cart-qty-btn" data-plus="${item.productId}">
+            +
+          </button>
+        </div>
+
+        <button
+          class="cart-remove-btn"
+          type="button"
+          data-product-id="${item.productId}"
+        >
+          remove
+        </button>
+      </div>
+
+      <div class="cart-thumb-wrap">
+  <img
+    class="cart-thumb"
+    src="./assets/images/object001.png"
+    alt=""
   >
-    +
-  </button>
 </div>
-    <button
-      class="cart-remove-btn"
-      type="button"
-      data-product-id="${item.productId}"
-    >
-      remove
-    </button>
+    </div>
   </div>
 `;
   })
@@ -3658,14 +3723,29 @@ function openCartPanel() {
   const panel = document.getElementById('cartPanel');
   const cartBtn = document.querySelector('.pc-cart-btn');
 
+  document.getElementById('pcInfoPanel')?.classList.remove('is-open');
+  document.getElementById('pcInfoPanel')?.setAttribute('aria-hidden', 'true');
+  document.getElementById('pcPlusText')?.classList.remove('is-open');
+document.getElementById('pcPlusText')?.setAttribute('aria-hidden', 'true');
+document.getElementById('pcPlusBtn')?.classList.remove('is-active');
+
+  document.querySelectorAll('.pc-bottom-link').forEach((btn) => {
+    btn.classList.remove('is-active');
+  });
+
   if (!panel) return;
 
   renderCart();
 
   panel.classList.add('is-open');
-  panel.setAttribute('aria-hidden', 'false');
+panel.setAttribute('aria-hidden', 'false');
+document.body.classList.add('cart-open');
 
-  cartBtn?.classList.add('is-active');
+requestAnimationFrame(() => {
+  updateSpUiHeights();
+});
+
+cartBtn?.classList.add('is-active');
 }
 
 function closeCartPanel() {
@@ -3674,10 +3754,16 @@ function closeCartPanel() {
 
   if (!panel) return;
 
-  panel.classList.remove('is-open');
-  panel.setAttribute('aria-hidden', 'true');
+panel.classList.remove('is-open');
+panel.setAttribute('aria-hidden', 'true');
 
-  cartBtn?.classList.remove('is-active');
+document.body.classList.remove('cart-open');
+
+requestAnimationFrame(() => {
+  updateSpUiHeights();
+});
+
+cartBtn?.classList.remove('is-active');
 }
 async function goToCheckout() {
   const cart = getCart();
