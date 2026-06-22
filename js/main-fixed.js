@@ -3655,7 +3655,12 @@ function renderCart() {
   <div class="cart-item">
     <div class="cart-item-main">
       <div class="cart-item-text">
-        <div class="cart-item-name">${name}</div>
+        <a
+  class="cart-item-name cart-item-link"
+  href="./index.html?object=${item.productId.replace('object', '')}"
+>
+  ${name}
+</a>
         <div class="cart-item-price">¥${Number(price).toLocaleString()}</div>
 
         <div class="cart-qty-row">
@@ -3679,10 +3684,10 @@ function renderCart() {
         </button>
       </div>
 
-      <div class="cart-thumb-wrap">
+ <div class="cart-thumb-wrap">
   <img
     class="cart-thumb"
-    src="./assets/images/object001.png"
+    src="./assets/images/${item.productId}.png"
     alt=""
   >
 </div>

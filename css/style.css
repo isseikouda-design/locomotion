@@ -1654,9 +1654,13 @@ body.has-trails #trailCanvas,
     line-height: 1.05 !important;
   }
 
-  .cart-thumb {
-    width: 82px;
-    height: 82px;
+.cart-item-main {
+  grid-template-columns: 1fr 100px;
+}
+
+.cart-thumb {
+  width: 100px;
+  height: 125px;
     border: 1px solid #111;
     box-sizing: border-box;
 
@@ -1726,6 +1730,19 @@ body.has-trails #trailCanvas,
   .cart-checkout-btn::after {
     content: ")";
   }
+
+  .cart-panel a,
+.cart-panel a:visited,
+.cart-panel a:active,
+.cart-panel button,
+.cart-panel button:visited,
+.cart-panel button:active {
+  color: #111 !important;
+}
+
+.cart-panel * {
+  -webkit-tap-highlight-color: transparent;
+}
 }
 .buy-btn {
   background: transparent;
@@ -1828,6 +1845,16 @@ body.has-trails #trailCanvas,
   background: transparent;
   text-decoration: underline;
   cursor: pointer;
+}
+.cart-item-link,
+.cart-item-link:visited,
+.cart-item-link:active {
+  color: #111;
+  text-decoration: underline;
+}
+
+.cart-item-link:hover {
+  color: #111;
 }
 
 .cart-total {
