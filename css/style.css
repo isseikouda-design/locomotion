@@ -1650,7 +1650,7 @@ body.has-trails #trailCanvas,
 
   .cart-item-name,
   .cart-item-price {
-    font-size: 20px !important;
+    font-size: 24px !important;
     line-height: 1.05 !important;
   }
 
@@ -1699,13 +1699,13 @@ body.has-trails #trailCanvas,
   padding: 0 !important;
   border: none !important;
   background: transparent !important;
-  font-size: 14px !important;
+  font-size: 24px !important;
   line-height: 1 !important;
   text-decoration: underline !important;
 }
 
   .cart-total {
-    font-size: 20px !important;
+    font-size: 24px !important;
     line-height: 1.08 !important;
   }
 
@@ -1719,7 +1719,7 @@ body.has-trails #trailCanvas,
 
     padding: 6px 8px !important;
 
-    font-size: 18px !important;
+    font-size: 24px !important;
     line-height: 1 !important;
   }
 
