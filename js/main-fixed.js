@@ -552,15 +552,11 @@ const MODELS = [
     zoomMul: 1.0
   },
 
-  clickMeshName: 'Mesh_0001',
-
-  spin: {
-    whole: true,
-    wholeSpeed: 0.1,
-    part: true,
-    partName: 'Mesh_0',
-    partSpeed: 1.0
-  },
+ spin: {
+  whole: true,
+  wholeSpeed: 0.1,
+  part: false
+},
 
   sp: {
     scale: 1,
@@ -586,10 +582,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W105 D100 H32',
 
     weight:
-      '320g',
+      '500g',
 
      productId:
       'object001',
@@ -619,7 +615,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
     cam: { pos: { x: 0, y: 6, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 0.8 },
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
     
     sp: {
     scale: 1,
@@ -644,10 +644,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W75 D50 H100',
 
     weight:
-      '320g',
+      '380g',
     
     productId:
       'object002',
@@ -656,7 +656,7 @@ const MODELS = [
       'object002',
 
     price:
-      32000,
+      22000,
 
       isUnique: true,
 
@@ -668,32 +668,41 @@ const MODELS = [
   }
    
   },
+{
+  id: 'object003',
+  glb: './assets/models/object003.glb',
+  scale: 0.5,
+  margin: 1.3,
+  centerMode: 'sphere',
+  offset: { x: 0, y: 0, z: 0 },
+  pivotOffset: { x: 0, y: 0.0, z: 0 },
 
-  {
-    id: 'object003',
-    glb: './assets/models/object003.glb',
-    scale: 0.5,
-    margin: 1.3,
-    centerMode: 'sphere',
-    offset: { x: 0, y: 0, z: 0 },
-    pivotOffset: { x: 0, y: 0.0, z: 0 },
-    cam: { pos: { x: 6.4, y: 1, z: -7.6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
-    
-    sp: {
+  cam: {
+    pos: { x: 6.4, y: 1, z: -7.6 },
+    target: { x: 0, y: 0, z: 0 },
+    zoomMul: 1.0
+  },
+
+  spin: {
+    whole: true,
+    wholeSpeed: 0.2,
+    part: false
+  },
+
+  sp: {
     scale: 1,
     margin: 1.6,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
+
     cam: {
-      pos: { x: 6.4, y: 1, z: -7.6 }, 
+      pos: { x: 6.4, y: 1, z: -7.6 },
       target: { x: 0, y: 0, z: 0 },
       zoomMul: 1.0
     }
   },
-    
+
   info: {
     title: 'object003',
 
@@ -704,11 +713,11 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W105 D40 H105',
 
     weight:
-      '320g',
-    
+      '436g',
+
     productId:
       'object003',
 
@@ -716,9 +725,9 @@ const MODELS = [
       'object003',
 
     price:
-      32000,
+      18000,
 
-      isUnique: true,
+    isUnique: true,
 
     contact:
       '(/Buy/)',
@@ -726,8 +735,7 @@ const MODELS = [
     notes:
       'Do not get this object wet. Also, do not leave it in a humid place.'
   }
-   
-  },
+},
 
   {
     id: 'object004',
@@ -738,8 +746,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
     cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
  
     sp: {
     scale: 1,
@@ -764,10 +775,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W70 D25 H95',
 
     weight:
-      '320g',
+      '292g',
 
     productId:
       'object004',
@@ -776,7 +787,7 @@ const MODELS = [
       'object004',
 
     price:
-      32000,
+      16000,
 
       isUnique: true,
 
@@ -797,8 +808,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0, z: 0 },
     cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0013', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
     sp: {
     scale: 1,
     margin: 1.4,
@@ -821,10 +835,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W130 D40 H130',
 
     weight:
-      '320g',
+      '667g',
 
    productId:
       'object005',
@@ -833,7 +847,7 @@ const MODELS = [
       'object005',
 
     price:
-      32000,
+      42000,
 
       isUnique: true,
 
@@ -854,8 +868,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0, z: 0 },
     cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0013', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
   
     sp: {
     scale: 1,
@@ -879,10 +896,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W92 D60 H98',
 
     weight:
-      '320g',
+      '870g',
 
     productId:
       'object006',
@@ -912,8 +929,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
     cam: { pos: { x: 12.6, y: 4, z: -1.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
     
     sp: {
     scale: 1,
@@ -937,10 +957,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W145 D40 H140',
 
     weight:
-      '320g',
+      '1374g',
 
     productId:
       'object007',
@@ -949,7 +969,7 @@ const MODELS = [
       'object007',
 
     price:
-      32000,
+      34000,
 
       isUnique: true,
 
@@ -970,8 +990,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0, z: 0 },
     cam: { pos: { x: 7, y: 2, z: 7.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
 
     sp: {
     scale: 1,
@@ -995,10 +1018,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W100 D43 H115',
 
     weight:
-      '320g',
+      '807g',
 
     productId:
       'object008',
@@ -1007,7 +1030,7 @@ const MODELS = [
       'object008',
 
     price:
-      32000,
+      22000,
 
       isUnique: true,
 
@@ -1028,8 +1051,11 @@ const MODELS = [
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: -0.03, z: 0 },
     cam: { pos: { x: 10, y: 4, z: 0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0013',
-    spin: { whole: true, wholeSpeed: 0.2, part: true, partName: 'Mesh_0', partSpeed: 1.0 },
+    spin: {
+  whole: true,
+  wholeSpeed: 0.2,
+  part: false
+},
   
     sp: {
     scale: 1,
@@ -1053,10 +1079,10 @@ const MODELS = [
       'Block, code, resin',
 
     size:
-      'W90 D90 H90',
+      'W85 D73 H88',
 
     weight:
-      '320g',
+      '412g',
 
     productId:
       'object009',
@@ -1065,7 +1091,7 @@ const MODELS = [
       'object009',
 
     price:
-      32000,
+      22000,
 
       isUnique: true,
 
