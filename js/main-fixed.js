@@ -600,6 +600,8 @@ const MODELS = [
     price:
       32000,
 
+      isUnique: true,
+
     contact:
       '(/Buy/)',
 
@@ -655,6 +657,8 @@ const MODELS = [
 
     price:
       32000,
+
+      isUnique: true,
 
     contact:
       '(/Buy/)',
@@ -714,6 +718,8 @@ const MODELS = [
     price:
       32000,
 
+      isUnique: true,
+
     contact:
       '(/Buy/)',
 
@@ -772,6 +778,8 @@ const MODELS = [
     price:
       32000,
 
+      isUnique: true,
+
     contact:
       '(/Buy/)',
 
@@ -826,6 +834,8 @@ const MODELS = [
 
     price:
       32000,
+
+      isUnique: true,
 
     contact:
       '(/Buy/)',
@@ -883,6 +893,8 @@ const MODELS = [
     price:
       32000,
 
+      isUnique: true,
+
     contact:
       '(/Buy/)',
 
@@ -938,6 +950,8 @@ const MODELS = [
 
     price:
       32000,
+
+      isUnique: true,
 
     contact:
       '(/Buy/)',
@@ -995,6 +1009,8 @@ const MODELS = [
     price:
       32000,
 
+      isUnique: true,
+
     contact:
       '(/Buy/)',
 
@@ -1050,6 +1066,8 @@ const MODELS = [
 
     price:
       32000,
+
+      isUnique: true,
 
     contact:
       '(/Buy/)',
@@ -1164,7 +1182,17 @@ function openPcPlusText() {
 
   btn.classList.add('is-active');
 }
+function updateModelLoadingPercent(percent) {
+  const percentEl = document.getElementById('modelLoadingPercent');
+  if (!percentEl) return;
 
+  const safePercent = Math.max(
+    0,
+    Math.min(100, Math.round(percent))
+  );
+
+  percentEl.textContent = `${safePercent}%`;
+}
 function showModelLoading(id) {
   shouldRestorePlusTextAfterLoading = isPcPlusTextOpen();
 
@@ -1172,6 +1200,8 @@ function showModelLoading(id) {
 
   const el = document.getElementById('modelLoading');
   if (!el) return;
+
+  updateModelLoadingPercent(0);
 
   el.classList.add('is-visible');
   el.setAttribute('aria-hidden', 'false');
@@ -1462,21 +1492,33 @@ if (isMobile && isObjectId(item.id)) {
 }
 
 // ★ UI更新は、model/cameraの準備が終わってから
-window.__spUiUpdate?.(item);
-hideModelLoading();
-if (pendingCheckoutMessage) {
-  showCheckoutMessage(pendingCheckoutMessage);
-  pendingCheckoutMessage = null;
-}
+      window.__spUiUpdate?.(item);
 
+      updateModelLoadingPercent(100);
+      hideModelLoading();
+
+      if (pendingCheckoutMessage) {
+        showCheckoutMessage(pendingCheckoutMessage);
+        pendingCheckoutMessage = null;
+      }
     },
-    undefined,
+
+    (progressEvent) => {
+      if (requestId !== loadRequestId) return;
+
+      if (progressEvent.total > 0) {
+        const percent =
+          (progressEvent.loaded / progressEvent.total) * 100;
+
+        updateModelLoadingPercent(percent);
+      }
+    },
+
     (err) => {
-  console.error('[GLTFLoader] failed:', item.glb, err);
-  hideModelLoading();
-}
+      console.error('[GLTFLoader] failed:', item.glb, err);
+      hideModelLoading();
+    }
   );
-  
 }
 
 // 外部からも呼べるAPI
@@ -3550,16 +3592,26 @@ function saveCart(cart) {
 function addToCart(productId) {
   const cart = getCart();
 
-  const existing = cart.find((item) => item.productId === productId);
+const model = MODELS.find(
+  (m) => m.info?.productId === productId
+);
 
-  if (existing) {
+const isUnique = model?.info?.isUnique;
+
+const existing = cart.find(
+  (item) => item.productId === productId
+);
+
+if (existing) {
+  if (!isUnique) {
     existing.quantity += 1;
-  } else {
-    cart.push({
-      productId,
-      quantity: 1,
-    });
   }
+} else {
+  cart.push({
+    productId,
+    quantity: 1,
+  });
+}
 
   saveCart(cart);
 renderCart();
@@ -3650,30 +3702,43 @@ function renderCart() {
 
     const price =
       model?.info?.price || 0;
-
-   return `
+return `
   <div class="cart-item">
     <div class="cart-item-main">
+
       <div class="cart-item-text">
         <a
-  class="cart-item-name cart-item-link"
-  href="./index.html?object=${item.productId.replace('object', '')}"
->
-  ${name}
-</a>
-        <div class="cart-item-price">¥${Number(price).toLocaleString()}</div>
+          class="cart-item-name cart-item-link"
+          href="./index.html?object=${item.productId.replace('object', '')}"
+        >
+          ${name}
+        </a>
 
-        <div class="cart-qty-row">
-          <button class="cart-qty-btn" data-minus="${item.productId}">
-            −
-          </button>
-
-          <span>${item.quantity}</span>
-
-          <button class="cart-qty-btn" data-plus="${item.productId}">
-            +
-          </button>
+        <div class="cart-item-price">
+          ¥${Number(price).toLocaleString()}
         </div>
+
+        ${model?.info?.isUnique ? '' : `
+          <div class="cart-qty-row">
+            <button
+              class="cart-qty-btn"
+              type="button"
+              data-minus="${item.productId}"
+            >
+              −
+            </button>
+
+            <span>${item.quantity}</span>
+
+            <button
+              class="cart-qty-btn"
+              type="button"
+              data-plus="${item.productId}"
+            >
+              +
+            </button>
+          </div>
+        `}
 
         <button
           class="cart-remove-btn"
@@ -3684,13 +3749,14 @@ function renderCart() {
         </button>
       </div>
 
- <div class="cart-thumb-wrap">
-  <img
-    class="cart-thumb"
-    src="./assets/images/${item.productId}.png"
-    alt=""
-  >
-</div>
+      <div class="cart-thumb-wrap">
+        <img
+          class="cart-thumb"
+          src="./assets/images/${item.productId}.png"
+          alt="${name}"
+        >
+      </div>
+
     </div>
   </div>
 `;
@@ -3968,62 +4034,6 @@ window.addEventListener('popstate', () => {
     lockBody(true);
     setRenderPaused(true);
 
-    // ===== List =====
-    if (panel === 'list') {
-      titleEl.textContent = 'SCENE / OBJECT';
-
-      const sceneItems = Array.from({ length: 9 }, (_, i) => {
-        const id = String(i + 1).padStart(3, '0');
-        return `<li><a href="#" data-choose="scene" data-id="${id}">scene${id}</a></li>`;
-      }).join('');
-
-      const objectItems = Array.from({ length: 9 }, (_, i) => {
-        const id = String(i + 1).padStart(3, '0');
-        return `<li><a href="#" data-choose="object" data-id="${id}">object${id}</a></li>`;
-      }).join('');
-
-      const extraObject = `<li><a href="#" data-choose="object" data-id="XXX">objectXXX</a></li>`;
-
-      contentEl.innerHTML = `
-        <div class="list-grid">
-          <div class="list-col">
-            <h4>SCENE</h4>
-            <ul>${sceneItems}</ul>
-          </div>
-          <div class="list-col">
-            <h4>OBJECT</h4>
-            <ul>${objectItems}${extraObject}</ul>
-          </div>
-        </div>
-      `;
-
-      contentEl.onclick = (e) => {
-        const a = e.target.closest('a[data-choose]');
-        if (!a) return;
-
-        e.preventDefault();
-
-        const type = a.getAttribute('data-choose'); // 'scene' | 'object'
-        const id = a.getAttribute('data-id'); // "001"〜"009" or "XXX"
-        const modelId = `${type}${id}`;
-
-        loadModelById(modelId);
-
-        const u = new URL(location.href);
-        u.searchParams.delete('scene');
-        u.searchParams.delete('object');
-        u.searchParams.set(type, id);
-        history.pushState({ type, id }, '', u);
-
-        contentEl.onclick = null;
-        overlay.querySelector(CLOSE_ATTR)?.click();
-      };
-
-      const u = new URL(location.href);
-      u.searchParams.set('panel', panel);
-      history.pushState({ type: 'panel', panel }, '', u);
-      return;
-    }
 
     // ===== About =====
     if (panel === 'about') {

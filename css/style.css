@@ -139,36 +139,13 @@ font-weight: 400;
 .model-loading-text {
   margin-bottom: 10px;
 }
-
-.model-loading-line {
-  width: 320px;
-  height: 3px;
-  margin: 0 auto;
-
-  overflow: hidden;
+.model-loading-percent {
+  font: inherit;
+  color: inherit;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
-.model-loading-line::after {
-  content: "";
-  display: block;
-  width: 0%;
-  height: 3px;
-  
-
-  background: #111;
-
-  animation: loadingLine 1.4s ease-in-out infinite;
-}
-
-@keyframes loadingLine {
-  0% {
-    width: 0%;
-  }
-
-  100% {
-    width: 100%;
-  }
-}
 
 @media (max-width: 768px) {
   .model-loading {
@@ -176,10 +153,9 @@ font-weight: 400;
     font-family: Arial, Helvetica, sans-serif;
   font-weight: 600;
   }
-
-  .model-loading-line {
-    width: 180px;
-  }
+.model-loading-percent {
+  font-size: 14px;
+}
 
 }
 /* =========================================================
@@ -300,53 +276,6 @@ body.modal-open {
   }
 }
 
-/* =========================================================
-   Overlay: Scene / Object List
-========================================================= */
-.overlay.is-list .overlay__window{
-  inset: auto;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: min(680px, 92vw);
-  height: 60vh;
-  max-width: none;
-  max-height: none;
-}
-
-.list-grid{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.list-col h4{
-  margin: 0 0 10px;
-  font: 900 14px/1 var(--nav-font-family, "Arial Black", Arial, sans-serif);
-  letter-spacing: .02em;
-}
-
-.list-col ul{
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  max-height: calc(60vh - 90px);
-  overflow: auto;
-}
-
-.list-col li{
-  margin: 0 0 8px;
-}
-
-.list-col a{
-  text-decoration: none;
-  color: #000;
-  font: 700 13px/1.5 var(--nav-font-family, "Arial Black", Arial, sans-serif);
-}
-
-.list-col a:hover{
-  text-decoration: underline;
-}
 
 
 /* =========================================================
@@ -1750,12 +1679,67 @@ body.has-trails #trailCanvas,
   padding: 0;
 
   font: inherit;
-  color: #111;
+  color: #002aff;
   text-decoration: underline;
   cursor: pointer;
 }
 .cart-item {
   margin-bottom: 18px;
+}
+
+/* =========================================================
+   Cart Item — PC
+========================================================= */
+.cart-item-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.cart-item-text {
+  min-width: 0;
+  min-height: 110px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cart-item-name {
+  display: block;
+  max-width: 100%;
+
+  font-size: 20px;
+  line-height: 1.05;
+
+  overflow-wrap: anywhere;
+}
+
+.cart-item-price {
+  margin-top: 2px;
+
+  font-size: 18px;
+  line-height: 1.05;
+}
+
+.cart-thumb-wrap {
+  width: 110px;
+  height: 110px;
+
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid #111;
+}
+
+.cart-thumb {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
 }
 
 .cart-total {
@@ -1872,4 +1856,69 @@ body.has-trails #trailCanvas,
 .cart-checkout-btn {
   width: 100%;
   margin-top: 24px;
+}
+/* =========================================================
+   Cart Typography — PC
+========================================================= */
+@media (min-width: 769px) {
+
+  .cart-panel,
+  .cart-panel a {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111;
+  }
+
+  .cart-content h2 {
+    margin: 0 0 24px;
+    font-size: 34px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .cart-item-name,
+  .cart-item-price,
+  .cart-remove-btn,
+  .cart-total {
+    font-size: 23px;
+    line-height: 1.08;
+    font-weight: 400;
+  }
+
+  .cart-item-price {
+    margin-top: 0;
+  }
+
+  .cart-remove-btn {
+    margin-top: 6px;
+  }
+
+  .cart-total {
+    font-weight: 400;
+  }
+
+  .cart-checkout-btn {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 23px;
+    line-height: 1;
+    font-weight: 400;
+    color: #fff;
+  }
+}
+
+/* =========================================================
+   Scene / Object Info — 3D pointer pass-through（PC only）
+========================================================= */
+@media (min-width: 769px) {
+
+  .pc-info-panel.is-scene .pc-info-content,
+  .pc-info-panel.is-object-info .pc-info-content {
+    pointer-events: none;
+  }
+
+  .pc-info-panel.is-scene .pc-info-content a,
+  .pc-info-panel.is-scene .pc-info-content button,
+  .pc-info-panel.is-object-info .pc-info-content a,
+  .pc-info-panel.is-object-info .pc-info-content button {
+    pointer-events: auto;
+  }
 }

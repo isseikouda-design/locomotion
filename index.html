@@ -8,14 +8,14 @@
 
 <meta
   name="description"
-  content="Locomotion™ is an experimental project exploring the possibilities of contemporary independent work."
+  content="Locomotion™ is an experimental project exploring the possibilities of contemporary independent work through objects, archives, and digital experiences."
 >
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Locomotion™">
 <meta
   property="og:description"
-  content="Locomotion™ is an experimental project exploring the possibilities of contemporary independent work."
+  content="Locomotion™ is an experimental project exploring the possibilities of contemporary independent work through objects, archives, and digital experiences."
 >
 <meta
   property="og:image"
@@ -77,9 +77,6 @@
 <div class="pc-scene-row">
   <button id="pcPlusBtn" class="pc-plus-btn" type="button">{🏃🏃🏃}</button>
   <nav id="pcSceneStrip" class="pc-scene-strip" aria-label="scene navigation"></nav>
-  <button class="pc-list-btn" type="button" data-panel="list">
-  [LIST]
-</button>
 </div>
 
 <div id="pcPlusText" class="pc-plus-text" aria-hidden="true">
@@ -94,14 +91,13 @@
 ========================= -->
   <canvas id="canvas-home"></canvas>
 
-  <div id="modelLoading" class="model-loading" aria-hidden="true">
-
-  <div class="model-loading-text">
-    "We are on the move...🏄‍♀️"
+ <div id="modelLoading" class="model-loading" aria-hidden="true">
+  <div
+    id="modelLoadingPercent"
+    class="model-loading-percent"
+  >
+    0%
   </div>
-
-<div class="model-loading-line"></div>
-
 </div>
 
 <nav class="pc-bottom-links" aria-label="pc bottom actions">
@@ -137,7 +133,7 @@
     </div>
 
     <button id="cartCheckoutBtn" class="cart-checkout-btn" type="button">
-      Checkout
+      (Checkout!)
     </button>
   </div>
 </section>
