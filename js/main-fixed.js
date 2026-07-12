@@ -221,8 +221,8 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.enableZoom = true;
-controls.minZoom = 0.4;
-controls.maxZoom = 4.0;
+controls.minZoom = 0.1;
+controls.maxZoom = 20;
 controls.autoRotate = false;
 controls.enablePan = true;
 
@@ -290,7 +290,7 @@ const MODELS = [
     glb: './assets/models/scene002_opt.glb',
     goObjectId: 'object002',
     scale: 0.13,
-    margin: 1.1,
+    margin: 1.7,
     centerMode: 'box',
     pivotOffset: { x: 0, y: -0.02, z: 0 },
     cam: { pos: { x: -20, y: 8, z: -6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -356,7 +356,7 @@ const MODELS = [
     glb: './assets/models/scene004_opt.glb',
     goObjectId: 'object004',
     scale: 0.47,
-    margin: 1.0,
+    margin: 1.3,
     centerMode: 'sphere',
     pivotOffset: { x: 0, y: 0.0, z: 0 },
     cam: { pos: { x: 0, y: 4.5, z: 10.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -366,7 +366,7 @@ const MODELS = [
       scale: 0.65,
       margin: 0.9,
       centerMode: 'box',
-      pivotOffset: { x: 0, y: 0.8, z: 0 },
+      pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 1, y: 3, z: 3}, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
@@ -387,15 +387,15 @@ const MODELS = [
     scale: 0.15,
     margin: 1.5,
     centerMode: 'sphere',
-    pivotOffset: { x: 0, y: -0.05, z: 0 },
+    pivotOffset: { x: 0, y: 0, z: 0 },
     cam: { pos: { x: 8.3, y: 3.3, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0',
     spin: { part: true, whole: true, partName: 'Mesh_0', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.18,
-      margin: 0.7,
+      margin: 0.9,
       centerMode: 'box',
-      pivotOffset: { x: 0, y: 0.1, z: 0 },
+      pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: -1, y: 8, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
@@ -482,7 +482,7 @@ const MODELS = [
     scale: 0.3,
     margin: 0.95,
     centerMode: 'sphere',
-    pivotOffset: { x: 0.85, y: 1, z: 0 },
+    pivotOffset: { x: 0.15, y: 1, z: 0 },
     cam: { pos: { x: 0, y: 1.5, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0001',
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
@@ -490,7 +490,7 @@ const MODELS = [
       scale: 0.1,
       margin: 1,
       centerMode: 'box',
-      pivotOffset: { x: 0.5, y: 1.2, z: 0 },
+      pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 0, y: 1, z: 3 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
@@ -517,9 +517,9 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0002', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.35,
-      margin: 0.5,
+      margin: 0.8,
       centerMode: 'box',
-      pivotOffset: { x: 0, y: 0.1, z: 0 },
+      pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 1, y: 15, z: 1 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
@@ -542,7 +542,7 @@ const MODELS = [
   id: 'object001',
   glb: './assets/models/object001.glb',
   scale: 0.6,
-  margin: 0.8,
+  margin: 2.2,
   centerMode: 'sphere',
   offset: { x: 0, y: 0, z: 0 },
   pivotOffset: { x: 0, y: 0.0, z: 0 },
@@ -610,7 +610,7 @@ const MODELS = [
     id: 'object002',
     glb: './assets/models/object002.glb',
     scale: 0.7,
-    margin: 1.0,
+    margin: 1.7,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
@@ -672,7 +672,7 @@ const MODELS = [
   id: 'object003',
   glb: './assets/models/object003.glb',
   scale: 0.5,
-  margin: 1.3,
+  margin: 2.2,
   centerMode: 'sphere',
   offset: { x: 0, y: 0, z: 0 },
   pivotOffset: { x: 0, y: 0.0, z: 0 },
@@ -741,7 +741,7 @@ const MODELS = [
     id: 'object004',
     glb: './assets/models/object004.glb',
     scale: 0.5,
-    margin: 0.9,
+    margin: 1.8,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
@@ -803,11 +803,11 @@ const MODELS = [
     id: 'object005',
     glb: './assets/models/object005.glb',
     scale: 0.7,
-    margin: 1,
+    margin: 2,
     centerMode: 'sphere',
-    offset: { x: 0, y: 0, z: 0 },
+    offset: { x: 0, y: -0.03, z: 0 },
     pivotOffset: { x: 0, y: 0, z: 0 },
-    cam: { pos: { x: 0, y: 4, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+    cam: { pos: { x: 15, y: 10, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     spin: {
   whole: true,
   wholeSpeed: 0.2,
@@ -863,7 +863,7 @@ const MODELS = [
     id: 'object006',
     glb: './assets/models/object006.glb',
     scale: 0.5,
-    margin: 0.7,
+    margin: 2.4,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0, z: 0 },
@@ -924,9 +924,9 @@ const MODELS = [
     id: 'object007',
     glb: './assets/models/object007.glb',
     scale: 0.45,
-    margin: 0.7,
+    margin: 1.1,
     centerMode: 'sphere',
-    offset: { x: 0, y: 0, z: 0 },
+    offset: { x: 0, y: -0.02, z: 0 },
     pivotOffset: { x: 0, y: 0.0, z: 0 },
     cam: { pos: { x: 12.6, y: 4, z: -1.0 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     spin: {
@@ -985,7 +985,7 @@ const MODELS = [
     id: 'object008',
     glb: './assets/models/object008.glb',
     scale: 0.5,
-    margin: 1.3,
+    margin: 2.2,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: 0, z: 0 },
@@ -1046,7 +1046,7 @@ const MODELS = [
     id: 'object009',
     glb: './assets/models/object009.glb',
     scale: 0.55,
-    margin: 0.7,
+    margin: 2.2,
     centerMode: 'sphere',
     offset: { x: 0, y: 0, z: 0 },
     pivotOffset: { x: 0, y: -0.03, z: 0 },
@@ -1546,6 +1546,11 @@ if (isMobile && isObjectId(item.id)) {
     }
   );
 }
+const homeBtn = document.getElementById('homeBtn');
+
+homeBtn?.addEventListener('click', () => {
+  loadModelById('scene001');
+});
 
 // 外部からも呼べるAPI
 window.selectModel = loadModelById;
@@ -1661,7 +1666,11 @@ function handlePickAt(ev) {
   }
 }
 
-window.addEventListener('dblclick', (event) => handlePickAt(event));
+window.addEventListener('click', (event) => {
+  if (event.pointerType === 'touch') return;
+  handlePickAt(event);
+});
+
 window.addEventListener('pointerup', (event) => {
   if (event.pointerType !== 'touch') return;
   handlePickAt(event);
