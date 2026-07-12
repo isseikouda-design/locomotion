@@ -7,7 +7,7 @@ const PRODUCTS = {
   object006: { name: 'object006', price: 32000 },
   object007: { name: 'object007', price: 34000 },
   object008: { name: 'object008', price: 22000 },
-  object009: { name: 'object009', price: 22000 },
+  object009: { name: 'object009', price: 100 },
 };
 
 export async function onRequestPost(context) {
