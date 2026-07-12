@@ -1,13 +1,13 @@
 const PRODUCTS = {
   object001: { name: 'object001', price: 32000 },
-  object002: { name: 'object002', price: 32000 },
-  object003: { name: 'object003', price: 32000 },
-  object004: { name: 'object004', price: 32000 },
-  object005: { name: 'object005', price: 32000 },
+  object002: { name: 'object002', price: 22000 },
+  object003: { name: 'object003', price: 18000 },
+  object004: { name: 'object004', price: 16000 },
+  object005: { name: 'object005', price: 42000 },
   object006: { name: 'object006', price: 32000 },
-  object007: { name: 'object007', price: 32000 },
-  object008: { name: 'object008', price: 32000 },
-  object009: { name: 'object009', price: 32000 },
+  object007: { name: 'object007', price: 34000 },
+  object008: { name: 'object008', price: 22000 },
+  object009: { name: 'object009', price: 100 },
 };
 
 export async function onRequestPost(context) {
@@ -28,12 +28,12 @@ const orderItems = items.map((item) => {
     throw new Error(`Unknown product: ${item.productId}`);
   }
 
-  return {
-    productId: item.productId,
-    name: product.name,
-    price: product.price,
-    quantity: item.quantity,
-  };
+return {
+  productId: item.productId,
+  name: product.name,
+  price: product.price,
+  quantity: 1,
+};
 });
 
 body.append('mode', 'payment');
@@ -53,7 +53,10 @@ body.append('shipping_address_collection[allowed_countries][0]', 'JP');
       body.append(`line_items[${index}][price_data][currency]`, 'jpy');
       body.append(`line_items[${index}][price_data][product_data][name]`, product.name);
       body.append(`line_items[${index}][price_data][unit_amount]`, String(product.price));
-      body.append(`line_items[${index}][quantity]`, String(item.quantity));
+      body.append(
+  `line_items[${index}][quantity]`,
+  '1'
+);
     });
 
     const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {

@@ -60,7 +60,17 @@ export async function onRequestPost(context) {
       return Response.json({ received: true });
     }
 
-    const session = event.data.object;
+   const session = event.data.object;
+
+if (session.payment_status !== 'paid') {
+  console.log(
+    'Checkout completed but payment is not paid:',
+    session.id,
+    session.payment_status
+  );
+
+  return Response.json({ received: true });
+}
 
     const shipping = session.shipping_details || {};
 const customer = session.customer_details || {};
@@ -70,6 +80,10 @@ const customerAddress = customer.address || null;
 
 const address = shippingAddress || customerAddress || {};
 const shippingName = shipping.name || customer.name || '';
+
+if (!context.env.DB) {
+  throw new Error('Missing D1 database binding');
+}
 
     await context.env.DB.prepare(`
       INSERT OR IGNORE INTO orders (
