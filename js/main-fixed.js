@@ -1769,7 +1769,7 @@ function renderPcInfo(item) {
   const price = info.price || '';
   const notes = info.notes || '';
   const contact = info.contact || info.lines?.[4] || 'Buy/Ask';
-  const email = info.email || 'info@locomotion.com';
+  const email = info.email || 'info@locomotion-services.com';
 
   panel.classList.toggle('is-scene001-info', item.id === 'scene001');
   panel.classList.toggle(
@@ -1948,8 +1948,8 @@ openPanel(explainBtn, `
 
       <p class="about-meta">
   email:
-  <a href="mailto:info@locomotion_service.com">
-    info@locomotion_service.com
+  <a href="mailto:info@locomotion-services.com">
+    info@locomotion-services.com
   </a>
 
   <span class="about-meta-sep">　</span>
@@ -1975,8 +1975,8 @@ openPanel(explainBtn, `
 
       <p class="about-meta">
   email:
-  <a href="mailto:info@locomotion_service.com">
-    info@locomotion_service.com
+  <a href="mailto:info@locomotion-services.com">
+    info@locomotion-services.com
   </a>
 
   <span class="about-meta-sep">　</span>
@@ -2167,7 +2167,7 @@ This is used only to keep cart contents available during browsing and checkout p
 <p>
 For questions regarding this Privacy Policy or the handling of personal information, please contact:
 <br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 
 <p>
@@ -2247,7 +2247,7 @@ Locomotion™ は、個人情報への不正アクセス、紛失、改ざん、
 
 <p>
 本ポリシーおよび個人情報の取扱いに関するお問い合わせは、以下までご連絡ください。<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 
 <p>
@@ -2479,7 +2479,7 @@ Any dispute arising in connection with these Terms or use of this website shall 
 
 <p>
 Questions regarding these Terms may be directed to:<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
    `,
 
@@ -2703,7 +2703,7 @@ jp: `
 
 <p>
 本規約に関するお問い合わせは以下までご連絡ください。<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 
 `
@@ -2824,7 +2824,7 @@ Customers who need to modify shipping information should contact Locomotion™ a
 
 <p>
 Questions regarding shipping may be directed to:<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 `,
     jp: `
@@ -2938,7 +2938,7 @@ Locomotion™ は、日本国内より商品を発送しています。
 
 <p>
 配送に関するお問い合わせは以下までご連絡ください。<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>`
     },
 
@@ -3059,7 +3059,7 @@ Refunds, exchanges, or replacements will not be provided in the following situat
 
 <p>
 Questions regarding returns, exchanges, or refunds may be directed to:<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 `,
     jp:`
@@ -3178,7 +3178,7 @@ Locomotion™ では、一点物作品、少量生産品、手作業による制
 
 <p>
 返品・交換・返金に関するお問い合わせは以下までご連絡ください。<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>`
     },
 
@@ -3213,7 +3213,7 @@ The telephone number will be disclosed without delay upon request in accordance 
 <h3>Email Address</h3>
 
 <p>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 
 <h3>Product Prices</h3>
@@ -3308,7 +3308,7 @@ Locomotion™ shall not be responsible for issues arising from the customer's de
 
 <p>
 Questions regarding products, orders, or this website may be directed to:<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 `,
     jp: `
@@ -3343,7 +3343,7 @@ Issei Kouda
 <h3>メールアドレス</h3>
 
 <p>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 
 <h3>販売価格</h3>
@@ -3435,7 +3435,7 @@ Stripe を利用したクレジットカード決済
 
 <p>
 本ウェブサイトおよび商品の販売に関するお問い合わせは以下までご連絡ください。<br>
-info@locomotion_service.com
+info@locomotion-services.com
 </p>
 `
     },
@@ -4071,7 +4071,7 @@ window.addEventListener('popstate', () => {
             <h3>Locomotion™</h3>
             <p>This site items that contribute to everyday life. Everything is handmade.</p>
             <p style="margin-top:10px;font-weight:900">General Requires / Sales.</p>
-            <p><a href="mailto:info@locomotion.com">info@locomotion.com</a></p>
+            <p><a href="mailto:info@locomotion-services.com">info@locomotion-services.com</a></p>
           </div>
         </div>
       `;
