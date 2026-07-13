@@ -84,6 +84,19 @@ const shippingName = shipping.name || customer.name || '';
 if (!context.env.DB) {
   throw new Error('Missing D1 database binding');
 }
+const itemsJson = session.metadata?.items_json || '[]';
+
+let orderItems;
+
+try {
+  orderItems = JSON.parse(itemsJson);
+} catch {
+  throw new Error('Invalid items_json metadata');
+}
+
+if (!Array.isArray(orderItems) || orderItems.length === 0) {
+  throw new Error('Missing order items');
+}
 
     await context.env.DB.prepare(`
       INSERT OR IGNORE INTO orders (
@@ -113,7 +126,7 @@ if (!context.env.DB) {
       session.currency || '',
       session.payment_status || '',
       'unfulfilled',
-      session.metadata?.items_json || '{}',
+      itemsJson,
       shippingName,
 address.line1 || '',
 address.line2 || '',
@@ -122,6 +135,40 @@ address.state || '',
 address.postal_code || '',
 address.country || ''
     ).run();
+
+    for (const item of orderItems) {
+  if (!item.productId) {
+    throw new Error('Missing productId in order item');
+  }
+
+  const inventory = await context.env.DB.prepare(`
+    SELECT product_id
+    FROM product_inventory
+    WHERE product_id = ?
+  `)
+    .bind(item.productId)
+    .first();
+
+  if (!inventory) {
+    throw new Error(`Inventory not found: ${item.productId}`);
+  }
+
+  await context.env.DB.prepare(`
+    UPDATE product_inventory
+    SET
+      status = 'sold',
+      checkout_session_id = ?,
+      sold_at = ?,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE product_id = ?
+  `)
+    .bind(
+      session.id,
+      session.created || Math.floor(Date.now() / 1000),
+      item.productId
+    )
+    .run();
+}
 
     return Response.json({ received: true });
   } catch (err) {

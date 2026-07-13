@@ -17,6 +17,12 @@ export async function onRequestPost(context) {
     if (!Array.isArray(items) || items.length === 0) {
       return Response.json({ error: 'Cart is empty' }, { status: 400 });
     }
+    if (!context.env.DB) {
+  return Response.json(
+    { error: 'Missing D1 database binding' },
+    { status: 500 }
+  );
+}
 
     const origin = new URL(context.request.url).origin;
 const body = new URLSearchParams();
@@ -42,6 +48,32 @@ body.append('success_url', `${origin}/index.html?checkout=success`);
 body.append('cancel_url', `${origin}/index.html?checkout=cancel`);
 body.append('billing_address_collection', 'required');
 body.append('shipping_address_collection[allowed_countries][0]', 'JP');
+
+for (const item of items) {
+  const inventory = await context.env.DB.prepare(
+    `
+    SELECT status
+    FROM product_inventory
+    WHERE product_id = ?
+    `
+  )
+    .bind(item.productId)
+    .first();
+
+  if (!inventory) {
+    throw new Error(`Inventory not found: ${item.productId}`);
+  }
+
+  if (inventory.status !== 'available') {
+  return Response.json(
+    {
+      error: `${item.productId} is sold out`,
+      productId: item.productId,
+    },
+    { status: 409 }
+  );
+}
+}
 
     items.forEach((item, index) => {
       const product = PRODUCTS[item.productId];

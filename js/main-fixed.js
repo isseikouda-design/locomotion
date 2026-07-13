@@ -1744,6 +1744,25 @@ function updatePcSceneActive(id) {
     c.classList.toggle('is-active', c.dataset.pcJump === id);
   });
 }
+
+async function fetchProductStatus(productId) {
+  const res = await fetch(
+    `/api/product-status?productId=${encodeURIComponent(productId)}`,
+    {
+      cache: 'no-store',
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(
+      data.error || `Failed to get product status: ${productId}`
+    );
+  }
+
+  return data.status;
+}
 function renderPcInfo(item) {
   const panel = document.getElementById('pcInfoPanel');
   const content = document.getElementById('pcInfoContent');
@@ -1808,12 +1827,14 @@ function renderPcInfo(item) {
 ${
   isObject
     ? `
-      <p>
+      <p class="purchase-status">
         <button
           class="buy-btn"
           data-product-id="${item.id}"
+          type="button"
+          disabled
         >
-          ${contact}
+          Checking availability...
         </button>
       </p>
     `
@@ -1821,12 +1842,72 @@ ${
 }
   `;
 
-  const buyBtn = content.querySelector('.buy-btn');
+ const buyBtn = content.querySelector('.buy-btn');
 
-buyBtn?.addEventListener('click', () => {
-  addToCart(item.id);
-openCartPanel();
-});
+if (isObject && buyBtn) {
+  fetchProductStatus(item.id)
+    .then((status) => {
+      // 情報表示中に別のObjectへ移動していた場合は何もしない
+      if (buyBtn.dataset.productId !== item.id) return;
+      if (!buyBtn.isConnected) return;
+
+      if (status === 'sold') {
+        const soldOut = document.createElement('span');
+
+        soldOut.className = 'sold-out-label';
+        soldOut.textContent = '(Sold Out)';
+
+        buyBtn.replaceWith(soldOut);
+        return;
+      }
+
+      if (status !== 'available') {
+        throw new Error(`Unknown inventory status: ${status}`);
+      }
+
+      buyBtn.disabled = false;
+      buyBtn.textContent = contact;
+
+      buyBtn.addEventListener('click', async () => {
+        buyBtn.disabled = true;
+
+        try {
+          // 表示後に売れた可能性があるため、クリック時にも再確認
+          const latestStatus = await fetchProductStatus(item.id);
+
+          if (latestStatus !== 'available') {
+            const soldOut = document.createElement('span');
+
+            soldOut.className = 'sold-out-label';
+            soldOut.textContent = '(Sold Out)';
+
+            buyBtn.replaceWith(soldOut);
+
+            alert('This item is sold out.');
+            return;
+          }
+
+          addToCart(item.id);
+          openCartPanel();
+        } catch (err) {
+          console.error('Inventory check failed:', err);
+          alert('Unable to confirm product availability. Please try again.');
+        } finally {
+          if (buyBtn.isConnected) {
+            buyBtn.disabled = false;
+          }
+        }
+      });
+    })
+    .catch((err) => {
+      console.error('Inventory check failed:', err);
+
+      if (!buyBtn.isConnected) return;
+
+      buyBtn.disabled = true;
+      buyBtn.textContent = 'Unavailable';
+    });
+}
 }
 
 
