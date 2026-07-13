@@ -48,7 +48,6 @@ async function verifyStripeSignature(request, secret) {
 
   return JSON.parse(body);
 }
-
 export async function onRequestPost(context) {
   try {
     const event = await verifyStripeSignature(
@@ -56,21 +55,46 @@ export async function onRequestPost(context) {
       context.env.STRIPE_WEBHOOK_SECRET
     );
 
+    if (!context.env.DB) {
+      throw new Error('Missing D1 database binding');
+    }
+
+    if (event.type === 'checkout.session.expired') {
+      const session = event.data.object;
+
+      await context.env.DB.prepare(`
+        UPDATE product_inventory
+        SET
+          status = 'available',
+          checkout_session_id = NULL,
+          sold_at = NULL,
+          updated_at = CURRENT_TIMESTAMP
+        WHERE status = 'reserved'
+          AND checkout_session_id = ?
+      `)
+        .bind(session.id)
+        .run();
+
+      return Response.json({ received: true });
+    }
+
     if (event.type !== 'checkout.session.completed') {
       return Response.json({ received: true });
     }
 
-   const session = event.data.object;
+    const session = event.data.object;
 
-if (session.payment_status !== 'paid') {
-  console.log(
-    'Checkout completed but payment is not paid:',
-    session.id,
-    session.payment_status
-  );
+    if (session.payment_status !== 'paid') {
+      console.log(
+        'Checkout completed but payment is not paid:',
+        session.id,
+        session.payment_status
+      );
 
-  return Response.json({ received: true });
-}
+      return Response.json({ received: true });
+    }
+
+    // ここから下は今の注文保存処理
 
     const shipping = session.shipping_details || {};
 const customer = session.customer_details || {};
@@ -81,9 +105,7 @@ const customerAddress = customer.address || null;
 const address = shippingAddress || customerAddress || {};
 const shippingName = shipping.name || customer.name || '';
 
-if (!context.env.DB) {
-  throw new Error('Missing D1 database binding');
-}
+
 const itemsJson = session.metadata?.items_json || '[]';
 
 let orderItems;
@@ -142,32 +164,49 @@ address.country || ''
   }
 
   const inventory = await context.env.DB.prepare(`
-    SELECT product_id
-    FROM product_inventory
-    WHERE product_id = ?
-  `)
-    .bind(item.productId)
-    .first();
+  SELECT status, checkout_session_id
+  FROM product_inventory
+  WHERE product_id = ?
+`)
+  .bind(item.productId)
+  .first();
 
-  if (!inventory) {
-    throw new Error(`Inventory not found: ${item.productId}`);
-  }
+if (!inventory) {
+  throw new Error(`Inventory not found: ${item.productId}`);
+}
 
-  await context.env.DB.prepare(`
-    UPDATE product_inventory
-    SET
-      status = 'sold',
-      checkout_session_id = ?,
-      sold_at = ?,
-      updated_at = CURRENT_TIMESTAMP
-    WHERE product_id = ?
-  `)
-    .bind(
-      session.id,
-      session.created || Math.floor(Date.now() / 1000),
-      item.productId
-    )
-    .run();
+if (
+  inventory.status === 'sold' &&
+  inventory.checkout_session_id === session.id
+) {
+  continue;
+}
+
+if (
+  inventory.status !== 'reserved' ||
+  inventory.checkout_session_id !== session.id
+) {
+  throw new Error(
+    `Inventory reservation mismatch: ${item.productId}`
+  );
+}
+
+await context.env.DB.prepare(`
+  UPDATE product_inventory
+  SET
+    status = 'sold',
+    sold_at = ?,
+    updated_at = CURRENT_TIMESTAMP
+  WHERE product_id = ?
+    AND status = 'reserved'
+    AND checkout_session_id = ?
+`)
+  .bind(
+    session.created || Math.floor(Date.now() / 1000),
+    item.productId,
+    session.id
+  )
+  .run();
 }
 
     return Response.json({ received: true });
