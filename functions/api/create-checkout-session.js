@@ -128,6 +128,10 @@ export async function onRequestPost(context) {
       'metadata[items_json]',
       JSON.stringify(orderItems)
     );
+    body.append(
+  'expires_at',
+  String(Math.floor(Date.now() / 1000) + 30 * 60)
+);
 
     body.append(
       'success_url',
