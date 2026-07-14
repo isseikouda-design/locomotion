@@ -15,6 +15,21 @@ import { OutputPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postproces
 
 // Your lights
 import { addCommonLights } from './lights.js';
+const navigationEntry = performance.getEntriesByType('navigation')[0];
+
+console.log('[navigation-check]', {
+  type: navigationEntry?.type ?? null,
+  url: location.href,
+  time: new Date().toISOString(),
+});
+
+window.addEventListener('pageshow', (event) => {
+  console.log('[pageshow-check]', {
+    persisted: event.persisted,
+    navigationType:
+      performance.getEntriesByType('navigation')[0]?.type ?? null,
+  });
+});
 
 /* =========================================================
    基本セットアップ
@@ -394,10 +409,10 @@ const MODELS = [
     glb: './assets/models/scene005_opt.glb',
     goObjectId: 'object005',
     scale: 0.15,
-    margin: 1.5,
+    margin: 1.8,
     centerMode: 'sphere',
-    pivotOffset: { x: 0, y: 0, z: 0 },
-    cam: { pos: { x: 8.3, y: 3.3, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+    pivotOffset: { x: 0, y: -0.03, z: 0 },
+    cam: { pos: { x: 5.3, y: 2, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0',
     spin: { part: true, whole: true, partName: 'Mesh_0', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
@@ -424,16 +439,31 @@ const MODELS = [
 }
   },
   {
-    id: 'scene006',
-    glb: './assets/models/scene006_opt.glb',
-    goObjectId: 'object006',
-    scale: 0.085,
-    margin: 1.5,
-    centerMode: 'sphere',
-    pivotOffset: { x: -4, y: -2.0, z: 0 },
-    cam: { pos: { x: 9.3, y: 4, z: 3.2 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    clickMeshName: 'Mesh_0004',
-    spin: { part: true, whole: true, partName: 'Mesh_0004', partSpeed: 1.0, wholeSpeed: 0.03 },
+  id: 'scene006',
+  glb: './assets/models/scene006_opt.glb',
+  goObjectId: 'object006',
+  scale: 0.085,
+  margin: 1.5,
+  centerMode: 'sphere',
+
+  pivotOffset: { x: 0, y: 0, z: 0 },
+
+  screenOffset: { x: 0.13, y: -0.08 },
+
+  cam: {
+    pos: { x: 9.3, y: 4, z: 3.2 },
+    target: { x: 0, y: 0, z: 0 },
+    zoomMul: 1.0
+  },
+
+  clickMeshName: 'Mesh_0004',
+  spin: {
+    part: true,
+    whole: true,
+    partName: 'Mesh_0004',
+    partSpeed: 1.0,
+    wholeSpeed: 0.03
+  },
     sp: {
       scale: 0.03,
       margin: 0.9,
@@ -1159,6 +1189,34 @@ function fitOrthoToObject(camera, object, margin = 1.2) {
   camera.zoom = Math.min(needZoomW, needZoomH);
   camera.updateProjectionMatrix();
 }
+function applyCameraScreenOffset(item) {
+  const offset = item?.screenOffset;
+
+  // screenOffsetがないモデルでは、必ず通常表示へ戻す
+  if (!offset) {
+    camera.clearViewOffset();
+    camera.updateProjectionMatrix();
+    return;
+  }
+
+  const rect = renderer.domElement.getBoundingClientRect();
+  const width = Math.max(1, Math.round(rect.width));
+  const height = Math.max(1, Math.round(rect.height));
+
+  const offsetX = Math.round(width * (offset.x || 0));
+  const offsetY = Math.round(height * (offset.y || 0));
+
+  camera.setViewOffset(
+    width,
+    height,
+    offsetX,
+    offsetY,
+    width,
+    height
+  );
+
+  camera.updateProjectionMatrix();
+}
 
 function centerModel(model, mode = 'box', offset = { x: 0, y: 0, z: 0 }) {
   model.updateMatrixWorld(true);
@@ -1461,13 +1519,18 @@ model.rotation.set(0, 0, 0);
 
       // clickable tag
       tagClickablePart(model, item);
+      
 
-      // fit + zoomMul（毎回リセット前提で再適用）
+
+
+// fit + zoomMul（毎回リセット前提で再適用）
 fitOrthoToObject(camera, model, margin);
 
 if (camConf?.zoomMul && camConf.zoomMul !== 1) {
   camera.zoom = camera.zoom * camConf.zoomMul;
 }
+
+applyCameraScreenOffset(isMobile ? null : item);
 
 camera.updateProjectionMatrix();
 
@@ -1528,9 +1591,94 @@ if (isMobile && isObjectId(item.id)) {
 
 // ★ UI更新は、model/cameraの準備が終わってから
       window.__spUiUpdate?.(item);
+      clock.getDelta();
+     function logCurrentViewState(label) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  const style = getComputedStyle(renderer.domElement);
 
+  console.table({
+    label,
+    item: currentItem?.id ?? null,
+
+    windowWidth: window.innerWidth,
+    windowHeight: window.innerHeight,
+
+    canvasLeft: rect.left,
+    canvasTop: rect.top,
+    canvasWidth: rect.width,
+    canvasHeight: rect.height,
+
+    canvasCssWidth: style.width,
+    canvasCssHeight: style.height,
+    canvasTransform: style.transform,
+
+    rendererWidth: renderer.domElement.width,
+    rendererHeight: renderer.domElement.height,
+
+    cameraLeft: camera.left,
+    cameraRight: camera.right,
+    cameraTop: camera.top,
+    cameraBottom: camera.bottom,
+    cameraZoom: camera.zoom,
+
+    cameraX: camera.position.x,
+    cameraY: camera.position.y,
+    cameraZ: camera.position.z,
+
+    targetX: controls.target.x,
+    targetY: controls.target.y,
+    targetZ: controls.target.z,
+
+    pivotX: pivot.position.x,
+    pivotY: pivot.position.y,
+    pivotZ: pivot.position.z,
+
+    pivotRotX: pivot.rotation.x,
+    pivotRotY: pivot.rotation.y,
+    pivotRotZ: pivot.rotation.z,
+
+    modelX: currentModel?.position.x ?? null,
+    modelY: currentModel?.position.y ?? null,
+    modelZ: currentModel?.position.z ?? null,
+
+    modelRotX: currentModel?.rotation.x ?? null,
+    modelRotY: currentModel?.rotation.y ?? null,
+    modelRotZ: currentModel?.rotation.z ?? null,
+
+    modelScaleX: currentModel?.scale.x ?? null,
+    modelScaleY: currentModel?.scale.y ?? null,
+    modelScaleZ: currentModel?.scale.z ?? null,
+
+    partRotX: currentSpinPart?.rotation.x ?? null,
+    partRotY: currentSpinPart?.rotation.y ?? null,
+    partRotZ: currentSpinPart?.rotation.z ?? null,
+
+    pixelRatio: renderer.getPixelRatio(),
+    viewEnabled: camera.view?.enabled ?? false,
+
+    pageDevicePixelRatio: window.devicePixelRatio,
+
+visualViewportWidth: window.visualViewport?.width ?? null,
+visualViewportHeight: window.visualViewport?.height ?? null,
+visualViewportScale: window.visualViewport?.scale ?? null,
+visualViewportOffsetLeft: window.visualViewport?.offsetLeft ?? null,
+visualViewportOffsetTop: window.visualViewport?.offsetTop ?? null,
+
+screenWidth: window.screen.width,
+screenHeight: window.screen.height,
+
+outerWidth: window.outerWidth,
+outerHeight: window.outerHeight,
+  });
+}
+logCurrentViewState('load-complete');
+
+setTimeout(() => {
+  logCurrentViewState('after-1000ms');
+}, 1000);
       updateModelLoadingPercent(100);
       hideModelLoading();
+      
 
       if (pendingCheckoutMessage) {
         showCheckoutMessage(pendingCheckoutMessage);
@@ -1690,20 +1838,32 @@ window.addEventListener('pointerup', (event) => {
 ========================================================= */
 function animate() {
   requestAnimationFrame(animate);
-  if (renderPaused) return;
 
-  const dt = clock.getDelta();
+  const rawDt = clock.getDelta();
+
+  if (renderPaused || document.hidden) {
+    return;
+  }
+
+  // Safariの非表示・先読み後に大きな時間差が入るのを防ぐ
+  const dt = Math.min(rawDt, 0.05);
+
   const isMobile = window.innerWidth <= 768;
 
   // 全体回転（pivot）
   if (pivot.children.length && currentItem?.spin?.whole) {
     const s = currentItem.spin.wholeSpeed ?? rotSpeed;
-    const axis = (isMobile && currentItem.spin.axisSp) || currentItem.spin.axis || 'y';
+    const axis =
+      (isMobile && currentItem.spin.axisSp) ||
+      currentItem.spin.axis ||
+      'y';
 
     if (axis === 'x') pivot.rotation.x += dt * s;
     else if (axis === 'z') pivot.rotation.z += dt * s;
     else pivot.rotation.y += dt * s;
   }
+
+  // 以下、既存の部分回転処理
 
   // 部分回転
   if (currentItem?.spin?.part) {
@@ -1967,8 +2127,11 @@ sceneBtn?.addEventListener('click', (e) => {
   e.preventDefault();
 
   const isOpen =
-    panel.classList.contains('is-open') &&
-    panel.classList.contains('is-scene');
+  panel.classList.contains('is-open') &&
+  (
+    panel.classList.contains('is-scene') ||
+    panel.classList.contains('is-object-info')
+  );
 
   if (isOpen) {
     closePanel();
@@ -2006,10 +2169,19 @@ panel.className = isObject
     });
   });
 
-  explainBtn?.addEventListener('click', (e) => {
+ explainBtn?.addEventListener('click', (e) => {
   e.preventDefault();
 
-openPanel(explainBtn, `
+  const isOpen =
+    panel.classList.contains('is-open') &&
+    panel.classList.contains('is-explain');
+
+  if (isOpen) {
+    closePanel();
+    return;
+  }
+
+  openPanel(explainBtn, `
   <div class="about-body">
     <div class="legal-lang-tabs">
       <button class="legal-lang-btn is-active" type="button" data-about-lang="en">EN</button>
@@ -2165,6 +2337,15 @@ function renderAboutText() {
 
   privacyBtn?.addEventListener('click', (e) => {
   e.preventDefault();
+
+  const isOpen =
+    panel.classList.contains('is-open') &&
+    panel.classList.contains('is-privacy');
+
+  if (isOpen) {
+    closePanel();
+    return;
+  }
 
   openPanel(privacyBtn, `
     <div class="legal-layout">

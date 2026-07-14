@@ -453,13 +453,14 @@ body.has-trails #trailCanvas,
   position: fixed;
   left: 0;
   right: 0;
-  top: 82px;
-  bottom: 40px;
-  z-index: 45;
 
+  top: var(--pc-top-ui-height, 96px);
+  bottom: var(--pc-bottom-ui-height, 48px);
+
+  z-index: 45;
   display: none;
 
-  overflow-y: auto;   /* ← hiddenやめる */
+  overflow-y: auto;
   overflow-x: hidden;
 
   background: rgba(255, 255, 255, 0.12);
@@ -469,6 +470,11 @@ body.has-trails #trailCanvas,
   border: none;
   padding: 0;
   pointer-events: none;
+}
+.pc-info-panel.is-scene {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .pc-info-panel.is-open {
