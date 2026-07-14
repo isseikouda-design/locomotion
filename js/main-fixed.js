@@ -3952,29 +3952,119 @@ requestAnimationFrame(() => {
 
 cartBtn?.classList.remove('is-active');
 }
+
+function showCartMessage(message, type = 'error') {
+  const panel = document.getElementById('cartPanel');
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
+
+  if (!panel) return;
+
+  let messageEl = document.getElementById('cartStatusMessage');
+
+  if (!messageEl) {
+    messageEl = document.createElement('p');
+    messageEl.id = 'cartStatusMessage';
+    messageEl.className = 'cart-status-message';
+
+    if (checkoutBtn?.parentNode) {
+      checkoutBtn.parentNode.insertBefore(messageEl, checkoutBtn);
+    } else {
+      panel.appendChild(messageEl);
+    }
+  }
+
+  messageEl.textContent = message;
+  messageEl.dataset.type = type;
+  messageEl.hidden = false;
+}
+
+function clearCartMessage() {
+  const messageEl = document.getElementById('cartStatusMessage');
+
+  if (!messageEl) return;
+
+  messageEl.textContent = '';
+  messageEl.hidden = true;
+  delete messageEl.dataset.type;
+}
+
 async function goToCheckout() {
   const cart = getCart();
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
+
+  clearCartMessage();
 
   if (!cart.length) {
-    alert('Cart is empty');
+    showCartMessage('Your cart is empty.');
     return;
   }
 
-  const res = await fetch('/api/create-checkout-session', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ items: cart })
-  });
+  const originalButtonText = checkoutBtn?.textContent || 'Checkout';
 
-  const data = await res.json();
+  if (checkoutBtn) {
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Checking...';
+  }
 
-  if (data.url) {
-    window.location.href = data.url;
-  } else {
-    alert('Checkout failed');
-    console.error(data);
+  try {
+    const res = await fetch('/api/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items: cart })
+    });
+
+    let data = {};
+
+    try {
+      data = await res.json();
+    } catch (error) {
+      console.error('Failed to parse checkout response:', error);
+    }
+
+    if (res.ok && data.url) {
+      if (checkoutBtn) {
+        checkoutBtn.textContent = 'Redirecting...';
+      }
+
+      window.location.href = data.url;
+      return;
+    }
+
+    if (res.status === 409 && data.productId) {
+      const unavailableProductId = data.productId;
+
+      removeFromCart(unavailableProductId);
+      openCartPanel();
+
+      showCartMessage(
+  'This item is no longer available and has been removed from your cart.'
+);
+
+      console.warn('Unavailable product removed from cart:', data);
+      return;
+    }
+
+    showCartMessage(
+      data.error || 'Checkout could not be started. Please try again.'
+    );
+
+    console.error('Checkout failed:', {
+      status: res.status,
+      data
+    });
+  } catch (error) {
+    showCartMessage(
+      'A connection error occurred. Please check your connection and try again.'
+    );
+
+    console.error('Checkout request failed:', error);
+  } finally {
+    if (checkoutBtn) {
+      checkoutBtn.disabled = false;
+      checkoutBtn.textContent = originalButtonText;
+    }
   }
 }
 

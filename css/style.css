@@ -1903,6 +1903,22 @@ body.has-trails #trailCanvas,
   }
 }
 
+.cart-status-message {
+  margin: 16px 0;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.cart-status-message[data-type="error"] {
+  color: #d00000;
+}
+
+#cartCheckoutBtn:disabled {
+  cursor: wait;
+  opacity: 0.5;
+  pointer-events: none;
+}
 /* =========================================================
    Scene / Object Info — 3D pointer pass-through（PC only）
 ========================================================= */
