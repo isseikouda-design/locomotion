@@ -1936,3 +1936,11 @@ body.has-trails #trailCanvas,
     pointer-events: auto;
   }
 }
+.about-image {
+  display: block;
+  width: 480px;
+  margin: 22px 0 0 auto;
+
+  background: #fff;
+  isolation: isolate;
+}

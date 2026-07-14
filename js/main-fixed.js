@@ -27,6 +27,15 @@ let currentPartPivot = null; // ★ 部分回転用の専用 Pivot
 let pendingPanelToOpen = null;
 let shouldRestorePlusTextAfterLoading = false;
 
+const aboutImagePreload = new Image();
+aboutImagePreload.src = './assets/images/about_image_1.webp';
+
+if (aboutImagePreload.decode) {
+  aboutImagePreload.decode().catch(() => {
+    // Safariなどでdecodeに失敗しても通常読み込みへ任せる
+  });
+}
+
 const scene = new THREE.Scene();
 addCommonLights(scene);
 
@@ -2010,7 +2019,7 @@ openPanel(explainBtn, `
     <div id="aboutText" class="about-text"></div>
 
     <img
-      src="./assets/images/about_image_1.png"
+      src="./assets/images/about_image_1.webp"
       class="about-image"
       alt=""
     >
@@ -3866,11 +3875,14 @@ return `
       </div>
 
       <div class="cart-thumb-wrap">
-        <img
-          class="cart-thumb"
-          src="./assets/images/${item.productId}.png"
-          alt="${name}"
-        >
+       <img
+  class="cart-thumb"
+  src="./assets/images/${item.productId}.webp"
+  alt="${name}"
+  width="600"
+  height="600"
+  decoding="async"
+>
       </div>
 
     </div>
@@ -4246,7 +4258,7 @@ window.addEventListener('popstate', () => {
       titleEl.textContent = 'Locomotion™';
       contentEl.innerHTML = `
         <div class="about-grid">
-          <img class="about-hero" src="about_image_1.jpeg" alt="">
+          <img class="about-hero" src="about_image_1.webp" alt="">
           <div class="about-text">
             <h3>Locomotion™</h3>
             <p>This site items that contribute to everyday life. Everything is handmade.</p>
