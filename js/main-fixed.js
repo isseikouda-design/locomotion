@@ -1703,9 +1703,32 @@ function handlePickAt(ev) {
   mouse.x = ((clientX - rect.left) / rect.width) * 2 - 1;
   mouse.y = -((clientY - rect.top) / rect.height) * 2 + 1;
 
-  raycaster.setFromCamera(mouse, camera);
-  const hits = raycaster.intersectObjects(scene.children, true);
-  if (!hits.length) return;
+raycaster.setFromCamera(mouse, camera);
+
+/*
+ * Objectページでは、モデル全体をクリック対象にする。
+ * Sceneページのようなページ遷移は行わず、情報パネルを開く。
+ */
+if (
+  currentItem &&
+  currentItem.id.startsWith('object') &&
+  currentModel
+) {
+  const modelHits = raycaster.intersectObject(currentModel, true);
+
+  if (modelHits.length > 0) {
+    window.openCurrentItemInfoPanel?.();
+  }
+
+  return;
+}
+
+/*
+ * Sceneページでは、これまで通り
+ * userData.goto / userData.URL を持つ部分をクリック対象にする。
+ */
+const hits = raycaster.intersectObjects(scene.children, true);
+if (!hits.length) return;
 
   let target = hits[0].object;
   while (target && !(target.userData?.URL || target.userData?.goto)) target = target.parent;
@@ -1731,16 +1754,74 @@ function handlePickAt(ev) {
   }
 }
 
-window.addEventListener('click', (event) => {
-  if (event.pointerType === 'touch') return;
+/* =========================================================
+   Click / Drag判定
+   軽いクリック・タップだけPickingを実行する
+========================================================= */
+const pickGesture = {
+  pointerId: null,
+  startX: 0,
+  startY: 0,
+  didDrag: false,
+  multiTouch: false
+};
+
+const PICK_DRAG_THRESHOLD = 8;
+
+renderer.domElement.addEventListener('pointerdown', (event) => {
+  /*
+   * すでに別のPointerが押されている場合は、
+   * ピンチ操作などの複数タッチと判断する。
+   */
+  if (
+    pickGesture.pointerId !== null &&
+    pickGesture.pointerId !== event.pointerId
+  ) {
+    pickGesture.multiTouch = true;
+    pickGesture.didDrag = true;
+    return;
+  }
+
+  pickGesture.pointerId = event.pointerId;
+  pickGesture.startX = event.clientX;
+  pickGesture.startY = event.clientY;
+  pickGesture.didDrag = false;
+  pickGesture.multiTouch = false;
+});
+
+renderer.domElement.addEventListener('pointermove', (event) => {
+  if (event.pointerId !== pickGesture.pointerId) return;
+
+  const dx = event.clientX - pickGesture.startX;
+  const dy = event.clientY - pickGesture.startY;
+  const distance = Math.hypot(dx, dy);
+
+  if (distance > PICK_DRAG_THRESHOLD) {
+    pickGesture.didDrag = true;
+  }
+});
+
+renderer.domElement.addEventListener('pointerup', (event) => {
+  if (event.pointerId !== pickGesture.pointerId) return;
+
+  const shouldPick =
+    !pickGesture.didDrag &&
+    !pickGesture.multiTouch;
+
+  pickGesture.pointerId = null;
+  pickGesture.didDrag = false;
+  pickGesture.multiTouch = false;
+
+  if (!shouldPick) return;
+
   handlePickAt(event);
 });
 
-window.addEventListener('pointerup', (event) => {
-  if (event.pointerType !== 'touch') return;
-  handlePickAt(event);
+renderer.domElement.addEventListener('pointercancel', () => {
+  pickGesture.pointerId = null;
+  pickGesture.didDrag = false;
+  pickGesture.multiTouch = false;
 });
-
 /* =========================================================
    Render Loop / Animation
 ========================================================= */
@@ -2030,6 +2111,32 @@ function openPanel(activeBtn, html, type = '') {
   function closeCartIfOpen() {
   closeCartPanel?.();
 }
+function openCurrentItemInfoPanel() {
+  if (!currentItem) return;
+
+  const isObject = currentItem.id.startsWith('object');
+  if (!isObject) return;
+
+  const isAlreadyOpen =
+    panel.classList.contains('is-open') &&
+    panel.classList.contains('is-object-info');
+
+  // モデルクリックでは閉じない
+  if (isAlreadyOpen) return;
+
+  clearBottomActive();
+  closeCartIfOpen();
+
+  panel.className = 'pc-info-panel is-open is-object-info';
+  panel.setAttribute('aria-hidden', 'false');
+
+  sceneBtn?.classList.add('is-active');
+
+  renderPcInfo(currentItem);
+}
+
+// wirePcInfoPanel() の外側からも実行できるようにする
+window.openCurrentItemInfoPanel = openCurrentItemInfoPanel;
 
 sceneBtn?.addEventListener('click', (e) => {
   e.preventDefault();
