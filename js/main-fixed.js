@@ -311,10 +311,10 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0008', partSpeed: 0.7, wholeSpeed: 0.03 },
     sp: {
       scale: 0.35,
-      margin: 0.9,
+      margin: 1.3,
       centerMode: 'box',
       pivotOffset: { x: -0.1, y: 0, z: 0 },
-      cam: { pos: { x: -3, y: 11, z: -12 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      cam: { pos: { x: -6, y: 11, z: -12 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
   title: 'scene002',
@@ -347,10 +347,10 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.15,
-      margin: 0.5,
+      margin: 0.7,
       centerMode: 'box',
       pivotOffset: { x: 0, y: -0.3, z: 0 },
-      cam: { pos: { x: -12, y: 10, z: -5 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      cam: { pos: { x: -12, y: 13, z: -5 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
   title: 'scene003',
@@ -377,7 +377,7 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.65,
-      margin: 0.9,
+      margin: 1.1,
       centerMode: 'box',
       pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 1, y: 3, z: 3}, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -406,10 +406,10 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.18,
-      margin: 0.9,
+      margin: 1,
       centerMode: 'box',
       pivotOffset: { x: 0, y: 0, z: 0 },
-      cam: { pos: { x: -1, y: 8, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      cam: { pos: { x: 3, y: 4, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
   title: 'scene005',
@@ -487,9 +487,9 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0009', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.3,
-      margin: 0.65,
+      margin: 0.85,
       centerMode: 'sphere',
-      pivotOffset: { x: 0.03, y: 0.3, z: 0 },
+      pivotOffset: { x: 0.03, y: 0, z: 0 },
       cam: { pos: { x: 3, y: 14, z: 6.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
@@ -516,7 +516,7 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.1,
-      margin: 1,
+      margin: 0.9,
       centerMode: 'box',
       pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 0, y: 1, z: 3 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -2005,58 +2005,80 @@ ${
 if (isObject && buyBtn) {
   fetchProductStatus(item.id)
     .then((status) => {
-      // 情報表示中に別のObjectへ移動していた場合は何もしない
-      if (buyBtn.dataset.productId !== item.id) return;
-      if (!buyBtn.isConnected) return;
+  // 情報表示中に別のObjectへ移動していた場合は何もしない
+  if (buyBtn.dataset.productId !== item.id) return;
+  if (!buyBtn.isConnected) return;
 
-      if (status === 'sold') {
+  if (status === 'sold') {
+    const soldOut = document.createElement('span');
+
+    soldOut.className = 'sold-out-label';
+    soldOut.textContent = '(Sold Out)';
+
+    buyBtn.replaceWith(soldOut);
+    return;
+  }
+
+  if (status === 'reserved') {
+    buyBtn.disabled = true;
+    buyBtn.textContent = 'Reserved';
+    return;
+  }
+
+  if (status !== 'available') {
+    throw new Error(`Unknown inventory status: ${status}`);
+  }
+
+  buyBtn.disabled = false;
+  buyBtn.textContent = contact;
+
+  buyBtn.addEventListener('click', async () => {
+    buyBtn.disabled = true;
+
+    try {
+      // 表示後に在庫状態が変わった可能性があるため再確認
+      const latestStatus = await fetchProductStatus(item.id);
+
+      if (latestStatus === 'sold') {
         const soldOut = document.createElement('span');
 
         soldOut.className = 'sold-out-label';
         soldOut.textContent = '(Sold Out)';
 
         buyBtn.replaceWith(soldOut);
+
+        alert('This item is sold out.');
         return;
       }
 
-      if (status !== 'available') {
-        throw new Error(`Unknown inventory status: ${status}`);
+      if (latestStatus === 'reserved') {
+        buyBtn.textContent = 'Reserved';
+
+        alert('This item is currently reserved.');
+        return;
       }
 
-      buyBtn.disabled = false;
-      buyBtn.textContent = contact;
+      if (latestStatus !== 'available') {
+        throw new Error(
+          `Unknown inventory status: ${latestStatus}`
+        );
+      }
 
-      buyBtn.addEventListener('click', async () => {
-        buyBtn.disabled = true;
-
-        try {
-          // 表示後に売れた可能性があるため、クリック時にも再確認
-          const latestStatus = await fetchProductStatus(item.id);
-
-          if (latestStatus !== 'available') {
-            const soldOut = document.createElement('span');
-
-            soldOut.className = 'sold-out-label';
-            soldOut.textContent = '(Sold Out)';
-
-            buyBtn.replaceWith(soldOut);
-
-            alert('This item is sold out.');
-            return;
-          }
-
-          addToCart(item.id);
-          openCartPanel();
-        } catch (err) {
-          console.error('Inventory check failed:', err);
-          alert('Unable to confirm product availability. Please try again.');
-        } finally {
-          if (buyBtn.isConnected) {
-            buyBtn.disabled = false;
-          }
-        }
-      });
-    })
+      addToCart(item.id);
+      openCartPanel();
+    } catch (err) {
+      console.error('Inventory check failed:', err);
+      alert('Unable to confirm product availability. Please try again.');
+    } finally {
+      if (
+        buyBtn.isConnected &&
+        buyBtn.textContent !== 'Reserved'
+      ) {
+        buyBtn.disabled = false;
+      }
+    }
+  });
+})
     .catch((err) => {
       console.error('Inventory check failed:', err);
 
