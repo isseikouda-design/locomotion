@@ -15,21 +15,7 @@ import { OutputPass } from 'https://esm.sh/three@0.160.0/examples/jsm/postproces
 
 // Your lights
 import { addCommonLights } from './lights.js';
-const navigationEntry = performance.getEntriesByType('navigation')[0];
 
-console.log('[navigation-check]', {
-  type: navigationEntry?.type ?? null,
-  url: location.href,
-  time: new Date().toISOString(),
-});
-
-window.addEventListener('pageshow', (event) => {
-  console.log('[pageshow-check]', {
-    persisted: event.persisted,
-    navigationType:
-      performance.getEntriesByType('navigation')[0]?.type ?? null,
-  });
-});
 
 /* =========================================================
    基本セットアップ
@@ -174,6 +160,9 @@ function onResize() {
   camera.bottom = -halfH;
   camera.updateProjectionMatrix();
 }
+
+
+
 window.addEventListener('resize', onResize);
 onResize();
 
@@ -1592,90 +1581,9 @@ if (isMobile && isObjectId(item.id)) {
 // ★ UI更新は、model/cameraの準備が終わってから
       window.__spUiUpdate?.(item);
       clock.getDelta();
-     function logCurrentViewState(label) {
-  const rect = renderer.domElement.getBoundingClientRect();
-  const style = getComputedStyle(renderer.domElement);
 
-  console.table({
-    label,
-    item: currentItem?.id ?? null,
+   
 
-    windowWidth: window.innerWidth,
-    windowHeight: window.innerHeight,
-
-    canvasLeft: rect.left,
-    canvasTop: rect.top,
-    canvasWidth: rect.width,
-    canvasHeight: rect.height,
-
-    canvasCssWidth: style.width,
-    canvasCssHeight: style.height,
-    canvasTransform: style.transform,
-
-    rendererWidth: renderer.domElement.width,
-    rendererHeight: renderer.domElement.height,
-
-    cameraLeft: camera.left,
-    cameraRight: camera.right,
-    cameraTop: camera.top,
-    cameraBottom: camera.bottom,
-    cameraZoom: camera.zoom,
-
-    cameraX: camera.position.x,
-    cameraY: camera.position.y,
-    cameraZ: camera.position.z,
-
-    targetX: controls.target.x,
-    targetY: controls.target.y,
-    targetZ: controls.target.z,
-
-    pivotX: pivot.position.x,
-    pivotY: pivot.position.y,
-    pivotZ: pivot.position.z,
-
-    pivotRotX: pivot.rotation.x,
-    pivotRotY: pivot.rotation.y,
-    pivotRotZ: pivot.rotation.z,
-
-    modelX: currentModel?.position.x ?? null,
-    modelY: currentModel?.position.y ?? null,
-    modelZ: currentModel?.position.z ?? null,
-
-    modelRotX: currentModel?.rotation.x ?? null,
-    modelRotY: currentModel?.rotation.y ?? null,
-    modelRotZ: currentModel?.rotation.z ?? null,
-
-    modelScaleX: currentModel?.scale.x ?? null,
-    modelScaleY: currentModel?.scale.y ?? null,
-    modelScaleZ: currentModel?.scale.z ?? null,
-
-    partRotX: currentSpinPart?.rotation.x ?? null,
-    partRotY: currentSpinPart?.rotation.y ?? null,
-    partRotZ: currentSpinPart?.rotation.z ?? null,
-
-    pixelRatio: renderer.getPixelRatio(),
-    viewEnabled: camera.view?.enabled ?? false,
-
-    pageDevicePixelRatio: window.devicePixelRatio,
-
-visualViewportWidth: window.visualViewport?.width ?? null,
-visualViewportHeight: window.visualViewport?.height ?? null,
-visualViewportScale: window.visualViewport?.scale ?? null,
-visualViewportOffsetLeft: window.visualViewport?.offsetLeft ?? null,
-visualViewportOffsetTop: window.visualViewport?.offsetTop ?? null,
-
-screenWidth: window.screen.width,
-screenHeight: window.screen.height,
-
-outerWidth: window.outerWidth,
-outerHeight: window.outerHeight,
-  });
-}
-logCurrentViewState('load-complete');
-
-setTimeout(() => {
-  logCurrentViewState('after-1000ms');
-}, 1000);
       updateModelLoadingPercent(100);
       hideModelLoading();
       
@@ -1882,10 +1790,10 @@ function animate() {
     }
   }
 
-  controls.update();
+controls.update();
 
-  if (outlinePass.selectedObjects.length > 0) composer.render();
-  else renderer.render(scene, camera);
+if (outlinePass.selectedObjects.length > 0) composer.render();
+else renderer.render(scene, camera);
 }
 animate();
 
