@@ -251,9 +251,9 @@ const MODELS = [
     glb: './assets/models/scene001_opt.glb',
     goObjectId: 'object001',
     scale: 0.7,
-    margin: 0.7,
+    margin: 0.65,
     centerMode: 'sphere',
-    pivotOffset: { x: 0, y: 1.2, z: 0 },
+    pivotOffset: { x: 0, y: 1.4, z: 0 },
     cam: { pos: { x: -20, y: 8, z: 10 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0013',
     spin: {
@@ -339,7 +339,7 @@ const MODELS = [
     glb: './assets/models/scene003_opt.glb',
     goObjectId: 'object003',
     scale: 0.35,
-    margin: 1.3,
+    margin: 1.2,
     centerMode: 'sphere',
     pivotOffset: { x: -0.5, y: -0.55, z: 0 },
     cam: { pos: { x: 6.5, y: 5, z: -8.5 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -398,7 +398,7 @@ const MODELS = [
     glb: './assets/models/scene005_opt.glb',
     goObjectId: 'object005',
     scale: 0.15,
-    margin: 1.8,
+    margin: 1.5,
     centerMode: 'sphere',
     pivotOffset: { x: 0, y: -0.03, z: 0 },
     cam: { pos: { x: 5.3, y: 2, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -537,10 +537,14 @@ const MODELS = [
     glb: './assets/models/scene009_opt.glb',
     goObjectId: 'object009',
     scale: 0.3,
-    margin: 0.9,
+    margin: 1,
     centerMode: 'sphere',
-    pivotOffset: { x: 0, y: 0.1, z: 0 },
-    cam: { pos: { x: 7.5, y: 1.2, z: 6.7 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+    pivotOffset: { x: 0, y: -0.4, z: 0 },
+    cam: {
+pos: { x: 0, y: 12, z: 0 },
+  target: { x: 0, y: 0, z: 0 },
+  zoomMul: 1.0
+},
     clickMeshName: 'Mesh_0002',
     spin: { part: true, whole: true, partName: 'Mesh_0002', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
@@ -1476,11 +1480,15 @@ updatePcBottomLabels();
       const rotateConf = spConf?.rotate ?? null;
 
    
-      // リセット
+// リセット
 pivot.rotation.set(0, 0, 0);
 pivot.position.set(0, 0, 0);
 
-// ★ これ追加
+// scene009 PCだけ初期角度を20度回す
+if (!isMobile && item.id === 'scene009') {
+  pivot.rotation.y = THREE.MathUtils.degToRad(-50);
+}
+
 pivot.updateMatrixWorld(true);
 
 model.position.set(0, 0, 0);
