@@ -271,7 +271,7 @@ const MODELS = [
       margin: 0.7,
       centerMode: 'sphere',
       pivotOffset: { x: 0, y: 0.2, z: 0 },
-      cam: { pos: { x: 3, y: 5, z: 6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      cam: { pos: { x: 3, y: 3, z: 6 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
    info: {
   title: 'scene001',
@@ -311,10 +311,14 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0008', partSpeed: 0.7, wholeSpeed: 0.03 },
     sp: {
       scale: 0.35,
-      margin: 1.3,
+      margin: 0.9,
       centerMode: 'box',
       pivotOffset: { x: -0.1, y: 0, z: 0 },
-      cam: { pos: { x: -6, y: 11, z: -12 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      cam: {
+  pos: { x: 2, y: 5, z: 13.4 },
+  target: { x: 0, y: 0, z: 0 },
+  zoomMul: 1.0
+},
     },
     info: {
   title: 'scene002',
@@ -347,10 +351,10 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.15,
-      margin: 0.7,
+      margin: 0.35,
       centerMode: 'box',
-      pivotOffset: { x: 0, y: -0.3, z: 0 },
-      cam: { pos: { x: -12, y: 13, z: -5 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      pivotOffset: { x: 0, y: -0.4, z: 0 },
+      cam: { pos: { x: -12, y: 4, z: -5 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
   title: 'scene003',
@@ -377,7 +381,7 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.65,
-      margin: 1.1,
+      margin: 0.7,
       centerMode: 'box',
       pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 1, y: 3, z: 3}, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -404,13 +408,18 @@ const MODELS = [
     cam: { pos: { x: 5.3, y: 2, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     clickMeshName: 'Mesh_0',
     spin: { part: true, whole: true, partName: 'Mesh_0', partSpeed: 1.0, wholeSpeed: 0.03 },
-    sp: {
-      scale: 0.18,
-      margin: 1,
-      centerMode: 'box',
-      pivotOffset: { x: 0, y: 0, z: 0 },
-      cam: { pos: { x: 3, y: 4, z: 5.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
-    },
+   sp: {
+  scale: 0.18,
+  margin: 0.7,
+  centerMode: 'box',
+  pivotOffset: { x: 0, y: 0, z: 0 },
+
+  cam: {
+    pos: { x: 7.2, y: 5, z: -5.3 },
+    target: { x: 0, y: 0, z: 0 },
+    zoomMul: 1.0
+  },
+},
     info: {
   title: 'scene005',
   description: ``,
@@ -490,7 +499,7 @@ const MODELS = [
       margin: 0.85,
       centerMode: 'sphere',
       pivotOffset: { x: 0.03, y: 0, z: 0 },
-      cam: { pos: { x: 3, y: 14, z: 6.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      cam: { pos: { x: 3, y: 6, z: 6.4 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
     },
     info: {
   title: 'scene007',
@@ -516,7 +525,7 @@ const MODELS = [
     spin: { part: true, whole: true, partName: 'Mesh_0001', partSpeed: 1.0, wholeSpeed: 0.03 },
     sp: {
       scale: 0.1,
-      margin: 0.9,
+      margin: 0.7,
       centerMode: 'box',
       pivotOffset: { x: 0, y: 0, z: 0 },
       cam: { pos: { x: 0, y: 1, z: 3 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
@@ -551,8 +560,12 @@ pos: { x: 0, y: 12, z: 0 },
       scale: 0.35,
       margin: 0.8,
       centerMode: 'box',
-      pivotOffset: { x: 0, y: 0, z: 0 },
-      cam: { pos: { x: 1, y: 15, z: 1 }, target: { x: 0, y: 0, z: 0 }, zoomMul: 1.0 },
+      pivotOffset: { x: 0, y: -0.4, z: 0 },
+    cam: {
+pos: { x: 0, y: 12, z: 0 },
+  target: { x: 0, y: 0, z: 0 },
+  zoomMul: 1.0
+},
     },
     info: {
   title: 'scene009',
